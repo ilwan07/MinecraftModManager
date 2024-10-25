@@ -4,13 +4,18 @@ from PyQt5 import QtCore, QtGui
 from pathlib import Path
 import logging
 import locale
+import os
 
 
 log = logging.getLogger(__name__)
 
 langLocale, _ = locale.getdefaultlocale()
+print(langLocale)
 if langLocale: userLanguage = langLocale.split("_")[0]
-else: userLanguage = "en"
+else:
+    langLocale = os.environ.get("LANG")
+    if langLocale: userLanguage = langLocale.split("_")[0]
+    else: userLanguage = "en"
 Language = Translator(Path(__file__).resolve().parent/"locales", userLanguage)
 lang = Language.translate
 
