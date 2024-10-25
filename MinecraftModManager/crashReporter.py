@@ -5,10 +5,10 @@ import pyperclip
 
 
 class Reporter(Qt.QMainWindow):
-    def __init__(self, exception:Exception, logPath:str, githubRepoPath:str):
+    def __init__(self, exception:Exception, logPath:str, reportLink:str):
         """a crash reporter window"""
         super().__init__()
-        self.githubIssueLink = f"https://github.com/{githubRepoPath}/issues"
+        self.reportLink = reportLink
         self.setWindowTitle("Crash reporter")
         
         self.centralWidget = Qt.QWidget()
@@ -31,13 +31,13 @@ class Reporter(Qt.QMainWindow):
         self.sendLabel1.setAlignment(QtCore.Qt.AlignCenter)
         self.layout.addWidget(self.sendLabel1)
         
-        self.linkLabel = Qt.QPushButton(self.githubIssueLink)
+        self.linkLabel = Qt.QPushButton(self.reportLink)
         self.linkLabel.setFlat(True)
         self.linkLabel.setStyleSheet("text-decoration: underline; color: blue;")
-        self.linkLabel.clicked.connect(lambda: webbrowser.open(self.githubIssueLink))
+        self.linkLabel.clicked.connect(lambda: webbrowser.open(self.reportLink))
         self.layout.addWidget(self.linkLabel)
         
-        self.sendLabel2 = Qt.QLabel("explaining how the crash happened and providing the log to help me fix the app.")
+        self.sendLabel2 = Qt.QLabel("explaining how the crash happened and providing the log to help the developpers fix the app.")
         self.sendLabel2.setAlignment(QtCore.Qt.AlignCenter)
         self.layout.addWidget(self.sendLabel2)
         
@@ -68,7 +68,7 @@ class Reporter(Qt.QMainWindow):
 
     def exportLog(self, logStr:str):
         """export the log file"""
-        filePath, _ = Qt.QFileDialog.getSaveFileName(self, "Save crash log", "", "Log Files (*.log);;Text Files (*.txt)")
+        filePath, _ = Qt.QFileDialog.getSaveFileName(self, "Save crash log", "crashlog.log", "Log Files (*.log);;Text Files (*.txt)")
         if filePath:
             try:
                 with open(filePath, "w") as logFile:

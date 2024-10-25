@@ -1,9 +1,17 @@
+from translate import Translator
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
+from pathlib import Path
 import logging
+import locale
+import ctypes
 
 
 log = logging.getLogger(__name__)
+
+userLanguage = locale.windows_locale[ctypes.windll.kernel32.GetUserDefaultUILanguage()].split("_")[0]
+Language = Translator(Path(__file__).resolve().parent/"locales", userLanguage)
+lang = Language.translate
 
 class Window(Qt.QMainWindow):
     def __init__(self):
@@ -15,9 +23,74 @@ class Window(Qt.QMainWindow):
         super().__init__()
         self.setWindowTitle("Minecraft Mod Manager")
         self.setWindowIcon(QtGui.QIcon("assets/icon.png"))
+        self.buildUi()
         self.setFocus()
         self.showMaximized()
         self.show()
+    
+    def buildUi(self):
+        """builds the base UI for the main window"""
+        # main layout
+        self.centralAppWidget = Qt.QWidget()
+        self.setCentralWidget(self.centralAppWidget)
+        self.mainLayout = Qt.QHBoxLayout(self.centralAppWidget)
+
+        # creating the 4 main parts of the window
+        self.profilesListWidget = Qt.QWidget()
+        self.modsListWidget = Qt.QWidget()
+        self.modDescriptionWidget = Qt.QWidget()
+        self.modVersionWidget = Qt.QWidget()
+
+        self.profilesListLayout = Qt.QVBoxLayout()
+        self.profilesListLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
+        self.modsListLayout = Qt.QVBoxLayout()
+        self.modsListLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
+        self.modDescriptionLayout = Qt.QVBoxLayout()
+        self.modDescriptionLayout.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.modVersionLayout = Qt.QVBoxLayout()
+        self.modVersionLayout.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+
+        self.profilesListWidget.setLayout(self.profilesListLayout)
+        self.modsListWidget.setLayout(self.modsListLayout)
+        self.modDescriptionWidget.setLayout(self.modDescriptionLayout)
+        self.modVersionWidget.setLayout(self.modVersionLayout)
+
+        # creating the splitter for these parts
+        self.splitter = Qt.QSplitter(QtCore.Qt.Horizontal)
+        self.mainLayout.addWidget(self.splitter)
+        self.splitter.addWidget(self.profilesListWidget)
+        self.splitter.addWidget(self.modsListWidget)
+        self.splitter.addWidget(self.modDescriptionWidget)
+        self.splitter.addWidget(self.modVersionWidget)
+        self.splitter.setSizes([150, 250, 250, 350])
+        log.debug("built main compartments")
+        
+        self.buildProfilesList()
+    
+    def buildProfilesList(self):
+        """builds the UI for profilesListWidget"""
+        # settings button
+        self.settingsButton = Qt.QPushButton(lang("settings"))
+        self.settingsButton.setFont(QtGui.QFont("Arial", 24))
+        self.settingsButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.settingsButton.setFixedHeight(60)
+        self.profilesListLayout.addWidget(self.settingsButton)
+
+        # add profile button
+        self.addProfileButton = Qt.QPushButton(lang("addProfile"))
+        self.addProfileButton.setFont(QtGui.QFont("Arial", 24))
+        self.addProfileButton.setFlat(True)
+        self.addProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.addProfileButton.setFixedHeight(60)
+        self.profilesListLayout.addWidget(self.addProfileButton)
+
+        # import profile button
+        self.importProfileButton = Qt.QPushButton(lang("importProfile"))
+        self.importProfileButton.setFont(QtGui.QFont("Arial", 24))
+        self.importProfileButton.setFlat(True)
+        self.importProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.importProfileButton.setFixedHeight(60)
+        self.profilesListLayout.addWidget(self.importProfileButton)
 
 
 def setDarkMode(App:Qt.QApplication):

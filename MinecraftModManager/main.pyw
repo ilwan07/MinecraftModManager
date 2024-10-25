@@ -31,5 +31,5 @@ except Exception as e:  # crash handling
     log.critical(f"app crashed with the following exception: {e}\nsee traceback for more details:\n\n{traceback.format_exc()}")
     MainWindow.close()
     ReportApp = Qt.QApplication(sys.argv)
-    ReportWindow = crashReporter.Reporter(e, logDir/"latest.log", "IGaming73/MinecraftModManager")
+    ReportWindow = crashReporter.Reporter(e, logDir/"latest.log", "https://github.com/IGaming73/SimpleCrashReporter/issues")
     ReportApp.exec_()
