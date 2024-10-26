@@ -4,8 +4,9 @@ from PyQt5 import QtCore, QtGui
 from pathlib import Path
 import logging
 import locale
+import glob
 import os
-
+import ctypes
 
 log = logging.getLogger(__name__)
 localPath = Path(__file__).resolve().parent
@@ -19,6 +20,9 @@ else:
 Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
 lang = Language.translate
 
+appId = u'ilwan.minecraftmodmanager'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
+
 class Window(Qt.QMainWindow):
     def __init__(self):
         """a class to manage the app and its main window"""
@@ -28,7 +32,11 @@ class Window(Qt.QMainWindow):
         """launches the GUI and the app"""
         super().__init__()
         self.setWindowTitle("Minecraft Mod Manager")
-        self.setWindowIcon(QtGui.QIcon(str(localPath/"assets"/"icon.png")))
+        appIcon = QtGui.QIcon()
+        for iconPath in glob.glob(f"{str(localPath/'assets'/'icons')}/*.png"):
+            res = int(Path(iconPath).name.split(".")[0])
+            appIcon.addFile(iconPath, QtCore.QSize(res, res))
+        self.setWindowIcon(appIcon)
         self.buildUi()
         self.setFocus()
         self.showMaximized()
