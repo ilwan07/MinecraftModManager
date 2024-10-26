@@ -1,4 +1,4 @@
-from translate import Translator
+import translate
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
 from pathlib import Path
@@ -8,15 +8,15 @@ import os
 
 
 log = logging.getLogger(__name__)
+localPath = Path(__file__).resolve().parent
 
-langLocale, _ = locale.getdefaultlocale()
-print(langLocale)
+langLocale, _ = locale.getlocale()
 if langLocale: userLanguage = langLocale.split("_")[0]
 else:
     langLocale = os.environ.get("LANG")
     if langLocale: userLanguage = langLocale.split("_")[0]
     else: userLanguage = "en"
-Language = Translator(Path(__file__).resolve().parent/"locales", userLanguage)
+Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
 lang = Language.translate
 
 class Window(Qt.QMainWindow):
@@ -28,7 +28,7 @@ class Window(Qt.QMainWindow):
         """launches the GUI and the app"""
         super().__init__()
         self.setWindowTitle("Minecraft Mod Manager")
-        self.setWindowIcon(QtGui.QIcon("assets/icon.png"))
+        self.setWindowIcon(QtGui.QIcon(str(localPath/"assets"/"icon.png")))
         self.buildUi()
         self.setFocus()
         self.showMaximized()
@@ -82,21 +82,46 @@ class Window(Qt.QMainWindow):
         self.settingsButton.setFixedHeight(60)
         self.profilesListLayout.addWidget(self.settingsButton)
 
+        # separation line
+        self.separationLine = Qt.QFrame()
+        self.separationLine.setFrameShape(Qt.QFrame.HLine)
+        self.separationLine.setFrameShadow(Qt.QFrame.Sunken)
+        self.separationLine.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.separationLine.setFixedHeight(20)
+        self.profilesListLayout.addWidget(self.separationLine)
+
         # add profile button
         self.addProfileButton = Qt.QPushButton(lang("addProfile"))
-        self.addProfileButton.setFont(QtGui.QFont("Arial", 24))
+        self.addProfileButton.setFont(QtGui.QFont("Arial", 20))
         self.addProfileButton.setFlat(True)
         self.addProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
-        self.addProfileButton.setFixedHeight(60)
+        self.addProfileButton.setFixedHeight(50)
         self.profilesListLayout.addWidget(self.addProfileButton)
 
         # import profile button
         self.importProfileButton = Qt.QPushButton(lang("importProfile"))
-        self.importProfileButton.setFont(QtGui.QFont("Arial", 24))
+        self.importProfileButton.setFont(QtGui.QFont("Arial", 20))
         self.importProfileButton.setFlat(True)
         self.importProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
-        self.importProfileButton.setFixedHeight(60)
+        self.importProfileButton.setFixedHeight(50)
         self.profilesListLayout.addWidget(self.importProfileButton)
+
+        # separation line
+        self.separationLine = Qt.QFrame()
+        self.separationLine.setFrameShape(Qt.QFrame.HLine)
+        self.separationLine.setFrameShadow(Qt.QFrame.Sunken)
+        self.separationLine.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.separationLine.setFixedHeight(20)
+        self.profilesListLayout.addWidget(self.separationLine)
+
+        # scroll area for the profiles
+        self.profilesScroll = Qt.QScrollArea()
+        self.profilesScroll.setWidgetResizable(True)
+        self.profilesScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.profilesScrollWidget = Qt.QWidget()
+        self.profilesScrollLayout = Qt.QVBoxLayout(self.profilesScrollWidget)
+        self.profilesScroll.setWidget(self.profilesScrollWidget)
+        self.profilesListLayout.addWidget(self.profilesScroll)
 
 
 def setDarkMode(App:Qt.QApplication):
