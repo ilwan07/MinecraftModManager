@@ -4,9 +4,10 @@ from PyQt5 import QtCore, QtGui
 from pathlib import Path
 import logging
 import locale
-import glob
-import os
 import ctypes
+import glob
+import sys
+import os
 
 log = logging.getLogger(__name__)
 localPath = Path(__file__).resolve().parent
@@ -20,8 +21,12 @@ else:
 Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
 lang = Language.translate
 
-appId = u'ilwan.minecraftmodmanager'
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
+if sys.platform == "win32":  # if on Windows
+    appId = u'ilwan.minecraftmodmanager'
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
+
+if sys.platform == "darwin":  # if on MacOS
+    pass
 
 class Window(Qt.QMainWindow):
     def __init__(self):
