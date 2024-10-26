@@ -5,12 +5,9 @@ from pathlib import Path
 import logging
 import locale
 import ctypes
-import glob
-import sys
 import os
 
 log = logging.getLogger(__name__)
-localPath = Path(__file__).resolve().parent
 
 langLocale, _ = locale.getlocale()
 if langLocale: userLanguage = langLocale.split("_")[0]
@@ -21,12 +18,9 @@ else:
 Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
 lang = Language.translate
 
-if sys.platform == "win32":  # if on Windows
+if os.name == "nt":  # if on Windows
     appId = u'ilwan.minecraftmodmanager'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
-
-if sys.platform == "darwin":  # if on MacOS
-    pass
 
 class Window(Qt.QMainWindow):
     def __init__(self):
@@ -37,11 +31,6 @@ class Window(Qt.QMainWindow):
         """launches the GUI and the app"""
         super().__init__()
         self.setWindowTitle("Minecraft Mod Manager")
-        appIcon = QtGui.QIcon()
-        for iconPath in glob.glob(f"{str(localPath/'assets'/'icons')}/*.png"):
-            res = int(Path(iconPath).name.split(".")[0])
-            appIcon.addFile(iconPath, QtCore.QSize(res, res))
-        self.setWindowIcon(appIcon)
         self.buildUi()
         self.setFocus()
         self.showMaximized()

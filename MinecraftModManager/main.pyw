@@ -1,12 +1,16 @@
 import interface, crashReporter  # local modules
 import PyQt5.QtWidgets as Qt
+from PyQt5 import QtGui, QtCore
 from pathlib import Path
 import logging as log
 import platformdirs
 import darkdetect
 import traceback
+import glob
 import sys
 
+
+localPath = Path(__file__).resolve().parent
 
 appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor=False))  # path to the save data folder
 logDir = appDataDir/"logs"
@@ -18,11 +22,18 @@ log.basicConfig(level=log.DEBUG, filename=appDataDir/"logs"/"latest.log", filemo
 
 log.info("running and launching the app directly")
 App = Qt.QApplication(sys.argv)
+appIcon = QtGui.QIcon()
+for iconPath in glob.glob(f"{str(localPath/'assets'/'icons')}/*.png"):
+    res = int(Path(iconPath).name.split(".")[0])
+    appIcon.addFile(iconPath, QtCore.QSize(res, res))
+App.setWindowIcon(appIcon)
+App.setApplicationName("Minecraft Mod Manager")
 App.setStyle("fusion")
 if darkdetect.isDark():  # if using dark mode
     interface.setDarkMode(App)
 log.info("applied theme")
 MainWindow = interface.Window()  # initializing window
+
 try:
     log.info("starting the app")
     MainWindow.start()  # start the GUI
