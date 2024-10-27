@@ -21,6 +21,13 @@ logDir.mkdir(parents=True, exist_ok=True)
 log.basicConfig(level=log.DEBUG, filename=appDataDir/"logs"/"latest.log", filemode="w", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 log.info("running and launching the app directly")
+if sys.platform == "darwin":  # if on MacOS
+    from Foundation import NSBundle
+    bundle = NSBundle.mainBundle()
+    if bundle:
+        app_info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
+        if app_info:
+            app_info["CFBundleName"] = "Minecraft Mod Manager"
 App = Qt.QApplication(sys.argv)
 appIcon = QtGui.QIcon()
 for iconPath in glob.glob(f"{str(localPath/'assets'/'icons')}/*.png"):
