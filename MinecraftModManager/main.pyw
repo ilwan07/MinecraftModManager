@@ -22,12 +22,15 @@ log.basicConfig(level=log.DEBUG, filename=appDataDir/"logs"/"latest.log", filemo
 
 log.info("running and launching the app directly")
 if sys.platform == "darwin":  # if on MacOS
-    from Foundation import NSBundle
-    bundle = NSBundle.mainBundle()
-    if bundle:
-        app_info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
-        if app_info:
-            app_info["CFBundleName"] = "Minecraft Mod Manager"
+    try:
+        from Foundation import NSBundle
+        bundle = NSBundle.mainBundle()
+        if bundle:
+            app_info = bundle.localizedInfoDictionary() or bundle.infoDictionary()
+            if app_info:
+                app_info["CFBundleName"] = "Minecraft Mod Manager"
+    except ImportError:
+        pass
 App = Qt.QApplication(sys.argv)
 appIcon = QtGui.QIcon()
 for iconPath in glob.glob(f"{str(localPath/'assets'/'icons')}/*.png"):

@@ -1,3 +1,7 @@
 settings: "Paramètres"
 addProfile: "Ajouter profil"
 importProfile: "Importer profil"
+launch: "Lancer le jeu"
+applyProfile: "Appliquer le profil"
+export: "Exporter"
+configure: "Configurer"
