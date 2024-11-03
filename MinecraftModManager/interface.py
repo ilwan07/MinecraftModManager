@@ -1,4 +1,4 @@
-import translate
+import translate, customWidgets
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
 from pathlib import Path
@@ -9,32 +9,31 @@ import os
 
 log = logging.getLogger(__name__)
 
+appDir = Path(__file__).resolve().parent
+
 langLocale, _ = locale.getlocale()
 if langLocale: userLanguage = langLocale.split("_")[0]
 else:
     langLocale = os.environ.get("LANG")
     if langLocale: userLanguage = langLocale.split("_")[0]
     else: userLanguage = "en"
-Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
+Language = translate.Translator(appDir/"locales", userLanguage)
 lang = Language.translate
 
 if os.name == "nt":  # if on Windows
     appId = u'ilwan.minecraftmodmanager'
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
 
-class QSeparationLine(Qt.QFrame):
-    def __init__(self):
-        """A horizontal separation line"""
-        super().__init__()
-        self.setFrameShape(Qt.QFrame.HLine)
-        self.setFrameShadow(Qt.QFrame.Sunken)
-        self.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
-        self.setFixedHeight(10)
 
 class Window(Qt.QMainWindow):
     def __init__(self):
         """a class to manage the app and its main window"""
-        pass
+        # font presets
+        self.bigTitleFont = QtGui.QFont("Arial", 24)
+        self.titleFont = QtGui.QFont("Arial", 20)
+        self.subtitleFont = QtGui.QFont("Arial", 16)
+        self.bigTextFont = QtGui.QFont("Arial", 14)
+        self.textFont = QtGui.QFont("Arial", 11)
 
     def start(self):
         """launches the GUI and the app"""
@@ -47,12 +46,6 @@ class Window(Qt.QMainWindow):
     
     def buildUi(self):
         """builds the base UI for the main window"""
-        # some ressources
-        self.bigTitleFont = QtGui.QFont("Arial", 24)
-        self.titleFont = QtGui.QFont("Arial", 20)
-        self.subtitleFont = QtGui.QFont("Arial", 16)
-        self.textFont = QtGui.QFont("Arial", 11)
-
         # main layout
         self.centralAppWidget = Qt.QWidget()
         self.setCentralWidget(self.centralAppWidget)
@@ -69,9 +62,9 @@ class Window(Qt.QMainWindow):
         self.modsListLayout = Qt.QVBoxLayout()
         self.modsListLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
         self.modSearchLayout = Qt.QVBoxLayout()
-        self.modSearchLayout.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.modSearchLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
         self.modInstallLayout = Qt.QVBoxLayout()
-        self.modInstallLayout.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.modInstallLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
 
         self.profilesListWidget.setLayout(self.profilesListLayout)
         self.modsListWidget.setLayout(self.modsListLayout)
@@ -93,10 +86,47 @@ class Window(Qt.QMainWindow):
             line = Qt.QFrame(handle)
             line.setFrameShape(Qt.QFrame.VLine)
             line.setFrameShadow(Qt.QFrame.Sunken)
-            line.setGeometry(2, 0, 2, 2*handle.height()+100)  # make sure it's long enough to go throught the whole screen
+            line.setGeometry(2, 0, 2, 2*handle.height()+1000)  # make sure it's long enough to go throught the whole screen
+
+        # creating the two subsections for the last part
+        self.modDescriptionWidget = Qt.QWidget()
+        self.modVersionsWidget = Qt.QWidget()
+
+        self.modDescriptionLayout = Qt.QVBoxLayout()
+        self.modDescriptionLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
+        self.modVersionsLayout = Qt.QVBoxLayout()
+        self.modVersionsLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
+
+        self.modDescriptionWidget.setLayout(self.modDescriptionLayout)
+        self.modVersionsWidget.setLayout(self.modVersionsLayout)
+
+        # creating the splitter
+        self.modInstallSplitter = Qt.QSplitter(QtCore.Qt.Vertical)
+        self.modInstallSplitter.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Expanding)
+        self.modInstallLayout.addWidget(self.modInstallSplitter)
+        self.modInstallSplitter.addWidget(self.modDescriptionWidget)
+        self.modInstallSplitter.addWidget(self.modVersionsWidget)
+        self.modInstallSplitter.setSizes([300, 700])
+
+        # Add a line to make the splitter visible
+        for i in range(self.modInstallSplitter.count()):
+            handle = self.modInstallSplitter.handle(i)
+            line = Qt.QFrame(handle)
+            line.setFrameShape(Qt.QFrame.HLine)
+            line.setFrameShadow(Qt.QFrame.Sunken)
+            line.setGeometry(0, 1, 2*handle.width()+1000, 2)
         
         log.debug("built main compartments")
         self.buildProfilesList()
+        log.debug("built profiles list compartment")
+        self.buildModsList()
+        log.debug("built mods list compartment")
+        self.buildModSearch()
+        log.debug("built mods search compartment")
+        self.buildModDescription()
+        log.debug("built mod description compartment")
+        self.buildModVersions()
+        log.debug("built mod versions compartment")
     
     def buildProfilesList(self):
         """builds the UI for profilesListWidget"""
@@ -108,7 +138,7 @@ class Window(Qt.QMainWindow):
         self.profilesListLayout.addWidget(self.settingsButton)
 
         # separation line
-        self.separationLine = QSeparationLine()
+        self.separationLine = customWidgets.SeparationLine()
         self.profilesListLayout.addWidget(self.separationLine)
 
         # add profile button
@@ -126,19 +156,17 @@ class Window(Qt.QMainWindow):
         self.profilesListLayout.addWidget(self.importProfileButton)
 
         # separation line
-        self.separationLine = QSeparationLine()
+        self.separationLine = customWidgets.SeparationLine()
         self.profilesListLayout.addWidget(self.separationLine)
 
         # scroll area for the profiles
         self.profilesScroll = Qt.QScrollArea()
         self.profilesScroll.setWidgetResizable(True)
-        self.profilesScroll.setFrameShape(Qt.QFrame.NoFrame)
+        #self.profilesScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.profilesScrollWidget = Qt.QWidget()
         self.profilesScrollLayout = Qt.QVBoxLayout(self.profilesScrollWidget)
         self.profilesScroll.setWidget(self.profilesScrollWidget)
         self.profilesListLayout.addWidget(self.profilesScroll)
-
-        self.buildModsList()
     
     def buildModsList(self):
         """builds the UI for the part that displays the mods list for the current profile"""
@@ -188,23 +216,137 @@ class Window(Qt.QMainWindow):
         self.profileButtonsLayout.addWidget(self.configureButton, 1, 1)
 
         # separation line
-        self.separationLine = QSeparationLine()
+        self.separationLine = customWidgets.SeparationLine()
         self.modsListLayout.addWidget(self.separationLine)
 
         # scroll area for the mods
         self.modsScroll = Qt.QScrollArea()
         self.modsScroll.setWidgetResizable(True)
-        self.modsScroll.setFrameShape(Qt.QFrame.NoFrame)
+        #self.modsScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.modsScrollWidget = Qt.QWidget()
         self.modsScrollLayout = Qt.QVBoxLayout(self.modsScrollWidget)
         self.modsScroll.setWidget(self.modsScrollWidget)
         self.modsListLayout.addWidget(self.modsScroll)
-
-        self.buildModSearch()
     
     def buildModSearch(self):
         """builds the UI for the mod search part"""
-        pass
+        # widget for the online downloading platfor selection
+        self.platformWidget = Qt.QWidget()
+        self.platformLayout = Qt.QHBoxLayout()
+        self.platformLayout.setAlignment(QtCore.Qt.AlignLeft)
+        self.platformWidget.setLayout(self.platformLayout)
+        self.modSearchLayout.addWidget(self.platformWidget)
+
+        # downloading platform selection
+        self.platformLabel = Qt.QLabel(lang("platform"))
+        self.platformLabel.setFont(self.titleFont)
+        self.platformLayout.addWidget(self.platformLabel)
+
+        self.platformSelect = Qt.QComboBox()
+        self.platformSelect.addItems(["Modrinth", "CurseForge"])
+        self.platformSelect.setFont(self.subtitleFont)
+        self.platformLayout.addWidget(self.platformSelect)
+
+        # search bar
+        self.searchWidget = Qt.QWidget()
+        self.searchLayout = Qt.QHBoxLayout()
+        self.searchWidget.setLayout(self.searchLayout)
+        self.modSearchLayout.addWidget(self.searchWidget)
+
+        self.searchBar = Qt.QLineEdit()
+        self.searchBar.setFont(self.titleFont)
+        self.searchBar.setFixedHeight(40)
+        self.searchBar.setPlaceholderText(lang("searchQuery"))
+        self.searchLayout.addWidget(self.searchBar)
+
+        self.searchButton = Qt.QPushButton()
+        self.searchButton.setFixedSize(QtCore.QSize(40, 40))
+        self.searchLayout.addWidget(self.searchButton)
+
+        # only show compatible mods or not
+        self.onlySearchCompatible = Qt.QCheckBox()
+        self.onlySearchCompatible.setText(lang("onlySearchCompatible"))
+        self.onlySearchCompatible.setFont(self.bigTextFont)
+        self.onlySearchCompatible.setChecked(True)
+        self.modSearchLayout.addWidget(self.onlySearchCompatible)
+
+        # results list
+        self.resultsScroll = Qt.QScrollArea()
+        self.resultsScroll.setWidgetResizable(True)
+        #self.resultsScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.resultsScrollWidget = Qt.QWidget()
+        self.resultsScrollLayout = Qt.QVBoxLayout(self.resultsScrollWidget)
+        self.resultsScroll.setWidget(self.resultsScrollWidget)
+        self.modSearchLayout.addWidget(self.resultsScroll)
+    
+    def buildModDescription(self):
+        """builds the UI for the mod description part"""
+        # display mod name
+        self.modNameWidget = Qt.QWidget()
+        self.modNameLayout = Qt.QHBoxLayout()
+        self.modNameLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
+        self.modNameWidget.setLayout(self.modNameLayout)
+        self.modDescriptionLayout.addWidget(self.modNameWidget)
+
+        #TODO: mod icon display
+
+        self.modNameLabel = Qt.QLabel("Iris Shader")  #TODO: placeholder text
+        self.modNameLabel.setFont(self.bigTitleFont)
+        self.modNameLayout.addWidget(self.modNameLabel)
+
+        self.separationLine = customWidgets.SeparationLine()
+        self.modDescriptionLayout.addWidget(self.separationLine)
+
+        # mod description text
+        self.modDescriptionScroll = Qt.QScrollArea()
+        self.modDescriptionScroll.setWidgetResizable(True)
+        #self.modDescriptionScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.modDescriptionScrollWidget = Qt.QWidget()
+        self.modDescriptionScrollLayout = Qt.QVBoxLayout(self.modDescriptionScrollWidget)
+        self.modDescriptionScroll.setWidget(self.modDescriptionScrollWidget)
+        self.modDescriptionLayout.addWidget(self.modDescriptionScroll)
+
+        self.modDescriptionText = Qt.QTextBrowser()
+        self.modDescriptionText.setHtml(r'<h2>Links</h2> <ul> <li><strong>Visit <a href="https://irisshaders.dev" rel="noopener nofollow ugc">our website</a> for downloads and pretty screenshots!</strong></li> <li><strong>Visit <a href="https://modrinth.com/shaders">the shaders section</a> to find shader packs!</strong></li> <li>Visit <a href="https://discord.gg/jQJnav2jPu" rel="noopener nofollow ugc">our Discord server</a> to chat about the mod and get support! It\'s also a great place to get development updates right as they\'re happening.</li> <li>Visit <a href="https://github.com/IrisShaders/Iris/tree/1.21/docs/development" rel="noopener nofollow ugc">the developer documentation</a> for information on developing, building, and contributing to Iris!</li> </ul> <h2>Installation</h2> <p>You can find a guide to installation <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/guide.md" rel="noopener nofollow ugc">here</a>.</p> <h2>FAQ</h2> <ul> <li>Find answers to frequently asked questions on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/faq.md" rel="noopener nofollow ugc">FAQ page</a>.</li> <li>Iris supports almost all shaderpacks, but a list of unsupported shaderpacks is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/unsupportedshaders.md" rel="noopener nofollow ugc">here</a>.</li> <li>A list of unfixable limitations in Iris is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/usage/limitations.md" rel="noopener nofollow ugc">here</a>.</li> </ul> <h2>More Info</h2> <p>More info can be found on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/README.md" rel="noopener nofollow ugc">README</a>.</p>')  #TODO: placeholder text
+        self.modDescriptionText.setFont(self.textFont)
+        self.modDescriptionText.setStyleSheet("background: transparent;")
+        self.modDescriptionScrollLayout.addWidget(self.modDescriptionText)
+
+    def buildModVersions(self):
+        """builds the UI for the mod versions part"""
+        # filter compatible checkbox
+        self.onlyShowCompatible = Qt.QCheckBox()
+        self.onlyShowCompatible.setText(lang("onlyShowCompatible"))
+        self.onlyShowCompatible.setFont(self.bigTextFont)
+        self.onlyShowCompatible.setChecked(True)
+        self.modVersionsLayout.addWidget(self.onlyShowCompatible)
+
+        # list of available versions
+        self.versionsScroll = Qt.QScrollArea()
+        self.versionsScroll.setWidgetResizable(True)
+        #self.versionsScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.versionsScrollWidget = Qt.QWidget()
+        self.versionsScrollLayout = Qt.QVBoxLayout(self.versionsScrollWidget)
+        self.versionsScroll.setWidget(self.versionsScrollWidget)
+        self.modVersionsLayout.addWidget(self.versionsScroll)
+
+        # buttons to install or remove mod
+        self.installButtonsWidget = Qt.QWidget()
+        self.installButtonsLayout = Qt.QHBoxLayout()
+        self.installButtonsWidget.setLayout(self.installButtonsLayout)
+        self.modVersionsLayout.addWidget(self.installButtonsWidget)
+
+        self.removeModButton = Qt.QPushButton()
+        self.removeModButton.setText(lang("remove"))
+        self.removeModButton.setFont(self.titleFont)
+        self.removeModButton.setFixedHeight(50)
+        self.installButtonsLayout.addWidget(self.removeModButton)
+
+        self.installModButton = Qt.QPushButton()
+        self.installModButton.setText(lang("install"))
+        self.installModButton.setFont(self.titleFont)
+        self.installModButton.setFixedHeight(50)
+        self.installButtonsLayout.addWidget(self.installModButton)
 
 
 def setDarkMode(App:Qt.QApplication):

@@ -25,7 +25,7 @@ class Translator():
                     self.translations = yaml.safe_load(f)
                 log.warning(f"unable to load the {self.language} language, defaulting to english")
 
-    def translate(self, id:str, language:str=None):
+    def translate(self, id:str, language:str=None) -> str:
         """translate the string from the id in the given language, or in the default language"""
         if not language:
             language = self.language
