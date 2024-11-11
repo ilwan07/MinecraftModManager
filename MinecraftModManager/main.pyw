@@ -33,7 +33,7 @@ if sys.platform == "darwin":  # if on MacOS
         pass
 App = Qt.QApplication(sys.argv)
 appIcon = QtGui.QIcon()
-for iconPath in glob.glob(f"{str(localPath/'assets'/'icons')}/*.png"):
+for iconPath in glob.glob(f"{str(localPath/'assets'/'logo'/'res')}/*.png"):
     res = int(Path(iconPath).name.split(".")[0])
     appIcon.addFile(iconPath, QtCore.QSize(res, res))
 App.setWindowIcon(appIcon)

@@ -162,11 +162,16 @@ class Window(Qt.QMainWindow):
         # scroll area for the profiles
         self.profilesScroll = Qt.QScrollArea()
         self.profilesScroll.setWidgetResizable(True)
-        #self.profilesScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.profilesScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.profilesScrollWidget = Qt.QWidget()
         self.profilesScrollLayout = Qt.QVBoxLayout(self.profilesScrollWidget)
+        self.profilesScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.profilesScroll.setWidget(self.profilesScrollWidget)
         self.profilesListLayout.addWidget(self.profilesScroll)
+
+        #TODO: widget test
+        self.profileSelectTest = customWidgets.ProfileSelect("Test profile", "Fabric", "1.21.3")
+        self.profilesScrollLayout.addWidget(self.profileSelectTest)
     
     def buildModsList(self):
         """builds the UI for the part that displays the mods list for the current profile"""
@@ -181,25 +186,32 @@ class Window(Qt.QMainWindow):
         self.profileVersionLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.modsListLayout.addWidget(self.profileVersionLabel)
 
+        # launch game with profile button
+        self.launchButton = Qt.QPushButton(lang("launch"))
+        self.launchButton.setFont(self.titleFont)
+        self.launchButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.launchButton.setFixedHeight(50)
+        self.modsListLayout.addWidget(self.launchButton)
+
         # buttons layout
         self.profileButtonsWidget = Qt.QWidget()
         self.profileButtonsLayout = Qt.QGridLayout()
         self.profileButtonsWidget.setLayout(self.profileButtonsLayout)
         self.modsListLayout.addWidget(self.profileButtonsWidget)
 
-        # launch game with profile button
-        self.launchButton = Qt.QPushButton(lang("launch"))
-        self.launchButton.setFont(self.subtitleFont)
-        self.launchButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
-        self.launchButton.setFixedHeight(40)
-        self.profileButtonsLayout.addWidget(self.launchButton, 0, 0)
-
         # apply profile button
         self.applyProfileButton = Qt.QPushButton(lang("applyProfile"))
         self.applyProfileButton.setFont(self.subtitleFont)
         self.applyProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.applyProfileButton.setFixedHeight(40)
-        self.profileButtonsLayout.addWidget(self.applyProfileButton, 0, 1)
+        self.profileButtonsLayout.addWidget(self.applyProfileButton, 0, 0)
+
+        # add custom mod button
+        self.addModButton = Qt.QPushButton(lang("addMod"))
+        self.addModButton.setFont(self.subtitleFont)
+        self.addModButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.addModButton.setFixedHeight(40)
+        self.profileButtonsLayout.addWidget(self.addModButton, 0, 1)
 
         # export profile button
         self.exportButton = Qt.QPushButton(lang("export"))
@@ -222,11 +234,16 @@ class Window(Qt.QMainWindow):
         # scroll area for the mods
         self.modsScroll = Qt.QScrollArea()
         self.modsScroll.setWidgetResizable(True)
-        #self.modsScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.modsScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.modsScrollWidget = Qt.QWidget()
         self.modsScrollLayout = Qt.QVBoxLayout(self.modsScrollWidget)
+        self.modsScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.modsScroll.setWidget(self.modsScrollWidget)
         self.modsListLayout.addWidget(self.modsScroll)
+
+        #TODO: widget test
+        self.profileSelectTest = customWidgets.ModSelect("Test mod", "filename")
+        self.modsScrollLayout.addWidget(self.profileSelectTest)
     
     def buildModSearch(self):
         """builds the UI for the mod search part"""
