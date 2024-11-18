@@ -1,7 +1,9 @@
-import translate, customWidgets
+import translate, customWidgets, backendMethods
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
 from pathlib import Path
+import platformdirs
+import darkdetect
 import logging
 import locale
 import ctypes
@@ -9,15 +11,13 @@ import os
 
 log = logging.getLogger(__name__)
 
-appDir = Path(__file__).resolve().parent
-
 langLocale, _ = locale.getlocale()
 if langLocale: userLanguage = langLocale.split("_")[0]
 else:
     langLocale = os.environ.get("LANG")
     if langLocale: userLanguage = langLocale.split("_")[0]
     else: userLanguage = "en"
-Language = translate.Translator(appDir/"locales", userLanguage)
+Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
 lang = Language.translate
 
 if os.name == "nt":  # if on Windows
@@ -34,6 +34,11 @@ class Window(Qt.QMainWindow):
         self.subtitleFont = QtGui.QFont("Arial", 16)
         self.bigTextFont = QtGui.QFont("Arial", 14)
         self.textFont = QtGui.QFont("Arial", 11)
+
+        # useful variables
+        self.localPath = Path(__file__).resolve().parent
+        self.appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
+        self.assetPath = self.localPath/"assets"/"dark" if darkdetect.isDark() else self.localPath/"assets"/"light"  # assets path depending on color mode
 
     def start(self):
         """launches the GUI and the app"""
@@ -131,8 +136,10 @@ class Window(Qt.QMainWindow):
     def buildProfilesList(self):
         """builds the UI for profilesListWidget"""
         # settings button
-        self.settingsButton = Qt.QPushButton(lang("settings"))
+        self.settingsButton = Qt.QPushButton(f" {lang("settings")}")
         self.settingsButton.setFont(self.titleFont)
+        self.settingsButton.setIcon(QtGui.QIcon(str(self.assetPath/"settings.png")))
+        self.settingsButton.setIconSize(QtCore.QSize(25, 25))
         self.settingsButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.settingsButton.setFixedHeight(60)
         self.profilesListLayout.addWidget(self.settingsButton)
@@ -168,10 +175,6 @@ class Window(Qt.QMainWindow):
         self.profilesScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.profilesScroll.setWidget(self.profilesScrollWidget)
         self.profilesListLayout.addWidget(self.profilesScroll)
-
-        #TODO: widget test
-        self.profileSelectTest = customWidgets.ProfileSelect("Test profile", "Fabric", "1.21.3")
-        self.profilesScrollLayout.addWidget(self.profileSelectTest)
     
     def buildModsList(self):
         """builds the UI for the part that displays the mods list for the current profile"""
@@ -187,8 +190,10 @@ class Window(Qt.QMainWindow):
         self.modsListLayout.addWidget(self.profileVersionLabel)
 
         # launch game with profile button
-        self.launchButton = Qt.QPushButton(lang("launch"))
+        self.launchButton = Qt.QPushButton(f" {lang("launch")}")
         self.launchButton.setFont(self.titleFont)
+        self.launchButton.setIcon(QtGui.QIcon(str(self.assetPath/"launch.png")))
+        self.launchButton.setIconSize(QtCore.QSize(25, 25))
         self.launchButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.launchButton.setFixedHeight(50)
         self.modsListLayout.addWidget(self.launchButton)
@@ -240,10 +245,6 @@ class Window(Qt.QMainWindow):
         self.modsScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.modsScroll.setWidget(self.modsScrollWidget)
         self.modsListLayout.addWidget(self.modsScroll)
-
-        #TODO: widget test
-        self.profileSelectTest = customWidgets.ModSelect("Test mod", "filename")
-        self.modsScrollLayout.addWidget(self.profileSelectTest)
     
     def buildModSearch(self):
         """builds the UI for the mod search part"""
@@ -277,6 +278,8 @@ class Window(Qt.QMainWindow):
         self.searchLayout.addWidget(self.searchBar)
 
         self.searchButton = Qt.QPushButton()
+        self.searchButton.setIcon(QtGui.QIcon(str(self.assetPath/"search.png")))
+        self.searchButton.setIconSize(QtCore.QSize(25, 25))
         self.searchButton.setFixedSize(QtCore.QSize(40, 40))
         self.searchLayout.addWidget(self.searchButton)
 
@@ -290,9 +293,10 @@ class Window(Qt.QMainWindow):
         # results list
         self.resultsScroll = Qt.QScrollArea()
         self.resultsScroll.setWidgetResizable(True)
-        #self.resultsScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.resultsScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.resultsScrollWidget = Qt.QWidget()
         self.resultsScrollLayout = Qt.QVBoxLayout(self.resultsScrollWidget)
+        self.resultsScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.resultsScroll.setWidget(self.resultsScrollWidget)
         self.modSearchLayout.addWidget(self.resultsScroll)
     
@@ -317,7 +321,7 @@ class Window(Qt.QMainWindow):
         # mod description text
         self.modDescriptionScroll = Qt.QScrollArea()
         self.modDescriptionScroll.setWidgetResizable(True)
-        #self.modDescriptionScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.modDescriptionScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.modDescriptionScrollWidget = Qt.QWidget()
         self.modDescriptionScrollLayout = Qt.QVBoxLayout(self.modDescriptionScrollWidget)
         self.modDescriptionScroll.setWidget(self.modDescriptionScrollWidget)
@@ -341,9 +345,10 @@ class Window(Qt.QMainWindow):
         # list of available versions
         self.versionsScroll = Qt.QScrollArea()
         self.versionsScroll.setWidgetResizable(True)
-        #self.versionsScroll.setFrameShape(Qt.QFrame.NoFrame)
+        self.versionsScroll.setFrameShape(Qt.QFrame.NoFrame)
         self.versionsScrollWidget = Qt.QWidget()
         self.versionsScrollLayout = Qt.QVBoxLayout(self.versionsScrollWidget)
+        self.versionsScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.versionsScroll.setWidget(self.versionsScrollWidget)
         self.modVersionsLayout.addWidget(self.versionsScroll)
 
