@@ -4,29 +4,45 @@ import os
 
 app = Flask(__name__)
 
-apiKey = os.getenv("CURSEFORGE_API_KEY")  # environnement variable with API key
-curseforgeApiUrl = "https://api.curseforge.com"  # curseforge api url
+# Configuration de l'API CurseForge
+CURSEFORGE_API_KEY = os.getenv("CURSEFORGE_API_KEY")
+CURSEFORGE_API_BASE_URL = "https://api.curseforge.com/v1"
 
-@app.route("/curseforge", methods=["GET"])
-def query_curseforge():
-    """curseforge proxy"""
-    endpoint = request.args.get("endpoint")  # path to curseforge api
-    params = request.args.to_dict()  # get arguments from request
-    params.pop("endpoint", None)  # remove endpoint from arguments
+# En-têtes pour l'API CurseForge
+HEADERS = {
+    "x-api-key": CURSEFORGE_API_KEY
+}
 
-    if not endpoint:
-        return jsonify({"error": "Endpoint is required"}), 400
-
-    # make request to curseforge api
-    headers = {
-        "x-api-key": apiKey,
-    }
+@app.route('/api/<path:endpoint>', methods=['GET'])
+def proxy_to_curseforge(endpoint):
+    """
+    Proxy générique pour interagir avec l'API CurseForge.
+    """
+    # Construire l'URL cible
+    url = f"{CURSEFORGE_API_BASE_URL}/{endpoint}"
+    
+    # Récupérer les paramètres de requête et le corps de la requête
+    query_params = request.args.to_dict()
+    data = request.json if request.is_json else None
+    
+    # Sélectionner la méthode HTTP
+    method = request.method
     try:
-        response = requests.get(f"{curseforgeApiUrl}/{endpoint}", headers=headers, params=params)
-        response.raise_for_status()
-        return jsonify(response.json())  # return raw response
+        # Envoyer la requête correspondante à l'API CurseForge
+        if method == "GET":
+            response = requests.get(url, headers=HEADERS, params=query_params)
+        else:
+            return jsonify({"error": "Méthode HTTP non supportée"}), 405
+
+        # Retourner la réponse de l'API CurseForge
+        return jsonify(response.json()), response.status_code
+
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)}), 500
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=36015)  # open port
+@app.route('/')
+def index():
+    return "Serveur intermédiaire CurseForge opérationnel et prêt à recevoir des requêtes."
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=36015)
