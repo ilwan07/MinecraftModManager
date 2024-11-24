@@ -1,8 +1,13 @@
 from flask import Flask, request, jsonify
+from dotenv import load_dotenv
 import requests
 import os
 
 app = Flask(__name__)
+
+# load environnement variables
+ENV_PATH = "/home/ilwan/.env"
+load_dotenv(ENV_PATH)
 
 # configuring curseforge api
 CURSEFORGE_API_BASE_URL = "https://api.curseforge.com/v1"
