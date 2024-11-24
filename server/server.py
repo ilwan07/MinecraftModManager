@@ -8,7 +8,7 @@ app = Flask(__name__)
 CURSEFORGE_API_BASE_URL = "https://api.curseforge.com/v1"
 HEADERS = {"x-api-key": os.getenv("CURSEFORGE_API_KEY")}
 
-@app.route('/curseforge/<path:endpoint>', methods=['GET'])
+@app.route("/curseforge/<path:endpoint>", methods=["GET"])
 def proxyToCurseforge(endpoint):
     """interact with the curseforge api using the key"""
     # target url
@@ -36,4 +36,4 @@ def proxyToCurseforge(endpoint):
 
 if __name__ == "__main__":
     # run the app
-    app.run(host='0.0.0.0', port=os.getenv("CURSEFORGE_PROXY_PORT"))
+    app.run(host="0.0.0.0", port=os.getenv("CURSEFORGE_PROXY_PORT"))

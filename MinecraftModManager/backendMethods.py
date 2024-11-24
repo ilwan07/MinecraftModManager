@@ -9,7 +9,7 @@ appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="I
 log = logging.getLogger(__name__)
 
 
-def curseforgeRequest(endpoint, params=None):
+def curseforgeRequest(endpoint, params=None) -> dict:
     """make a generic request to the curseforge api via the proxy containing the api key"""
     SERVER_URL = "http://hackclub.app:36015/curseforge"
     url = f"{SERVER_URL}/{endpoint}"
@@ -21,4 +21,3 @@ def curseforgeRequest(endpoint, params=None):
     except requests.exceptions.RequestException as e:
         log.error(f"error while requesting to curseforge proxy : {e}\nusing endpoint '{endpoint}' with params {params}'")
         return None
-
