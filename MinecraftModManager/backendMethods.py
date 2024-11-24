@@ -8,18 +8,17 @@ appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="I
 
 log = logging.getLogger(__name__)
 
-def queryCurseforgeProxy(endpoint, params):
-    """send a query to the curseforge api via the proxy"""
-    proxyUrl = "http://hackclub.app:36015/curseforge"
+
+def curseforgeRequest(endpoint, params=None):
+    """make a generic request to the curseforge api via the proxy containing the api key"""
+    SERVER_URL = "http://hackclub.app:36015/curseforge"
+    url = f"{SERVER_URL}/{endpoint}"
+
     try:
-        response = requests.get(proxyUrl, params={"endpoint": endpoint, **params})
-        response.raise_for_status()
-        return response.json()  # returns the response as json if no error
+        response = requests.get(url, params=params)
+        response.raise_for_status()  # check if response is valid
+        return response.json()
     except requests.exceptions.RequestException as e:
-        log.error(f"error with proxy request: {e}")
+        log.error(f"error while requesting to curseforge proxy : {e}\nusing endpoint '{endpoint}' with params {params}'")
+        return None
 
-
-endpoint = "mods/search"
-params = {"gameId": 432, "searchFilter": "sodium", "pageSize": 1}
-result = queryCurseforgeProxy(endpoint, params)
-print(result)

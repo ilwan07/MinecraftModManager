@@ -4,45 +4,36 @@ import os
 
 app = Flask(__name__)
 
-# Configuration de l'API CurseForge
-CURSEFORGE_API_KEY = os.getenv("CURSEFORGE_API_KEY")
+# configuring curseforge api
 CURSEFORGE_API_BASE_URL = "https://api.curseforge.com/v1"
+HEADERS = {"x-api-key": os.getenv("CURSEFORGE_API_KEY")}
 
-# En-têtes pour l'API CurseForge
-HEADERS = {
-    "x-api-key": CURSEFORGE_API_KEY
-}
-
-@app.route('/api/<path:endpoint>', methods=['GET'])
-def proxy_to_curseforge(endpoint):
-    """
-    Proxy générique pour interagir avec l'API CurseForge.
-    """
-    # Construire l'URL cible
+@app.route('/curseforge/<path:endpoint>', methods=['GET'])
+def proxyToCurseforge(endpoint):
+    """interact with the curseforge api using the key"""
+    # target url
     url = f"{CURSEFORGE_API_BASE_URL}/{endpoint}"
-    
-    # Récupérer les paramètres de requête et le corps de la requête
+    # query parameters
     query_params = request.args.to_dict()
-    data = request.json if request.is_json else None
-    
-    # Sélectionner la méthode HTTP
+    # get http method
     method = request.method
+
     try:
-        # Envoyer la requête correspondante à l'API CurseForge
+        # send request to curseforge
         if method == "GET":
             response = requests.get(url, headers=HEADERS, params=query_params)
         else:
-            return jsonify({"error": "Méthode HTTP non supportée"}), 405
-
-        # Retourner la réponse de l'API CurseForge
+            return jsonify({"error": "HTTP method not supported"}), 405
+        # return query results to the client
         return jsonify(response.json()), response.status_code
 
     except requests.exceptions.RequestException as e:
-        return jsonify({"error": str(e)}), 500
+        # send an error if needed
+        try:
+            return jsonify({"error": str(e)}), response.status_code
+        except :
+            return jsonify({"error": str(e)}), 500
 
-@app.route('/')
-def index():
-    return "Serveur intermédiaire CurseForge opérationnel et prêt à recevoir des requêtes."
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=36015)
+if __name__ == "__main__":
+    # run the app
+    app.run(host='0.0.0.0', port=os.getenv("CURSEFORGE_PROXY_PORT"))
