@@ -13,7 +13,7 @@ load_dotenv(ENV_PATH)
 CURSEFORGE_API_BASE_URL = "https://api.curseforge.com/v1"
 HEADERS = {"x-api-key": os.getenv("CURSEFORGE_API_KEY")}
 
-@app.route("/curseforge/<path:endpoint>", methods=["GET"])
+@app.route("/api/<path:endpoint>", methods=["GET"])
 def proxyToCurseforge(endpoint):
     """interact with the curseforge api using the key"""
     # target url

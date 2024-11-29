@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 def curseforgeRequest(endpoint, params=None) -> dict:
     """make a generic request to the curseforge api via the proxy containing the api key"""
-    SERVER_URL = "http://hackclub.app:36015/curseforge"
+    SERVER_URL = "http://curseforge.ilwan.hackclub.app/api"
     url = f"{SERVER_URL}/{endpoint}"
 
     try:
