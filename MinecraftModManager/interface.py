@@ -1,4 +1,4 @@
-import translate, customWidgets, backendMethods
+import translate, customWidgets, backendMethods  # local modules
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
 from pathlib import Path
@@ -21,8 +21,12 @@ Language = translate.Translator(Path(__file__).resolve().parent/"locales", userL
 lang = Language.translate
 
 if os.name == "nt":  # if on Windows
-    appId = u'ilwan.minecraftmodmanager'
+    appId = "ilwan.minecraftmodmanager"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
+
+Methods = backendMethods.Methods()
+StartCode = backendMethods.Start()
+StartCode.start()  # setup the software
 
 
 class Window(Qt.QMainWindow):
@@ -153,6 +157,7 @@ class Window(Qt.QMainWindow):
         self.addProfileButton.setFont(self.titleFont)
         self.addProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.addProfileButton.setFixedHeight(50)
+        self.addProfileButton.clicked.connect(self.addProfile)
         self.profilesListLayout.addWidget(self.addProfileButton)
 
         # import profile button
@@ -369,6 +374,11 @@ class Window(Qt.QMainWindow):
         self.installModButton.setFont(self.titleFont)
         self.installModButton.setFixedHeight(50)
         self.installButtonsLayout.addWidget(self.installModButton)
+    
+    def addProfile(self):
+        """add a new modded profile"""
+        newProfile = Methods.addProfile()
+        log.info(f"successfully created new profile with data: {newProfile}")
 
 
 def setDarkMode(App:Qt.QApplication):
