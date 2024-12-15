@@ -136,6 +136,8 @@ class Window(Qt.QMainWindow):
         log.debug("built mod description compartment")
         self.buildModVersions()
         log.debug("built mod versions compartment")
+        self.setupInterface()
+        log.debug("finished building and configuring the interface")
     
     def buildProfilesList(self):
         """builds the UI for profilesListWidget"""
@@ -375,10 +377,27 @@ class Window(Qt.QMainWindow):
         self.installModButton.setFixedHeight(50)
         self.installButtonsLayout.addWidget(self.installModButton)
     
+    def setupInterface(self):
+        """setup the interface after its creation"""
+        self.refreshProfiles()
+    
     def addProfile(self):
         """add a new modded profile"""
-        newProfile = Methods.addProfile()
-        log.info(f"successfully created new profile with data: {newProfile}")
+        self.addProfilePopup = backendMethods.addProfilePopup()
+        log.info(f"opening profile creation screen")
+        self.addProfilePopup.exec_()
+        self.refreshProfiles()
+    
+    def refreshProfiles(self):
+        """refresh the profiles list"""
+        # remove all profiles from the list
+        for i in reversed(range(self.profilesScrollLayout.count())):
+            self.profilesScrollLayout.itemAt(i).widget().deleteLater()
+        
+        # add all profiles to the list
+        for profileProperties in Methods.getProfiles().values():
+            profileWidget = customWidgets.ProfileSelect(profileProperties)
+            self.profilesScrollLayout.addWidget(profileWidget)
 
 
 def setDarkMode(App:Qt.QApplication):

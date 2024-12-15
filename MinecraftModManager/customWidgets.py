@@ -15,16 +15,16 @@ class SeparationLine(Qt.QFrame):
 
 class ProfileSelect(Qt.QFrame):
     wasSelected = QtCore.pyqtSignal()
-    def __init__(self, name:str, modloader:str, version:str):
+    def __init__(self, properties:dict):
         """a button to select the profile to launch or modify"""
         super().__init__()
         self.mainLayout = Qt.QVBoxLayout()
         self.mainLayout.setAlignment(QtCore.Qt.AlignCenter)
         self.setLayout(self.mainLayout)
 
-        self.name = name
-        self.modloader = modloader
-        self.version = version
+        self.name = properties["name"]
+        self.modloader = properties["modloader"]
+        self.version = properties["version"]
         self.isSelected = False
 
         self.nameLabel = Qt.QLabel(self.name)
