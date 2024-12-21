@@ -1,24 +1,15 @@
-import translate, customWidgets, backendMethods  # local modules
+import customWidgets, backendMethods  # local modules
+from usefulVariables import *  # local variables
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
 from pathlib import Path
 import platformdirs
 import darkdetect
 import logging
-import locale
 import ctypes
 import os
 
 log = logging.getLogger(__name__)
-
-langLocale, _ = locale.getlocale()
-if langLocale: userLanguage = langLocale.split("_")[0]
-else:
-    langLocale = os.environ.get("LANG")
-    if langLocale: userLanguage = langLocale.split("_")[0]
-    else: userLanguage = "en"
-Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
-lang = Language.translate
 
 if os.name == "nt":  # if on Windows
     appId = "ilwan.minecraftmodmanager"
@@ -32,17 +23,7 @@ StartCode.start()  # setup the software
 class Window(Qt.QMainWindow):
     def __init__(self):
         """a class to manage the app and its main window"""
-        # font presets
-        self.bigTitleFont = QtGui.QFont("Arial", 24)
-        self.titleFont = QtGui.QFont("Arial", 20)
-        self.subtitleFont = QtGui.QFont("Arial", 16)
-        self.bigTextFont = QtGui.QFont("Arial", 14)
-        self.textFont = QtGui.QFont("Arial", 11)
-
-        # useful variables
-        self.localPath = Path(__file__).resolve().parent
-        self.appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
-        self.assetPath = self.localPath/"assets"/"dark" if darkdetect.isDark() else self.localPath/"assets"/"light"  # assets path depending on color mode
+        self.currentProfile = None
 
     def start(self):
         """launches the GUI and the app"""
@@ -143,8 +124,8 @@ class Window(Qt.QMainWindow):
         """builds the UI for profilesListWidget"""
         # settings button
         self.settingsButton = Qt.QPushButton(f" {lang("settings")}")
-        self.settingsButton.setFont(self.titleFont)
-        self.settingsButton.setIcon(QtGui.QIcon(str(self.assetPath/"settings.png")))
+        self.settingsButton.setFont(Fonts.titleFont)
+        self.settingsButton.setIcon(QtGui.QIcon(str(iconsAssetsPath/"settings.png")))
         self.settingsButton.setIconSize(QtCore.QSize(25, 25))
         self.settingsButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.settingsButton.setFixedHeight(60)
@@ -156,7 +137,7 @@ class Window(Qt.QMainWindow):
 
         # add profile button
         self.addProfileButton = Qt.QPushButton(lang("addProfile"))
-        self.addProfileButton.setFont(self.titleFont)
+        self.addProfileButton.setFont(Fonts.titleFont)
         self.addProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.addProfileButton.setFixedHeight(50)
         self.addProfileButton.clicked.connect(self.addProfile)
@@ -164,7 +145,7 @@ class Window(Qt.QMainWindow):
 
         # import profile button
         self.importProfileButton = Qt.QPushButton(lang("importProfile"))
-        self.importProfileButton.setFont(self.titleFont)
+        self.importProfileButton.setFont(Fonts.titleFont)
         self.importProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.importProfileButton.setFixedHeight(50)
         self.profilesListLayout.addWidget(self.importProfileButton)
@@ -186,20 +167,21 @@ class Window(Qt.QMainWindow):
     def buildModsList(self):
         """builds the UI for the part that displays the mods list for the current profile"""
         # short profile description section
-        self.profileLabel = Qt.QLabel("Profile 1")  #TODO: placeholder text
-        self.profileLabel.setFont(self.bigTitleFont)
+        self.profileLabel = Qt.QLabel()
+        self.profileLabel.setFont(Fonts.bigTitleFont)
+        self.profileLabel.setWordWrap(True)
         self.profileLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.modsListLayout.addWidget(self.profileLabel)
 
-        self.profileVersionLabel = Qt.QLabel("Fabric 1.21")  #TODO: placeholder text
-        self.profileVersionLabel.setFont(self.subtitleFont)
+        self.profileVersionLabel = Qt.QLabel()
+        self.profileVersionLabel.setFont(Fonts.subtitleFont)
         self.profileVersionLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.modsListLayout.addWidget(self.profileVersionLabel)
 
         # launch game with profile button
         self.launchButton = Qt.QPushButton(f" {lang("launch")}")
-        self.launchButton.setFont(self.titleFont)
-        self.launchButton.setIcon(QtGui.QIcon(str(self.assetPath/"launch.png")))
+        self.launchButton.setFont(Fonts.titleFont)
+        self.launchButton.setIcon(QtGui.QIcon(str(iconsAssetsPath/"launch.png")))
         self.launchButton.setIconSize(QtCore.QSize(25, 25))
         self.launchButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.launchButton.setFixedHeight(50)
@@ -213,28 +195,28 @@ class Window(Qt.QMainWindow):
 
         # apply profile button
         self.applyProfileButton = Qt.QPushButton(lang("applyProfile"))
-        self.applyProfileButton.setFont(self.subtitleFont)
+        self.applyProfileButton.setFont(Fonts.subtitleFont)
         self.applyProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.applyProfileButton.setFixedHeight(40)
         self.profileButtonsLayout.addWidget(self.applyProfileButton, 0, 0)
 
         # add custom mod button
         self.addModButton = Qt.QPushButton(lang("addMod"))
-        self.addModButton.setFont(self.subtitleFont)
+        self.addModButton.setFont(Fonts.subtitleFont)
         self.addModButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.addModButton.setFixedHeight(40)
         self.profileButtonsLayout.addWidget(self.addModButton, 0, 1)
 
         # export profile button
         self.exportButton = Qt.QPushButton(lang("export"))
-        self.exportButton.setFont(self.subtitleFont)
+        self.exportButton.setFont(Fonts.subtitleFont)
         self.exportButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.exportButton.setFixedHeight(40)
         self.profileButtonsLayout.addWidget(self.exportButton, 1, 0)
 
         # configure profile button
         self.configureButton = Qt.QPushButton(lang("configure"))
-        self.configureButton.setFont(self.subtitleFont)
+        self.configureButton.setFont(Fonts.subtitleFont)
         self.configureButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.configureButton.setFixedHeight(40)
         self.profileButtonsLayout.addWidget(self.configureButton, 1, 1)
@@ -264,12 +246,12 @@ class Window(Qt.QMainWindow):
 
         # downloading platform selection
         self.platformLabel = Qt.QLabel(lang("platform"))
-        self.platformLabel.setFont(self.titleFont)
+        self.platformLabel.setFont(Fonts.titleFont)
         self.platformLayout.addWidget(self.platformLabel)
 
         self.platformSelect = Qt.QComboBox()
         self.platformSelect.addItems(["Modrinth", "CurseForge"])
-        self.platformSelect.setFont(self.subtitleFont)
+        self.platformSelect.setFont(Fonts.subtitleFont)
         self.platformLayout.addWidget(self.platformSelect)
 
         # search bar
@@ -279,13 +261,13 @@ class Window(Qt.QMainWindow):
         self.modSearchLayout.addWidget(self.searchWidget)
 
         self.searchBar = Qt.QLineEdit()
-        self.searchBar.setFont(self.titleFont)
+        self.searchBar.setFont(Fonts.titleFont)
         self.searchBar.setFixedHeight(40)
         self.searchBar.setPlaceholderText(lang("searchQuery"))
         self.searchLayout.addWidget(self.searchBar)
 
         self.searchButton = Qt.QPushButton()
-        self.searchButton.setIcon(QtGui.QIcon(str(self.assetPath/"search.png")))
+        self.searchButton.setIcon(QtGui.QIcon(str(iconsAssetsPath/"search.png")))
         self.searchButton.setIconSize(QtCore.QSize(25, 25))
         self.searchButton.setFixedSize(QtCore.QSize(40, 40))
         self.searchLayout.addWidget(self.searchButton)
@@ -293,7 +275,7 @@ class Window(Qt.QMainWindow):
         # only show compatible mods or not
         self.onlySearchCompatible = Qt.QCheckBox()
         self.onlySearchCompatible.setText(lang("onlySearchCompatible"))
-        self.onlySearchCompatible.setFont(self.bigTextFont)
+        self.onlySearchCompatible.setFont(Fonts.bigTextFont)
         self.onlySearchCompatible.setChecked(True)
         self.modSearchLayout.addWidget(self.onlySearchCompatible)
 
@@ -319,7 +301,7 @@ class Window(Qt.QMainWindow):
         #TODO: mod icon display
 
         self.modNameLabel = Qt.QLabel("Iris Shader")  #TODO: placeholder text
-        self.modNameLabel.setFont(self.bigTitleFont)
+        self.modNameLabel.setFont(Fonts.bigTitleFont)
         self.modNameLayout.addWidget(self.modNameLabel)
 
         self.separationLine = customWidgets.SeparationLine()
@@ -335,8 +317,8 @@ class Window(Qt.QMainWindow):
         self.modDescriptionLayout.addWidget(self.modDescriptionScroll)
 
         self.modDescriptionText = Qt.QTextBrowser()
-        self.modDescriptionText.setHtml(r'<h2>Links</h2> <ul> <li><strong>Visit <a href="https://irisshaders.dev" rel="noopener nofollow ugc">our website</a> for downloads and pretty screenshots!</strong></li> <li><strong>Visit <a href="https://modrinth.com/shaders">the shaders section</a> to find shader packs!</strong></li> <li>Visit <a href="https://discord.gg/jQJnav2jPu" rel="noopener nofollow ugc">our Discord server</a> to chat about the mod and get support! It\'s also a great place to get development updates right as they\'re happening.</li> <li>Visit <a href="https://github.com/IrisShaders/Iris/tree/1.21/docs/development" rel="noopener nofollow ugc">the developer documentation</a> for information on developing, building, and contributing to Iris!</li> </ul> <h2>Installation</h2> <p>You can find a guide to installation <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/guide.md" rel="noopener nofollow ugc">here</a>.</p> <h2>FAQ</h2> <ul> <li>Find answers to frequently asked questions on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/faq.md" rel="noopener nofollow ugc">FAQ page</a>.</li> <li>Iris supports almost all shaderpacks, but a list of unsupported shaderpacks is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/unsupportedshaders.md" rel="noopener nofollow ugc">here</a>.</li> <li>A list of unfixable limitations in Iris is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/usage/limitations.md" rel="noopener nofollow ugc">here</a>.</li> </ul> <h2>More Info</h2> <p>More info can be found on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/README.md" rel="noopener nofollow ugc">README</a>.</p>')  #TODO: placeholder text
-        self.modDescriptionText.setFont(self.textFont)
+        self.modDescriptionText.setHtml(r'<h2>Links</h2> <ul> <li><strong>Visit <a href="https://irisshaders.dev" rel="noopener nofollow ugc">our website</a> for downloads and pretty screenshots!</strong></li> <li><strong>Visit <a href="https://modrinth.com/shaders">the shaders section</a> to find shader packs!</strong></li> <li>Visit <a href="https://discord.gg/jQJnav2jPu" rel="noopener nofollow ugc">our Discord server</a> to chat about the mod and get support! It\'s also a great place to get development updates right as they\'re happening.</li> <li>Visit <a href="https://github.com/IrisShaders/Iris/tree/1.21/docs/development" rel="noopener nofollow ugc">the developer documentation</a> for information on developing, building, and contributing to Iris!</li> </ul> <h2>Installation</h2> <p>You can find a guide to installation <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/guide.md" rel="noopener nofollow ugc">here</a>.</p> <h2>FAQ</h2> <ul> <li>Find answers to frequently asked questions on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/faq.md" rel="noopener nofollow ugc">FAQ page</a>.</li> <li>Iris supports almost all shaderpacks, but a list of unsupported shaderpacks is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/unsupportedshaders.md" rel="noopener nofollow ugc">here</a>.</li> <li>A list of unfixable limitations in Iris is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/usage/limitations.md" rel="noopener nofollow ugc">here</a>.</li> </ul> <h2>More Info</h2> <p>More info can be found on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/README.md" rel="noopener nofollow ugc">README</a>.</p>')  #TODO: placeholder text, also need to remove links
+        self.modDescriptionText.setFont(Fonts.textFont)
         self.modDescriptionText.setStyleSheet("background: transparent;")
         self.modDescriptionScrollLayout.addWidget(self.modDescriptionText)
 
@@ -345,7 +327,7 @@ class Window(Qt.QMainWindow):
         # filter compatible checkbox
         self.onlyShowCompatible = Qt.QCheckBox()
         self.onlyShowCompatible.setText(lang("onlyShowCompatible"))
-        self.onlyShowCompatible.setFont(self.bigTextFont)
+        self.onlyShowCompatible.setFont(Fonts.bigTextFont)
         self.onlyShowCompatible.setChecked(True)
         self.modVersionsLayout.addWidget(self.onlyShowCompatible)
 
@@ -367,13 +349,13 @@ class Window(Qt.QMainWindow):
 
         self.removeModButton = Qt.QPushButton()
         self.removeModButton.setText(lang("remove"))
-        self.removeModButton.setFont(self.titleFont)
+        self.removeModButton.setFont(Fonts.titleFont)
         self.removeModButton.setFixedHeight(50)
         self.installButtonsLayout.addWidget(self.removeModButton)
 
         self.installModButton = Qt.QPushButton()
         self.installModButton.setText(lang("install"))
-        self.installModButton.setFont(self.titleFont)
+        self.installModButton.setFont(Fonts.titleFont)
         self.installModButton.setFixedHeight(50)
         self.installButtonsLayout.addWidget(self.installModButton)
     
@@ -395,9 +377,26 @@ class Window(Qt.QMainWindow):
             self.profilesScrollLayout.itemAt(i).widget().deleteLater()
         
         # add all profiles to the list
+        self.profileWidgets = []  # list of all profile widgets objects
         for profileProperties in Methods.getProfiles().values():
-            profileWidget = customWidgets.ProfileSelect(profileProperties)
-            self.profilesScrollLayout.addWidget(profileWidget)
+            self.profileWidgets.append(customWidgets.ProfileSelect(profileProperties))
+            self.profilesScrollLayout.addWidget(self.profileWidgets[-1])
+            self.profileWidgets[-1].wasSelected.connect(self.selectProfile)
+            if profileProperties["name"] == self.currentProfile or (not self.currentProfile and len(self.profileWidgets) == 1):
+                self.profileWidgets[-1].setSelected(True)
+    
+    def selectProfile(self, profileName:str):
+        """select a profile and deselect the others"""
+        for profile in self.profileWidgets:
+            if profile.name == profileName:
+                self.currentProfile = profileName
+                self.currentProfileProperties = Methods.getProfiles()[profileName]
+            else:
+                profile.setSelected(False)
+        
+        # put the profile infos in the mods list
+        self.profileLabel.setText(self.currentProfileProperties["name"])
+        self.profileVersionLabel.setText(self.currentProfileProperties["version"])
 
 
 def setDarkMode(App:Qt.QApplication):

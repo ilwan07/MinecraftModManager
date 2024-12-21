@@ -1,4 +1,4 @@
-import backendMethods
+from usefulVariables import *  # local variables
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtGui, QtCore
 from pathlib import Path
@@ -14,12 +14,12 @@ class SeparationLine(Qt.QFrame):
         self.setFixedHeight(10)
 
 class ProfileSelect(Qt.QFrame):
-    wasSelected = QtCore.pyqtSignal()
+    wasSelected = QtCore.pyqtSignal(str)
     def __init__(self, properties:dict):
         """a button to select the profile to launch or modify"""
         super().__init__()
-        self.mainLayout = Qt.QVBoxLayout()
-        self.mainLayout.setAlignment(QtCore.Qt.AlignCenter)
+        self.mainLayout = Qt.QHBoxLayout()
+        self.mainLayout.setAlignment(QtCore.Qt.AlignLeft)
         self.setLayout(self.mainLayout)
 
         self.name = properties["name"]
@@ -27,13 +27,25 @@ class ProfileSelect(Qt.QFrame):
         self.version = properties["version"]
         self.isSelected = False
 
+        # modloader icon
+        modloaderIcon = QtGui.QIcon(str(iconsAssetsPath/f"{self.modloader.lower()}.png"))
+        self.modloaderIconLabel = Qt.QLabel()
+        self.modloaderIconLabel.setPixmap(modloaderIcon.pixmap(64, 64))
+        self.mainLayout.addWidget(self.modloaderIconLabel)
+
+        # widget containing the informations about the profile
+        self.informationsWidget = Qt.QWidget()
+        self.informationsLayout = Qt.QVBoxLayout()
+        self.informationsWidget.setLayout(self.informationsLayout)
+        self.mainLayout.addWidget(self.informationsWidget)
+
         self.nameLabel = Qt.QLabel(self.name)
-        self.nameLabel.setFont(QtGui.QFont("Arial", 20))
-        self.mainLayout.addWidget(self.nameLabel)
+        self.nameLabel.setFont(Fonts.smallTitleFont)
+        self.informationsLayout.addWidget(self.nameLabel)
 
         self.versionLabel = Qt.QLabel(f"{self.modloader} {self.version}")
-        self.versionLabel.setFont(QtGui.QFont("Arial", 14))
-        self.mainLayout.addWidget(self.versionLabel)
+        self.versionLabel.setFont(Fonts.textFont)
+        self.informationsLayout.addWidget(self.versionLabel)
 
         # mouse tracking
         self.setMouseTracking(True)
@@ -59,7 +71,7 @@ class ProfileSelect(Qt.QFrame):
         """gray out the frame on hover"""
         if hovered:
             self.setStyleSheet("background-color: rgba(0, 0, 0, 64);")
-            for widget in (self.nameLabel, self.versionLabel):  # avoid applying shadow to inner widgets
+            for widget in (self.nameLabel, self.versionLabel, self.modloaderIconLabel, self.informationsWidget):  # avoid applying shadow to inner widgets
                 widget.setStyleSheet("background-color: rgba(0, 0, 0, 0)")
         else:
             self.setStyleSheet("")
@@ -69,7 +81,7 @@ class ProfileSelect(Qt.QFrame):
         if selected:
             self.setFrameShape(Qt.QFrame.Box)
             self.isSelected = True
-            self.wasSelected.emit()
+            self.wasSelected.emit(self.name)
         else:
             self.setFrameShape(Qt.QFrame.NoFrame)
             self.isSelected = False
@@ -98,13 +110,13 @@ class ModSelect(Qt.QFrame):
         self.mainLayout.addWidget(self.textWidget)
 
         self.nameLabel = Qt.QLabel(self.name)
-        self.nameLabel.setFont(QtGui.QFont("Arial", 18))
+        self.nameLabel.setFont(Fonts.smallTitleFont)
         self.textLayout.addWidget(self.nameLabel)
 
         self.versionLabel = Qt.QLabel()
         if self.version:
             self.versionLabel.setText(self.version)
-            self.versionLabel.setFont(QtGui.QFont("Arial", 12))
+            self.versionLabel.setFont(Fonts.textFont)
             self.textLayout.addWidget(self.versionLabel)
 
         # mouse tracking
@@ -168,7 +180,7 @@ class SearchModSelect(Qt.QFrame):
         self.mainLayout.addWidget(self.textWidget)
 
         self.nameLabel = Qt.QLabel(self.name)
-        self.nameLabel.setFont(QtGui.QFont("Arial", 18))
+        self.nameLabel.setFont(Fonts.smallTitleFont)
         self.textLayout.addWidget(self.nameLabel)
 
         # mouse tracking

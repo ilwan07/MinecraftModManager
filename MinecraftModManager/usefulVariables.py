@@ -1,0 +1,29 @@
+import translate
+from PyQt5 import QtGui
+from pathlib import Path
+import platformdirs
+import darkdetect
+import locale
+import os
+
+langLocale, _ = locale.getlocale()
+if langLocale: userLanguage = langLocale.split("_")[0]
+else:
+    langLocale = os.environ.get("LANG")
+    if langLocale: userLanguage = langLocale.split("_")[0]
+    else: userLanguage = "en"
+Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
+lang = Language.translate
+
+localPath = Path(__file__).resolve().parent
+appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
+iconsAssetsPath = localPath/"assets"/"icons"/"dark" if darkdetect.isDark() else localPath/"assets"/"icons"/"light"  # assets path depending on color mode
+
+class Fonts():
+    """a class containing useful fonts"""
+    bigTitleFont = QtGui.QFont("Arial", 24)
+    titleFont = QtGui.QFont("Arial", 20)
+    smallTitleFont = QtGui.QFont("Arial", 18)
+    subtitleFont = QtGui.QFont("Arial", 16)
+    bigTextFont = QtGui.QFont("Arial", 14)
+    textFont = QtGui.QFont("Arial", 11)

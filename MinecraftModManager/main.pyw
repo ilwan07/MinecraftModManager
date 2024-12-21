@@ -1,9 +1,9 @@
 import crashReporter  # local modules
+from usefulVariables import *  # local variables
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtGui, QtCore
 from pathlib import Path
 import logging as log
-import platformdirs
 import darkdetect
 import traceback
 import glob
@@ -12,7 +12,6 @@ import sys
 
 localPath = Path(__file__).resolve().parent
 
-appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
 logDir = appDataDir/"logs"
 # create folders if missing
 appDataDir.mkdir(parents=True, exist_ok=True)
@@ -35,7 +34,7 @@ try:
             pass
     App = Qt.QApplication(sys.argv)
     appIcon = QtGui.QIcon()
-    for iconPath in glob.glob(f"{str(localPath/'assets'/'logo'/'res')}/*.png"):
+    for iconPath in glob.glob(f"{str(localPath/'assets'/'icons'/'logo'/'res')}/*.png"):
         res = int(Path(iconPath).name.split(".")[0])
         appIcon.addFile(iconPath, QtCore.QSize(res, res))
     App.setWindowIcon(appIcon)

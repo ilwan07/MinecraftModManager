@@ -1,4 +1,5 @@
 import translate
+from usefulVariables import *  # local variables
 import locale
 from pathlib import Path
 import PyQt5.QtWidgets as Qt
@@ -25,13 +26,6 @@ Language = translate.Translator(Path(__file__).resolve().parent/"locales", userL
 lang = Language.translate
 
 log = logging.getLogger(__name__)
-
-# define some font sizes
-bigTitleFont = QtGui.QFont("Arial", 24)
-titleFont = QtGui.QFont("Arial", 20)
-subtitleFont = QtGui.QFont("Arial", 16)
-bigTextFont = QtGui.QFont("Arial", 14)
-textFont = QtGui.QFont("Arial", 11)
 
 # define some useful variables
 profilesDir = appDataDir/"profiles"
@@ -60,7 +54,7 @@ class Methods():
             log.error(f"error while requesting to curseforge proxy : {e}\nusing endpoint '{endpoint}' with params {params}")
             return None
 
-    def modrinthRequest(endpoint, **params):
+    def modrinthRequest(endpoint:str, **params) -> dict:
         """directly make a generic request to the modrinth api"""
         url = f"https://api.modrinth.com/v2/{endpoint}"
         try:
@@ -73,7 +67,7 @@ class Methods():
             log.error(f"error while requesting to modrinth api : {e}\nusing endpoint '{endpoint}' with params {params}")
             return None
     
-    def listMcVersions(self, onlyReleases=True):
+    def listMcVersions(self, onlyReleases:bool=True) -> list:
         """returns a list of all the minecraft version"""
         acceptedTypes = ["release"]
         if not onlyReleases:
@@ -106,13 +100,13 @@ class addProfilePopup(Qt.QDialog):
         self.mainLayout.addWidget(self.profileNameWidget)
 
         self.profileNameLabel = Qt.QLabel(lang("profileName"))
-        self.profileNameLabel.setFont(titleFont)
+        self.profileNameLabel.setFont(Fonts.titleFont)
         self.profileNameLayout.addWidget(self.profileNameLabel)
 
         self.profileNameInput = Qt.QLineEdit()
         self.profileNameInput.setPlaceholderText(lang("profileNameHere"))
         self.profileNameInput.setFixedHeight(40)
-        self.profileNameInput.setFont(titleFont)
+        self.profileNameInput.setFont(Fonts.titleFont)
         self.profileNameInput.setMaxLength(64)
         self.profileNameInput.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp("[a-zA-Z0-9_ .-]+")))  # filter out invalid characters
         self.profileNameLayout.addWidget(self.profileNameInput)
@@ -124,7 +118,7 @@ class addProfilePopup(Qt.QDialog):
         self.mainLayout.addWidget(self.mcVersionWidget)
 
         self.mcVersionLabel = Qt.QLabel(lang("mcVersion"))
-        self.mcVersionLabel.setFont(titleFont)
+        self.mcVersionLabel.setFont(Fonts.titleFont)
         self.mcVersionLayout.addWidget(self.mcVersionLabel)
         
         self.mcVersionSelectWidget = Qt.QWidget()
@@ -133,13 +127,13 @@ class addProfilePopup(Qt.QDialog):
         self.mcVersionLayout.addWidget(self.mcVersionSelectWidget)
 
         self.showReleaseCheck = Qt.QCheckBox(lang("onlyShowReleases"))
-        self.showReleaseCheck.setFont(bigTextFont)
+        self.showReleaseCheck.setFont(Fonts.bigTextFont)
         self.showReleaseCheck.setChecked(True)
         self.showReleaseCheck.stateChanged.connect(self.showReleaseChange)
         self.mcVersionSelectLayout.addWidget(self.showReleaseCheck)
 
         self.versionSelect = Qt.QComboBox()
-        self.versionSelect.setFont(titleFont)
+        self.versionSelect.setFont(Fonts.titleFont)
         self.versionSelect.addItems(Methods.listMcVersions(Methods, onlyReleases=True))
         self.mcVersionSelectLayout.addWidget(self.versionSelect)
 
@@ -150,11 +144,11 @@ class addProfilePopup(Qt.QDialog):
         self.mainLayout.addWidget(self.modloaderWidget)
 
         self.modloaderLabel = Qt.QLabel(lang("modloader"))
-        self.modloaderLabel.setFont(titleFont)
+        self.modloaderLabel.setFont(Fonts.titleFont)
         self.modloaderLayout.addWidget(self.modloaderLabel)
 
         self.modloaderSelect = Qt.QComboBox()
-        self.modloaderSelect.setFont(titleFont)
+        self.modloaderSelect.setFont(Fonts.titleFont)
         self.modloaderSelect.addItems(["Fabric", "Forge", "NeoForge", "Quilt"])
         self.modloaderLayout.addWidget(self.modloaderSelect)
 
@@ -165,14 +159,14 @@ class addProfilePopup(Qt.QDialog):
 
         # buttons
         self.cancelButton = Qt.QPushButton(lang("cancel"))
-        self.cancelButton.setFont(titleFont)
+        self.cancelButton.setFont(Fonts.titleFont)
         self.cancelButton.setFixedHeight(50)
         self.cancelButton.setFocusPolicy(QtCore.Qt.NoFocus)
         self.cancelButton.clicked.connect(self.close)
         self.buttonsLayout.addWidget(self.cancelButton)
 
         self.createButton = Qt.QPushButton(lang("create"))
-        self.createButton.setFont(titleFont)
+        self.createButton.setFont(Fonts.titleFont)
         self.createButton.setFixedHeight(50)
         self.createButton.clicked.connect(self.createProfile)
         self.buttonsLayout.addWidget(self.createButton)
@@ -187,7 +181,7 @@ class addProfilePopup(Qt.QDialog):
     
     def createProfile(self):
         """create a new profile based on the user input"""
-        self.profileName = self.profileNameInput.text()
+        self.profileName = self.profileNameInput.text().strip()
         if not self.profileName:
             QMessageBox.critical(self, lang("error"), lang("profileNameEmptyError"))
             return
