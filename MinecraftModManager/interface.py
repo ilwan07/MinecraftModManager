@@ -125,7 +125,7 @@ class Window(Qt.QMainWindow):
         # settings button
         self.settingsButton = Qt.QPushButton(f" {lang("settings")}")
         self.settingsButton.setFont(Fonts.titleFont)
-        self.settingsButton.setIcon(QtGui.QIcon(str(iconsAssetsPath/"settings.png")))
+        self.settingsButton.setIcon(QtGui.QIcon(str(iconsAssetsDir/"settings.png")))
         self.settingsButton.setIconSize(QtCore.QSize(25, 25))
         self.settingsButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.settingsButton.setFixedHeight(60)
@@ -181,7 +181,7 @@ class Window(Qt.QMainWindow):
         # launch game with profile button
         self.launchButton = Qt.QPushButton(f" {lang("launch")}")
         self.launchButton.setFont(Fonts.titleFont)
-        self.launchButton.setIcon(QtGui.QIcon(str(iconsAssetsPath/"launch.png")))
+        self.launchButton.setIcon(QtGui.QIcon(str(iconsAssetsDir/"launch.png")))
         self.launchButton.setIconSize(QtCore.QSize(25, 25))
         self.launchButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.launchButton.setFixedHeight(50)
@@ -264,12 +264,14 @@ class Window(Qt.QMainWindow):
         self.searchBar.setFont(Fonts.titleFont)
         self.searchBar.setFixedHeight(40)
         self.searchBar.setPlaceholderText(lang("searchQuery"))
+        self.searchBar.returnPressed.connect(self.searchMod)
         self.searchLayout.addWidget(self.searchBar)
 
         self.searchButton = Qt.QPushButton()
-        self.searchButton.setIcon(QtGui.QIcon(str(iconsAssetsPath/"search.png")))
+        self.searchButton.setIcon(QtGui.QIcon(str(iconsAssetsDir/"search.png")))
         self.searchButton.setIconSize(QtCore.QSize(25, 25))
         self.searchButton.setFixedSize(QtCore.QSize(40, 40))
+        self.searchButton.clicked.connect(self.searchMod)
         self.searchLayout.addWidget(self.searchButton)
 
         # only show compatible mods or not
@@ -397,6 +399,36 @@ class Window(Qt.QMainWindow):
         # put the profile infos in the mods list
         self.profileLabel.setText(self.currentProfileProperties["name"])
         self.profileVersionLabel.setText(self.currentProfileProperties["version"])
+    
+    def searchMod(self):
+        """search for a mod on the selected platform"""
+        modloader = self.currentProfileProperties["modloader"]
+        version = self.currentProfileProperties["version"]
+        platform = self.platformSelect.currentText().lower()
+        results = Methods.searchMod(self.searchBar.text(), platform, modloader, self.onlySearchCompatible.isChecked(), version)
+        if platform == "modrinth":
+            mods = Methods.modrinthSearchToMods(results)
+        elif platform == "curseforge":
+            mods = Methods.curseforgeSearchToMods(results)
+        
+        # remove all mods from the list
+        for i in reversed(range(self.resultsScrollLayout.count())):
+            self.resultsScrollLayout.itemAt(i).widget().deleteLater()
+        
+        # add all mods to the list
+        self.modWidgets = []  # list of all mod widgets objects
+        for mod in mods:
+            self.modWidgets.append(customWidgets.SearchModSelect(mod))
+            self.resultsScrollLayout.addWidget(self.modWidgets[-1])
+            self.modWidgets[-1].wasSelected.connect(self.selectMod)
+    
+    def selectMod(self, modId:str):
+        """select a mod and deselect the others"""
+        for mod in self.modWidgets:
+            if mod.modId == modId:
+                self.currentMod = modId
+            else:
+                mod.setSelected(False)
 
 
 def setDarkMode(App:Qt.QApplication):

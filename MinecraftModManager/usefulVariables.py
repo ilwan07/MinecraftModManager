@@ -17,7 +17,10 @@ lang = Language.translate
 
 localPath = Path(__file__).resolve().parent
 appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
-iconsAssetsPath = localPath/"assets"/"icons"/"dark" if darkdetect.isDark() else localPath/"assets"/"icons"/"light"  # assets path depending on color mode
+iconsAssetsDir = localPath/"assets"/"icons"/"dark" if darkdetect.isDark() else localPath/"assets"/"icons"/"light"  # assets path depending on color mode
+profilesDir = appDataDir/"profiles"  # path to the profiles folder
+cacheDir = appDataDir/"cache"  # path to the cache folder
+logDir = appDataDir/"logs"  # path to the logs folder
 
 class Fonts():
     """a class containing useful fonts"""

@@ -6,16 +6,18 @@ from pathlib import Path
 import logging as log
 import darkdetect
 import traceback
+import shutil
 import glob
 import sys
 
 
-localPath = Path(__file__).resolve().parent
-
-logDir = appDataDir/"logs"
 # create folders if missing
 appDataDir.mkdir(parents=True, exist_ok=True)
 logDir.mkdir(parents=True, exist_ok=True)
+if cacheDir.exists():
+    shutil.rmtree(cacheDir)
+cacheDir.mkdir(parents=True, exist_ok=True)
+
 
 log.basicConfig(level=log.DEBUG, filename=appDataDir/"logs"/"latest.log", filemode="w", format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 

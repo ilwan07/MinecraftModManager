@@ -28,7 +28,7 @@ class ProfileSelect(Qt.QFrame):
         self.isSelected = False
 
         # modloader icon
-        modloaderIcon = QtGui.QIcon(str(iconsAssetsPath/f"{self.modloader.lower()}.png"))
+        modloaderIcon = QtGui.QIcon(str(iconsAssetsDir/f"{self.modloader.lower()}.png"))
         self.modloaderIconLabel = Qt.QLabel()
         self.modloaderIconLabel.setPixmap(modloaderIcon.pixmap(64, 64))
         self.mainLayout.addWidget(self.modloaderIconLabel)
@@ -159,21 +159,26 @@ class ModSelect(Qt.QFrame):
             self.isSelected = False
 
 class SearchModSelect(Qt.QFrame):
-    wasSelected = QtCore.pyqtSignal()
-    def __init__(self, name:str, modId:str, iconPath:Path=None):
+    wasSelected = QtCore.pyqtSignal(str)
+    def __init__(self, modData:dict):
         """a button to select the mod to view and install"""
         super().__init__()
         self.mainLayout = Qt.QHBoxLayout()
-        self.mainLayout.setAlignment(QtCore.Qt.AlignCenter)
+        self.mainLayout.setAlignment(QtCore.Qt.AlignLeft)
         self.setLayout(self.mainLayout)
 
-        self.name = name
-        self.iconPath = iconPath
-        self.modId = modId
+        self.name = modData["name"]
+        self.iconPath = modData["icon"]
+        self.modId = modData["id"]
+        self.platform = modData["platform"]
         self.isSelected = False
 
-        #TODO: mod icon
+        # mod icon
+        self.iconLabel = Qt.QLabel()
+        self.iconLabel.setPixmap(QtGui.QPixmap(str(self.iconPath)).scaled(64, 64))
+        self.mainLayout.addWidget(self.iconLabel)
 
+        # widget containing the informations about the mod
         self.textWidget = Qt.QWidget()
         self.textLayout = Qt.QVBoxLayout()
         self.textWidget.setLayout(self.textLayout)
@@ -181,6 +186,7 @@ class SearchModSelect(Qt.QFrame):
 
         self.nameLabel = Qt.QLabel(self.name)
         self.nameLabel.setFont(Fonts.smallTitleFont)
+        self.nameLabel.setWordWrap(True)
         self.textLayout.addWidget(self.nameLabel)
 
         # mouse tracking
@@ -207,7 +213,7 @@ class SearchModSelect(Qt.QFrame):
         """gray out the frame on hover"""
         if hovered:
             self.setStyleSheet("background-color: rgba(0, 0, 0, 64);")
-            for widget in (self.textWidget, self.nameLabel):  # avoid applying shadow to inner widgets
+            for widget in (self.textWidget, self.nameLabel, self.iconLabel):  # avoid applying shadow to inner widgets
                 widget.setStyleSheet("background-color: rgba(0, 0, 0, 0)")
         else:
             self.setStyleSheet("")
@@ -217,7 +223,7 @@ class SearchModSelect(Qt.QFrame):
         if selected:
             self.setFrameShape(Qt.QFrame.Box)
             self.isSelected = True
-            self.wasSelected.emit()
+            self.wasSelected.emit(self.modId)
         else:
             self.setFrameShape(Qt.QFrame.NoFrame)
             self.isSelected = False

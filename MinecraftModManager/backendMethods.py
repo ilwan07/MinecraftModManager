@@ -9,6 +9,7 @@ import minecraft_launcher_lib
 import platformdirs
 import requests
 import logging
+import shutil
 import glob
 import json
 import os
@@ -27,22 +28,21 @@ lang = Language.translate
 
 log = logging.getLogger(__name__)
 
-# define some useful variables
-profilesDir = appDataDir/"profiles"
 
 class Start():
     """a class that setups the software before launching the interface"""
     def start(self):
         """code to directly execute at the start of the program"""
         profilesDir.mkdir(parents=True, exist_ok=True)
+        cacheDir.mkdir(parents=True, exist_ok=True)
 
 
 class Methods():
     """a class containing usefull methods"""
-    def curseforgeRequest(endpoint, **params) -> dict:
+    def curseforgeRequest(self, endpoint, **params) -> dict:
         """make a generic request to the curseforge api via the proxy containing the api key"""
-        SERVER_URL = "http://mmm.ilwan.hackclub.app/curseforge"
-        url = f"{SERVER_URL}/{endpoint}"
+        serverUrl = "http://mmm.ilwan.hackclub.app/curseforge"
+        url = f"{serverUrl}/{endpoint}"
 
         try:
             response = requests.get(url, params=params)
@@ -53,8 +53,18 @@ class Methods():
         except requests.exceptions.RequestException as e:
             log.error(f"error while requesting to curseforge proxy : {e}\nusing endpoint '{endpoint}' with params {params}")
             return None
+    
+    def curseforgeSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=20) -> dict:
+        """search for a mod on curseforge"""
+        modloaders = {"fabric": 4, "forge": 1, "neoforge": 6, "quilt": 5}
+        if onlyCompatible:
+            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=modloaders[modloader.lower()], gameVersion=version, pageSize=nbResults)
+        else:
+            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=modloaders[modloader.lower()], pageSize=nbResults)
+        log.info(f"searched for mod on curseforge: {query}")
+        return result
 
-    def modrinthRequest(endpoint:str, **params) -> dict:
+    def modrinthRequest(self, endpoint:str, **params) -> dict:
         """directly make a generic request to the modrinth api"""
         url = f"https://api.modrinth.com/v2/{endpoint}"
         try:
@@ -66,6 +76,22 @@ class Methods():
         except requests.exceptions.RequestException as e:
             log.error(f"error while requesting to modrinth api : {e}\nusing endpoint '{endpoint}' with params {params}")
             return None
+    
+    def modrinthSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=20) -> dict:
+        """search for a mod on modrinth"""
+        if onlyCompatible:
+            result = self.modrinthRequest(endpoint="search", query=query, facets=f'[["categories:{modloader.lower()}"],["versions:{version}"]]', limit=nbResults)
+        else:
+            result = self.modrinthRequest(endpoint="search", query=query, facets=f'[["categories:{modloader.lower()}"]]', limit=nbResults)
+        log.info(f"searched for mod on modrinth: {query}")
+        return result
+
+    def searchMod(self, query:str, platform:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=20) -> dict:
+        """search for a mod on a specific platform"""
+        if platform.lower() == "modrinth":
+            return self.modrinthSearchMod(query, modloader, onlyCompatible, version, nbResults)
+        elif platform.lower() == "curseforge":
+            return self.curseforgeSearchMod(query, modloader, onlyCompatible, version, nbResults)
     
     def listMcVersions(self, onlyReleases:bool=True) -> list:
         """returns a list of all the minecraft version"""
@@ -84,6 +110,43 @@ class Methods():
             with open(profilesDir/profile/"properties.json", "r") as f:
                 self.profiles[profile] = json.load(f)
         return self.profiles
+    
+    def modrinthSearchToMods(self, searchResult:dict) -> list:
+        """convert a search result from modrinth to a list of mods data with the name, id, platform and icon path in cache"""
+        iconCacheDir = cacheDir/"modIcons"/"modrinth"
+        iconCacheDir.mkdir(parents=True, exist_ok=True)
+        self.mods = []
+        for mod in searchResult["hits"]:
+            if mod["project_type"] == "mod": # only accept mods, no modpacks
+                self.mods.append({"name": mod["title"], "id": mod["project_id"], "platform": "modrinth", "icon": iconCacheDir/f"{mod['project_id']}.png"})
+                # download the icon in cache
+                if not (iconCacheDir/f"{mod['project_id']}.png").exists():
+                    try:
+                        with open(iconCacheDir/f"{mod['project_id']}.png", "wb") as f:
+                            f.write(requests.get(mod["icon_url"]).content)
+                    except:
+                        log.warning(f"unable to download the icon of the mod {mod['title']} on modrinth")
+        return self.mods
+
+    def curseforgeSearchToMods(self, searchResult:dict) -> list:
+        """convert a search result from curseforge to a list of mods data with the name, id, platform and icon path in cache"""
+        iconCacheDir = cacheDir/"modIcons"/"curseforge"
+        iconCacheDir.mkdir(parents=True, exist_ok=True)
+        self.mods = []
+        for mod in searchResult["data"]:
+            self.mods.append({"name": mod["name"], "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png"})
+            # download the icon in cache
+            if not (iconCacheDir/f"{mod['id']}.png").exists():
+                try:
+                    with open(iconCacheDir/f"{mod['id']}.png", "wb") as f:
+                        f.write(requests.get(mod["logo"]["url"]).content)
+                except:
+                    log.warning(f"unable to download the icon of the mod {mod['name']} on curseforge")
+        return self.mods
+    
+    def getMods(self, profile:str) -> dict:
+        """get a dictionary of all the mods in the profile, return a dict of the mods names (filenames if custom) and their properties (if not custom)"""
+        pass  #TODO
 
 class addProfilePopup(Qt.QDialog):
     """popup to create a new profile"""
