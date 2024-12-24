@@ -13,6 +13,7 @@ import shutil
 import glob
 import json
 import os
+from bs4 import BeautifulSoup
 
 localPath = Path(__file__).resolve().parent  # path of the software folder
 appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
@@ -54,7 +55,7 @@ class Methods():
             log.error(f"error while requesting to curseforge proxy : {e}\nusing endpoint '{endpoint}' with params {params}")
             return None
     
-    def curseforgeSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=20) -> dict:
+    def curseforgeSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=50) -> dict:
         """search for a mod on curseforge"""
         modloaders = {"fabric": 4, "forge": 1, "neoforge": 6, "quilt": 5}
         if onlyCompatible:
@@ -77,7 +78,7 @@ class Methods():
             log.error(f"error while requesting to modrinth api : {e}\nusing endpoint '{endpoint}' with params {params}")
             return None
     
-    def modrinthSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=20) -> dict:
+    def modrinthSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=100) -> dict:
         """search for a mod on modrinth"""
         if onlyCompatible:
             result = self.modrinthRequest(endpoint="search", query=query, facets=f'[["categories:{modloader.lower()}"],["versions:{version}"]]', limit=nbResults)
@@ -86,7 +87,7 @@ class Methods():
         log.info(f"searched for mod on modrinth: {query}")
         return result
 
-    def searchMod(self, query:str, platform:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=20) -> dict:
+    def searchMod(self, query:str, platform:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=50) -> dict:
         """search for a mod on a specific platform"""
         if platform.lower() == "modrinth":
             return self.modrinthSearchMod(query, modloader, onlyCompatible, version, nbResults)
@@ -114,35 +115,56 @@ class Methods():
     def modrinthSearchToMods(self, searchResult:dict) -> list:
         """convert a search result from modrinth to a list of mods data with the name, id, platform and icon path in cache"""
         iconCacheDir = cacheDir/"modIcons"/"modrinth"
-        iconCacheDir.mkdir(parents=True, exist_ok=True)
         self.mods = []
         for mod in searchResult["hits"]:
             if mod["project_type"] == "mod": # only accept mods, no modpacks
-                self.mods.append({"name": mod["title"], "id": mod["project_id"], "platform": "modrinth", "icon": iconCacheDir/f"{mod['project_id']}.png"})
-                # download the icon in cache
-                if not (iconCacheDir/f"{mod['project_id']}.png").exists():
-                    try:
-                        with open(iconCacheDir/f"{mod['project_id']}.png", "wb") as f:
-                            f.write(requests.get(mod["icon_url"]).content)
-                    except:
-                        log.warning(f"unable to download the icon of the mod {mod['title']} on modrinth")
+                self.mods.append({"name": mod["title"], "author": mod["author"], "id": mod["project_id"], "platform": "modrinth", "icon": iconCacheDir/f"{mod['project_id']}.png"})
+                self.downloadIcon(mod, "modrinth", mod["project_id"])
         return self.mods
 
     def curseforgeSearchToMods(self, searchResult:dict) -> list:
         """convert a search result from curseforge to a list of mods data with the name, id, platform and icon path in cache"""
         iconCacheDir = cacheDir/"modIcons"/"curseforge"
-        iconCacheDir.mkdir(parents=True, exist_ok=True)
         self.mods = []
         for mod in searchResult["data"]:
-            self.mods.append({"name": mod["name"], "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png"})
-            # download the icon in cache
-            if not (iconCacheDir/f"{mod['id']}.png").exists():
-                try:
-                    with open(iconCacheDir/f"{mod['id']}.png", "wb") as f:
-                        f.write(requests.get(mod["logo"]["url"]).content)
-                except:
-                    log.warning(f"unable to download the icon of the mod {mod['name']} on curseforge")
+            authors = ", ".join([author["name"] for author in mod["authors"]])
+            self.mods.append({"name": mod["name"], "author": authors, "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png"})
+            self.downloadIcon(mod, "curseforge", str(mod["id"]))
         return self.mods
+    
+    def downloadIcon(self, modData:dict, platform:str, id:str):
+        """download the icon of a mod in cache"""
+        iconCacheDir = cacheDir/"modIcons"/platform.lower()
+        iconCacheDir.mkdir(parents=True, exist_ok=True)
+        if not (iconCacheDir/f"{id}.png").exists():
+            if platform.lower() == "modrinth":
+                iconUrl = modData["icon_url"]
+            elif platform.lower() == "curseforge":
+                iconUrl = modData["logo"]["thumbnailUrl"]
+            else:
+                log.error(f"platform {platform} is not supported")
+                return
+            if iconUrl:  # if the mod has an icon
+                with open(iconCacheDir/f"{id}.png", "wb") as f:
+                    f.write(requests.get(iconUrl).content)
+
+    def getModInfos(self, modId:str, platform:str) -> dict:
+        """do a request to get every informations about a mod"""
+        if platform.lower() == "modrinth":
+            return self.modrinthRequest(f"project/{modId}")
+        elif platform.lower() == "curseforge":
+            return self.curseforgeRequest(f"mods/{modId}")
+    
+    def cleanHtml(self, html:str) -> str:
+        """clean an html string from all the links and images, replacing them with a textual version"""
+        soup = BeautifulSoup(html, "html.parser")
+        for a in soup.find_all("a"):
+            p = soup.new_string(a.get_text())
+            p.string = a.get_text()
+            a.replace_with(p)
+        for img in soup.find_all("img"):
+            img.decompose()
+        return str(soup)
     
     def getMods(self, profile:str) -> dict:
         """get a dictionary of all the mods in the profile, return a dict of the mods names (filenames if custom) and their properties (if not custom)"""

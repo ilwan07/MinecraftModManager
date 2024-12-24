@@ -1,3648 +1,1055 @@
 {
-    "data": [
-        {
-            "allowModDistribution": true,
-            "authors": [
-                {
-                    "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/71d82cd3-abbd-4c05-95d5-870f63ea5114-profile_image-150x150.png",
-                    "id": 8306842,
-                    "name": "JTK222",
-                    "url": "https://www.curseforge.com/members/jtk222"
-                }
-            ],
-            "categories": [
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:42:35.597Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/6/39/635351497555976928.png",
-                    "id": 424,
-                    "isClass": false,
-                    "name": "Cosmetic",
-                    "parentCategoryId": 6,
-                    "slug": "cosmetic",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/cosmetic"
-                }
-            ],
+    "data": {
+        "allowModDistribution": true,
+        "authors": [{
+            "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/0b3dc2ab-ed4d-4211-85d5-7fbf780a54ce-profile_image-150x150.png",
+            "id": 44226090,
+            "name": "coderbot",
+            "url": "https://www.curseforge.com/members/coderbot"
+        }, {
+            "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/342b0725-acd1-4bd6-875f-abbeb277fce1-profile_image-150x150.png",
+            "id": 101521578,
+            "name": "IMS21",
+            "url": "https://www.curseforge.com/members/ims21"
+        }],
+        "categories": [{
             "classId": 6,
-            "dateCreated": "2024-10-29T22:59:16.137Z",
-            "dateModified": "2024-10-31T15:22:26.03Z",
-            "dateReleased": "2024-10-31T15:09:54.517Z",
-            "downloadCount": 12279,
+            "dateModified": "2014-06-15T04:27:14.543Z",
             "gameId": 432,
-            "gamePopularityRank": 72567,
-            "id": 1130916,
+            "iconUrl": "https://media.forgecdn.net/avatars/6/40/635351497693711265.png",
+            "id": 425,
+            "isClass": false,
+            "name": "Miscellaneous",
+            "parentCategoryId": 6,
+            "slug": "mc-miscellaneous",
+            "url": "https://www.curseforge.com/minecraft/mc-mods/mc-miscellaneous"
+        }, {
+            "classId": 6,
+            "dateModified": "2014-05-08T17:42:35.597Z",
+            "gameId": 432,
+            "iconUrl": "https://media.forgecdn.net/avatars/6/39/635351497555976928.png",
+            "id": 424,
+            "isClass": false,
+            "name": "Cosmetic",
+            "parentCategoryId": 6,
+            "slug": "cosmetic",
+            "url": "https://www.curseforge.com/minecraft/mc-mods/cosmetic"
+        }],
+        "classId": 6,
+        "dateCreated": "2021-03-10T22:15:48.643Z",
+        "dateModified": "2024-12-12T01:34:30.79Z",
+        "dateReleased": "2024-12-12T01:29:37.383Z",
+        "downloadCount": 38395563,
+        "gameId": 432,
+        "gamePopularityRank": 118,
+        "hasCommentsEnabled": false,
+        "id": 455508,
+        "isAvailable": true,
+        "isFeatured": false,
+        "latestEarlyAccessFilesIndexes": [],
+        "latestFiles": [{
+            "alternateFileId": 0,
+            "dependencies": [{
+                "modId": 306612,
+                "relationType": 3
+            }, {
+                "modId": 394468,
+                "relationType": 3
+            }],
+            "displayName": "iris-0.3.0-sodium_compatibility.jar",
+            "downloadCount": 3,
+            "downloadUrl": "https://edge.forgecdn.net/files/3280/765/iris-0.3.0-sodium_compatibility.jar",
+            "fileDate": "2021-04-18T09:38:00.407Z",
+            "fileFingerprint": 3590142057,
+            "fileLength": 1078914,
+            "fileName": "iris-0.3.0-sodium_compatibility.jar",
+            "fileStatus": 4,
+            "gameId": 432,
+            "gameVersions": ["Fabric", "1.16.5"],
+            "hashes": [{
+                "algo": 1,
+                "value": "a705a5749a2720dddedc42059e0bb01c22b6db29"
+            }, {
+                "algo": 2,
+                "value": "152f7fc0e2352b74ced99d4e89271bb6"
+            }],
+            "id": 3280765,
             "isAvailable": true,
-            "isFeatured": false,
-            "latestEarlyAccessFilesIndexes": [],
-            "latestFiles": [
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 923100,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "Graveyard Galore - NeoForge 1.21.1 - v21.1.0",
-                    "downloadCount": 0,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5863/5/graveyard_galore-neoforge-1.21.1-21.1.0.jar",
-                    "fileDate": "2024-10-31T15:09:54.043Z",
-                    "fileFingerprint": 3102504811,
-                    "fileLength": 56545,
-                    "fileName": "graveyard_galore-neoforge-1.21.1-21.1.0.jar",
-                    "fileSizeOnDisk": 105584,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "NeoForge",
-                        "1.21.1"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "dfa1b11301b890f117e813d8b31a872a9d8a9655"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "e15a864ca06873ee28ca7a3e8550c0ec"
-                        }
-                    ],
-                    "id": 5863005,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 1130916,
-                    "modules": [
-                        {
-                            "fingerprint": 2083911123,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 919416436,
-                            "name": "net"
-                        },
-                        {
-                            "fingerprint": 1248509932,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 1364150427,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 2717160030,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 2913184440,
-                            "name": "fixed_data"
-                        },
-                        {
-                            "fingerprint": 318961807,
-                            "name": "pack.mcmeta"
-                        },
-                        {
-                            "fingerprint": 18375977,
-                            "name": "LICENSE_Graveyard Galore"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "NeoForge",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 923100,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "Graveyard Galore - Fabric 1.21.1 - v21.1.0",
-                    "downloadCount": 13,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5863/6/graveyard_galore-fabric-1.21.1-21.1.0.jar",
-                    "fileDate": "2024-10-31T15:09:54.517Z",
-                    "fileFingerprint": 3349013305,
-                    "fileLength": 57703,
-                    "fileName": "graveyard_galore-fabric-1.21.1-21.1.0.jar",
-                    "fileSizeOnDisk": 101461,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "Fabric",
-                        "1.21.1"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "062e799f55d0a83d3833c2b85cd4fe921328bdb3"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "7b6acfeeb0b2ca3a9e48dbe106a74ee7"
-                        }
-                    ],
-                    "id": 5863006,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 1130916,
-                    "modules": [
-                        {
-                            "fingerprint": 106471634,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 18375977,
-                            "name": "LICENSE_Graveyard Galore"
-                        },
-                        {
-                            "fingerprint": 1248509932,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 1364150427,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 2717160030,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 2913184440,
-                            "name": "fixed_data"
-                        },
-                        {
-                            "fingerprint": 1965761180,
-                            "name": "net"
-                        },
-                        {
-                            "fingerprint": 318961807,
-                            "name": "pack.mcmeta"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        }
-                    ]
-                }
-            ],
-            "latestFilesIndexes": [
-                {
-                    "fileId": 5863006,
-                    "filename": "graveyard_galore-fabric-1.21.1-21.1.0.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5863006,
-                    "filename": "graveyard_galore-fabric-1.21.1-21.1.0.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5863005,
-                    "filename": "graveyard_galore-neoforge-1.21.1-21.1.0.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5863005,
-                    "filename": "graveyard_galore-neoforge-1.21.1-21.1.0.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 1
-                }
-            ],
-            "links": {
-                "issuesUrl": null,
-                "sourceUrl": null,
-                "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/graveyard-galore",
-                "wikiUrl": null
-            },
-            "logo": {
-                "description": "",
-                "id": 1111523,
-                "modId": 1130916,
-                "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/1111/523/256/256/638663170992456205.png",
-                "title": "638663170992456205.png",
-                "url": "https://media.forgecdn.net/avatars/1111/523/638663170992456205.png"
-            },
-            "mainFileId": 5863006,
-            "name": "Graveyard Galore",
-            "primaryCategoryId": 424,
-            "screenshots": [
-                {
-                    "description": "A small example build showcasing 4 of the Gravestones added by the mod.\nFrom left to Right: An obelisk style gravestone, a classic gravestone, a cross shaped gravestone, a pedestal like gravestone, another obelisk gravestone.",
-                    "id": 1004106,
-                    "modId": 1130916,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1004/106/310/172/java_3rzd0bhuus.png",
-                    "title": "Gravestones Preview",
-                    "url": "https://media.forgecdn.net/attachments/1004/106/java_3rzd0bhuus.png"
-                },
-                {
-                    "description": "Stone Gravestone Recipes, in the Stonecutter",
-                    "id": 1004107,
-                    "modId": 1130916,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/1004/107/310/172/bild_2024-10-31_155542226.png",
-                    "title": "Stone Gravestone Recipes",
-                    "url": "https://media.forgecdn.net/attachments/1004/107/bild_2024-10-31_155542226.png"
-                }
-            ],
-            "slug": "graveyard-galore",
-            "status": 4,
-            "summary": "This mod provides a handful of Graveyard themed Decoration, ready for your halloween builds.",
-            "thumbsUpCount": 0
+            "isServerPack": false,
+            "modId": 455508,
+            "modules": [{
+                "fingerprint": 1136524626,
+                "name": "LICENSE_iris"
+            }, {
+                "fingerprint": 3332722523,
+                "name": "mixins.iris.vertexformat.json"
+            }, {
+                "fingerprint": 1522973113,
+                "name": "mixins.iris.fantastic.json"
+            }, {
+                "fingerprint": 4075335584,
+                "name": "shaders"
+            }, {
+                "fingerprint": 1412931961,
+                "name": "mixins.iris.yeetphysicsmod.json"
+            }, {
+                "fingerprint": 3768047977,
+                "name": "fabric.mod.json"
+            }, {
+                "fingerprint": 1573773085,
+                "name": "mixins.iris.json"
+            }, {
+                "fingerprint": 2034591590,
+                "name": "assets"
+            }, {
+                "fingerprint": 3861098969,
+                "name": "iris-refmap.json"
+            }, {
+                "fingerprint": 2345076104,
+                "name": "META-INF"
+            }, {
+                "fingerprint": 1997317440,
+                "name": "net"
+            }],
+            "releaseType": 3,
+            "sortableGameVersions": [{
+                "gameVersion": "",
+                "gameVersionName": "Fabric",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }, {
+                "gameVersion": "1.16.5",
+                "gameVersionName": "1.16.5",
+                "gameVersionPadded": "0000000001.0000000016.0000000005",
+                "gameVersionReleaseDate": "2021-01-15T14:14:48.91Z",
+                "gameVersionTypeId": 70886
+            }]
+        }, {
+            "alternateFileId": 0,
+            "dependencies": [{
+                "modId": 394468,
+                "relationType": 3
+            }],
+            "displayName": "Iris 1.8 Beta 1 for Fabric 1.21",
+            "downloadCount": 5680,
+            "downloadUrl": "https://edge.forgecdn.net/files/5654/378/iris-fabric-1.8.0-beta.1%2bmc1.21.1.jar",
+            "fileDate": "2024-08-22T22:28:38.963Z",
+            "fileFingerprint": 3407320722,
+            "fileLength": 2654046,
+            "fileName": "iris-fabric-1.8.0-beta.1+mc1.21.1.jar",
+            "fileSizeOnDisk": 4695044,
+            "fileStatus": 4,
+            "gameId": 432,
+            "gameVersions": ["1.21", "Fabric", "Client", "1.21.1", "Quilt"],
+            "hashes": [{
+                "algo": 1,
+                "value": "f275bf60e246f97b1e187ef4130403aa535a8d13"
+            }, {
+                "algo": 2,
+                "value": "f63fcec42555c2072da32d01625bf171"
+            }],
+            "id": 5654378,
+            "isAvailable": true,
+            "isServerPack": false,
+            "modId": 455508,
+            "modules": [{
+                "fingerprint": 1273669914,
+                "name": "META-INF"
+            }, {
+                "fingerprint": 4170177222,
+                "name": "assets"
+            }, {
+                "fingerprint": 1579026811,
+                "name": "centerDepth.fsh"
+            }, {
+                "fingerprint": 462961270,
+                "name": "centerDepth.vsh"
+            }, {
+                "fingerprint": 1494857400,
+                "name": "colorSpace.csh"
+            }, {
+                "fingerprint": 1398698219,
+                "name": "colorSpace.vsh"
+            }, {
+                "fingerprint": 345284222,
+                "name": "de"
+            }, {
+                "fingerprint": 2653518057,
+                "name": "fabric.mod.json"
+            }, {
+                "fingerprint": 2191366913,
+                "name": "iris-batched-entity-rendering.mixins.json"
+            }, {
+                "fingerprint": 4158814395,
+                "name": "iris-logo.png"
+            }, {
+                "fingerprint": 588291438,
+                "name": "iris.accesswidener"
+            }, {
+                "fingerprint": 3036021374,
+                "name": "iris.refmap.json"
+            }, {
+                "fingerprint": 4171766868,
+                "name": "kroppeb"
+            }, {
+                "fingerprint": 1547497942,
+                "name": "mixins.iris.bettermipmaps.json"
+            }, {
+                "fingerprint": 3824861719,
+                "name": "mixins.iris.compat.dh.json"
+            }, {
+                "fingerprint": 4096886828,
+                "name": "mixins.iris.compat.sodium.json"
+            }, {
+                "fingerprint": 3953555104,
+                "name": "mixins.iris.devenvironment.json"
+            }, {
+                "fingerprint": 4288503358,
+                "name": "mixins.iris.fabric.json"
+            }, {
+                "fingerprint": 387857377,
+                "name": "mixins.iris.fantastic.json"
+            }, {
+                "fingerprint": 3430149842,
+                "name": "mixins.iris.fixes.maxfpscrash.json"
+            }, {
+                "fingerprint": 3729550497,
+                "name": "mixins.iris.integrationtest.json"
+            }, {
+                "fingerprint": 3788355508,
+                "name": "mixins.iris.json"
+            }, {
+                "fingerprint": 1492774510,
+                "name": "mixins.iris.vertexformat.json"
+            }, {
+                "fingerprint": 2082893179,
+                "name": "net"
+            }],
+            "releaseType": 2,
+            "sortableGameVersions": [{
+                "gameVersion": "1.21",
+                "gameVersionName": "1.21",
+                "gameVersionPadded": "0000000001.0000000021",
+                "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
+                "gameVersionTypeId": 77784
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "Fabric",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "Client",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
+                "gameVersionTypeId": 75208
+            }, {
+                "gameVersion": "1.21.1",
+                "gameVersionName": "1.21.1",
+                "gameVersionPadded": "0000000001.0000000021.0000000001",
+                "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
+                "gameVersionTypeId": 77784
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "Quilt",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-05-26T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }]
+        }, {
+            "alternateFileId": 0,
+            "dependencies": [{
+                "modId": 394468,
+                "relationType": 3
+            }],
+            "displayName": "Iris 1.8 Beta 1 for NeoForge 1.21",
+            "downloadCount": 2318,
+            "downloadUrl": "https://edge.forgecdn.net/files/5654/382/iris-neoforge-1.8.0-beta.1%2bmc1.21.1.jar",
+            "fileDate": "2024-08-22T22:29:34.03Z",
+            "fileFingerprint": 4287731823,
+            "fileLength": 2281210,
+            "fileName": "iris-neoforge-1.8.0-beta.1+mc1.21.1.jar",
+            "fileSizeOnDisk": 4242137,
+            "fileStatus": 4,
+            "gameId": 432,
+            "gameVersions": ["1.21", "Client", "NeoForge", "1.21.1"],
+            "hashes": [{
+                "algo": 1,
+                "value": "b69c93ef5f9585c761e3a1b1d8c03b24b4964b32"
+            }, {
+                "algo": 2,
+                "value": "578b33114eb083873be3dc66c53ca9e4"
+            }],
+            "id": 5654382,
+            "isAvailable": true,
+            "isServerPack": false,
+            "modId": 455508,
+            "modules": [{
+                "fingerprint": 81511789,
+                "name": "META-INF"
+            }, {
+                "fingerprint": 2796985423,
+                "name": "de"
+            }, {
+                "fingerprint": 1426760369,
+                "name": "kroppeb"
+            }, {
+                "fingerprint": 714474303,
+                "name": "net"
+            }, {
+                "fingerprint": 2771658528,
+                "name": "mixins.iris.forge.json"
+            }, {
+                "fingerprint": 4170177222,
+                "name": "assets"
+            }, {
+                "fingerprint": 1579026811,
+                "name": "centerDepth.fsh"
+            }, {
+                "fingerprint": 462961270,
+                "name": "centerDepth.vsh"
+            }, {
+                "fingerprint": 1494857400,
+                "name": "colorSpace.csh"
+            }, {
+                "fingerprint": 1398698219,
+                "name": "colorSpace.vsh"
+            }, {
+                "fingerprint": 2191366913,
+                "name": "iris-batched-entity-rendering.mixins.json"
+            }, {
+                "fingerprint": 4158814395,
+                "name": "iris-logo.png"
+            }, {
+                "fingerprint": 1547497942,
+                "name": "mixins.iris.bettermipmaps.json"
+            }, {
+                "fingerprint": 3824861719,
+                "name": "mixins.iris.compat.dh.json"
+            }, {
+                "fingerprint": 3953555104,
+                "name": "mixins.iris.devenvironment.json"
+            }, {
+                "fingerprint": 387857377,
+                "name": "mixins.iris.fantastic.json"
+            }, {
+                "fingerprint": 3430149842,
+                "name": "mixins.iris.fixes.maxfpscrash.json"
+            }, {
+                "fingerprint": 3729550497,
+                "name": "mixins.iris.integrationtest.json"
+            }, {
+                "fingerprint": 1492774510,
+                "name": "mixins.iris.vertexformat.json"
+            }, {
+                "fingerprint": 4096886828,
+                "name": "mixins.iris.compat.sodium.json"
+            }, {
+                "fingerprint": 2284589561,
+                "name": "iris.accesswidener"
+            }, {
+                "fingerprint": 3788355508,
+                "name": "mixins.iris.json"
+            }, {
+                "fingerprint": 1136524626,
+                "name": "LICENSE"
+            }],
+            "releaseType": 2,
+            "sortableGameVersions": [{
+                "gameVersion": "1.21",
+                "gameVersionName": "1.21",
+                "gameVersionPadded": "0000000001.0000000021",
+                "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
+                "gameVersionTypeId": 77784
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "Client",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
+                "gameVersionTypeId": 75208
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "NeoForge",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }, {
+                "gameVersion": "1.21.1",
+                "gameVersionName": "1.21.1",
+                "gameVersionPadded": "0000000001.0000000021.0000000001",
+                "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
+                "gameVersionTypeId": 77784
+            }]
+        }, {
+            "alternateFileId": 0,
+            "dependencies": [{
+                "modId": 394468,
+                "relationType": 3
+            }],
+            "displayName": "Iris 1.8.4 for Fabric 1.21.4",
+            "downloadCount": 0,
+            "downloadUrl": "https://edge.forgecdn.net/files/5983/970/iris-fabric-1.8.4%2bmc1.21.4.jar",
+            "fileDate": "2024-12-12T01:29:16.607Z",
+            "fileFingerprint": 4082181453,
+            "fileLength": 2668422,
+            "fileName": "iris-fabric-1.8.4+mc1.21.4.jar",
+            "fileSizeOnDisk": 4689303,
+            "fileStatus": 4,
+            "gameId": 432,
+            "gameVersions": ["Fabric", "Client", "1.21.4", "Quilt"],
+            "hashes": [{
+                "algo": 1,
+                "value": "935a243c590a888b654d192d4175096badf25101"
+            }, {
+                "algo": 2,
+                "value": "92762d68198cbab168c476007249d41e"
+            }],
+            "id": 5983970,
+            "isAvailable": true,
+            "isServerPack": false,
+            "modId": 455508,
+            "modules": [{
+                "fingerprint": 1445973347,
+                "name": "META-INF"
+            }, {
+                "fingerprint": 1468664341,
+                "name": "assets"
+            }, {
+                "fingerprint": 1579026811,
+                "name": "centerDepth.fsh"
+            }, {
+                "fingerprint": 462961270,
+                "name": "centerDepth.vsh"
+            }, {
+                "fingerprint": 1494857400,
+                "name": "colorSpace.csh"
+            }, {
+                "fingerprint": 1398698219,
+                "name": "colorSpace.vsh"
+            }, {
+                "fingerprint": 2957486792,
+                "name": "de"
+            }, {
+                "fingerprint": 1223890142,
+                "name": "fabric.mod.json"
+            }, {
+                "fingerprint": 2191366913,
+                "name": "iris-batched-entity-rendering.mixins.json"
+            }, {
+                "fingerprint": 4158814395,
+                "name": "iris-logo.png"
+            }, {
+                "fingerprint": 3249476964,
+                "name": "iris.accesswidener"
+            }, {
+                "fingerprint": 4171766868,
+                "name": "kroppeb"
+            }, {
+                "fingerprint": 1338334829,
+                "name": "mixins.iris.bettermipmaps.json"
+            }, {
+                "fingerprint": 3824861719,
+                "name": "mixins.iris.compat.dh.json"
+            }, {
+                "fingerprint": 1371983763,
+                "name": "mixins.iris.compat.sodium.json"
+            }, {
+                "fingerprint": 3953555104,
+                "name": "mixins.iris.devenvironment.json"
+            }, {
+                "fingerprint": 2443484958,
+                "name": "mixins.iris.fabric.json"
+            }, {
+                "fingerprint": 2829550645,
+                "name": "mixins.iris.fantastic.json"
+            }, {
+                "fingerprint": 3430149842,
+                "name": "mixins.iris.fixes.maxfpscrash.json"
+            }, {
+                "fingerprint": 3729550497,
+                "name": "mixins.iris.integrationtest.json"
+            }, {
+                "fingerprint": 2129166495,
+                "name": "mixins.iris.json"
+            }, {
+                "fingerprint": 4029359364,
+                "name": "mixins.iris.vertexformat.json"
+            }, {
+                "fingerprint": 2667551668,
+                "name": "net"
+            }],
+            "releaseType": 1,
+            "sortableGameVersions": [{
+                "gameVersion": "",
+                "gameVersionName": "Fabric",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "Client",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
+                "gameVersionTypeId": 75208
+            }, {
+                "gameVersion": "1.21.4",
+                "gameVersionName": "1.21.4",
+                "gameVersionPadded": "0000000001.0000000021.0000000004",
+                "gameVersionReleaseDate": "2024-12-03T16:26:15.35Z",
+                "gameVersionTypeId": 77784
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "Quilt",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-05-26T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }]
+        }, {
+            "alternateFileId": 0,
+            "dependencies": [{
+                "modId": 394468,
+                "relationType": 3
+            }],
+            "displayName": "Iris 1.8.4 for NeoForge 1.21.4",
+            "downloadCount": 873,
+            "downloadUrl": "https://edge.forgecdn.net/files/5983/972/iris-neoforge-1.8.4%2bmc1.21.4.jar",
+            "fileDate": "2024-12-12T01:29:37.383Z",
+            "fileFingerprint": 965150333,
+            "fileLength": 2606181,
+            "fileName": "iris-neoforge-1.8.4+mc1.21.4.jar",
+            "fileSizeOnDisk": 4646272,
+            "fileStatus": 4,
+            "gameId": 432,
+            "gameVersions": ["Client", "1.21.4", "NeoForge"],
+            "hashes": [{
+                "algo": 1,
+                "value": "a20b3d03bca6f14a1e9c41e3f269c82137c5df53"
+            }, {
+                "algo": 2,
+                "value": "da48c18b318398eb1076b3f851957d61"
+            }],
+            "id": 5983972,
+            "isAvailable": true,
+            "isServerPack": false,
+            "modId": 455508,
+            "modules": [{
+                "fingerprint": 3599293169,
+                "name": "META-INF"
+            }, {
+                "fingerprint": 1235506475,
+                "name": "de"
+            }, {
+                "fingerprint": 1426760369,
+                "name": "kroppeb"
+            }, {
+                "fingerprint": 3043854414,
+                "name": "net"
+            }, {
+                "fingerprint": 1468664341,
+                "name": "assets"
+            }, {
+                "fingerprint": 1579026811,
+                "name": "centerDepth.fsh"
+            }, {
+                "fingerprint": 462961270,
+                "name": "centerDepth.vsh"
+            }, {
+                "fingerprint": 1494857400,
+                "name": "colorSpace.csh"
+            }, {
+                "fingerprint": 1398698219,
+                "name": "colorSpace.vsh"
+            }, {
+                "fingerprint": 2191366913,
+                "name": "iris-batched-entity-rendering.mixins.json"
+            }, {
+                "fingerprint": 4158814395,
+                "name": "iris-logo.png"
+            }, {
+                "fingerprint": 2581582913,
+                "name": "iris.accesswidener"
+            }, {
+                "fingerprint": 1338334829,
+                "name": "mixins.iris.bettermipmaps.json"
+            }, {
+                "fingerprint": 3824861719,
+                "name": "mixins.iris.compat.dh.json"
+            }, {
+                "fingerprint": 1371983763,
+                "name": "mixins.iris.compat.sodium.json"
+            }, {
+                "fingerprint": 3953555104,
+                "name": "mixins.iris.devenvironment.json"
+            }, {
+                "fingerprint": 2829550645,
+                "name": "mixins.iris.fantastic.json"
+            }, {
+                "fingerprint": 3430149842,
+                "name": "mixins.iris.fixes.maxfpscrash.json"
+            }, {
+                "fingerprint": 2338039248,
+                "name": "mixins.iris.forge.json"
+            }, {
+                "fingerprint": 3729550497,
+                "name": "mixins.iris.integrationtest.json"
+            }, {
+                "fingerprint": 2129166495,
+                "name": "mixins.iris.json"
+            }, {
+                "fingerprint": 4029359364,
+                "name": "mixins.iris.vertexformat.json"
+            }],
+            "releaseType": 1,
+            "sortableGameVersions": [{
+                "gameVersion": "",
+                "gameVersionName": "Client",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
+                "gameVersionTypeId": 75208
+            }, {
+                "gameVersion": "1.21.4",
+                "gameVersionName": "1.21.4",
+                "gameVersionPadded": "0000000001.0000000021.0000000004",
+                "gameVersionReleaseDate": "2024-12-03T16:26:15.35Z",
+                "gameVersionTypeId": 77784
+            }, {
+                "gameVersion": "",
+                "gameVersionName": "NeoForge",
+                "gameVersionPadded": "0",
+                "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
+                "gameVersionTypeId": 68441
+            }]
+        }],
+        "latestFilesIndexes": [{
+            "fileId": 5983972,
+            "filename": "iris-neoforge-1.8.4+mc1.21.4.jar",
+            "gameVersion": "1.21.4",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 1
+        }, {
+            "fileId": 5983970,
+            "filename": "iris-fabric-1.8.4+mc1.21.4.jar",
+            "gameVersion": "1.21.4",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5983970,
+            "filename": "iris-fabric-1.8.4+mc1.21.4.jar",
+            "gameVersion": "1.21.4",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5957830,
+            "filename": "iris-neoforge-1.8.1+mc1.21.3.jar",
+            "gameVersion": "1.21.3",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 1
+        }, {
+            "fileId": 5957829,
+            "filename": "iris-fabric-1.8.1+mc1.21.3.jar",
+            "gameVersion": "1.21.3",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5957829,
+            "filename": "iris-fabric-1.8.1+mc1.21.3.jar",
+            "gameVersion": "1.21.3",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5957827,
+            "filename": "iris-neoforge-1.8.1+mc1.21.1.jar",
+            "gameVersion": "1.21.1",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 1
+        }, {
+            "fileId": 5957825,
+            "filename": "iris-fabric-1.8.1+mc1.21.1.jar",
+            "gameVersion": "1.21.1",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5957825,
+            "filename": "iris-fabric-1.8.1+mc1.21.1.jar",
+            "gameVersion": "1.21.1",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5910091,
+            "filename": "iris-fabric-1.8.0+mc1.21.3.jar",
+            "gameVersion": "1.21.2",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5910091,
+            "filename": "iris-fabric-1.8.0+mc1.21.3.jar",
+            "gameVersion": "1.21.2",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5884158,
+            "filename": "iris-fabric-1.8.0-beta.8+mc1.21.1.jar",
+            "gameVersion": "1.21",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5834368,
+            "filename": "iris-neoforge-1.8.0-beta.6+mc1.21.2.jar",
+            "gameVersion": "1.21.2",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 1
+        }, {
+            "fileId": 5789255,
+            "filename": "iris-1.7.5+mc1.20.1.jar",
+            "gameVersion": "1.20.1",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5789255,
+            "filename": "iris-1.7.5+mc1.20.1.jar",
+            "gameVersion": "1.20.1",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5726475,
+            "filename": "iris-neoforge-1.8.0-beta.4+mc1.21.1.jar",
+            "gameVersion": "1.21",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 1
+        }, {
+            "fileId": 5726473,
+            "filename": "iris-fabric-1.8.0-beta.4+mc1.21.1.jar",
+            "gameVersion": "1.21",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5654382,
+            "filename": "iris-neoforge-1.8.0-beta.1+mc1.21.1.jar",
+            "gameVersion": "1.21",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 2
+        }, {
+            "fileId": 5654382,
+            "filename": "iris-neoforge-1.8.0-beta.1+mc1.21.1.jar",
+            "gameVersion": "1.21.1",
+            "gameVersionTypeId": 77784,
+            "modLoader": 6,
+            "releaseType": 2
+        }, {
+            "fileId": 5654378,
+            "filename": "iris-fabric-1.8.0-beta.1+mc1.21.1.jar",
+            "gameVersion": "1.21",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 2
+        }, {
+            "fileId": 5654378,
+            "filename": "iris-fabric-1.8.0-beta.1+mc1.21.1.jar",
+            "gameVersion": "1.21",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 2
+        }, {
+            "fileId": 5654378,
+            "filename": "iris-fabric-1.8.0-beta.1+mc1.21.1.jar",
+            "gameVersion": "1.21.1",
+            "gameVersionTypeId": 77784,
+            "modLoader": 4,
+            "releaseType": 2
+        }, {
+            "fileId": 5654378,
+            "filename": "iris-fabric-1.8.0-beta.1+mc1.21.1.jar",
+            "gameVersion": "1.21.1",
+            "gameVersionTypeId": 77784,
+            "modLoader": 5,
+            "releaseType": 2
+        }, {
+            "fileId": 5485662,
+            "filename": "iris-1.7.2+mc1.20.6.jar",
+            "gameVersion": "1.20.5",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5485662,
+            "filename": "iris-1.7.2+mc1.20.6.jar",
+            "gameVersion": "1.20.5",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5485662,
+            "filename": "iris-1.7.2+mc1.20.6.jar",
+            "gameVersion": "1.20.6",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5485662,
+            "filename": "iris-1.7.2+mc1.20.6.jar",
+            "gameVersion": "1.20.6",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5485655,
+            "filename": "iris-1.7.2+mc1.20.4.jar",
+            "gameVersion": "1.20.3",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5485655,
+            "filename": "iris-1.7.2+mc1.20.4.jar",
+            "gameVersion": "1.20.3",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 5485655,
+            "filename": "iris-1.7.2+mc1.20.4.jar",
+            "gameVersion": "1.20.4",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 5485655,
+            "filename": "iris-1.7.2+mc1.20.4.jar",
+            "gameVersion": "1.20.4",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4861717,
+            "filename": "iris-mc1.18.2-1.6.6.jar",
+            "gameVersion": "1.18.2",
+            "gameVersionTypeId": 73250,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4861717,
+            "filename": "iris-mc1.18.2-1.6.6.jar",
+            "gameVersion": "1.18.2",
+            "gameVersionTypeId": 73250,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4861716,
+            "filename": "iris-mc1.19.2-1.6.6.jar",
+            "gameVersion": "1.19.2",
+            "gameVersionTypeId": 73407,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4861716,
+            "filename": "iris-mc1.19.2-1.6.6.jar",
+            "gameVersion": "1.19.2",
+            "gameVersionTypeId": 73407,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4861714,
+            "filename": "iris-mc1.19.4-1.6.6.jar",
+            "gameVersion": "1.19.4",
+            "gameVersionTypeId": 73407,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4861714,
+            "filename": "iris-mc1.19.4-1.6.6.jar",
+            "gameVersion": "1.19.4",
+            "gameVersionTypeId": 73407,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4861700,
+            "filename": "iris-mc1.20.2-1.6.9.jar",
+            "gameVersion": "1.20.2",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4861700,
+            "filename": "iris-mc1.20.2-1.6.9.jar",
+            "gameVersion": "1.20.2",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4684964,
+            "filename": "iris-mc1.20-1.6.4.jar",
+            "gameVersion": "1.20",
+            "gameVersionTypeId": 75125,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4684964,
+            "filename": "iris-mc1.20-1.6.4.jar",
+            "gameVersion": "1.20",
+            "gameVersionTypeId": 75125,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4490408,
+            "filename": "iris-mc1.19.2-1.6.1.jar",
+            "gameVersion": "1.19.1",
+            "gameVersionTypeId": 73407,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4490408,
+            "filename": "iris-mc1.19.2-1.6.1.jar",
+            "gameVersion": "1.19.1",
+            "gameVersionTypeId": 73407,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4481071,
+            "filename": "iris-mc1.19.2-1.6.0.jar",
+            "gameVersion": "1.19",
+            "gameVersionTypeId": 73407,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4481071,
+            "filename": "iris-mc1.19.2-1.6.0.jar",
+            "gameVersion": "1.19",
+            "gameVersionTypeId": 73407,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4385034,
+            "filename": "iris-mc1.19.3-1.5.2.jar",
+            "gameVersion": "1.19.3",
+            "gameVersionTypeId": 73407,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4385034,
+            "filename": "iris-mc1.19.3-1.5.2.jar",
+            "gameVersion": "1.19.3",
+            "gameVersionTypeId": 73407,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 4143798,
+            "filename": "iris-mc1.16.5-1.4.5.jar",
+            "gameVersion": "1.16.5",
+            "gameVersionTypeId": 70886,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 4143798,
+            "filename": "iris-mc1.16.5-1.4.5.jar",
+            "gameVersion": "1.16.5",
+            "gameVersionTypeId": 70886,
+            "modLoader": 5,
+            "releaseType": 1
+        }, {
+            "fileId": 3954784,
+            "filename": "iris-mc1.17.1-1.2.7.jar",
+            "gameVersion": "1.17.1",
+            "gameVersionTypeId": 73242,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3612857,
+            "filename": "iris-mc1.18.1-1.2.0-pre.jar",
+            "gameVersion": "1.18.1",
+            "gameVersionTypeId": 73250,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3558900,
+            "filename": "iris-mc1.18.1-1.1.3.jar",
+            "gameVersion": "1.18",
+            "gameVersionTypeId": 73250,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3542379,
+            "filename": "iris-mc1.16.5-1.1.3.jar",
+            "gameVersion": "1.16.4",
+            "gameVersionTypeId": 70886,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3542379,
+            "filename": "iris-mc1.16.5-1.1.3.jar",
+            "gameVersion": "1.16.3",
+            "gameVersionTypeId": 70886,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3542379,
+            "filename": "iris-mc1.16.5-1.1.3.jar",
+            "gameVersion": "1.16.2",
+            "gameVersionTypeId": 70886,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3404785,
+            "filename": "iris-mc1.17-1.1.1.jar",
+            "gameVersion": "1.17",
+            "gameVersionTypeId": 73242,
+            "modLoader": 4,
+            "releaseType": 1
+        }, {
+            "fileId": 3280765,
+            "filename": "iris-0.3.0-sodium_compatibility.jar",
+            "gameVersion": "1.16.5",
+            "gameVersionTypeId": 70886,
+            "modLoader": 4,
+            "releaseType": 3
+        }, {
+            "fileId": 3235019,
+            "filename": "iris-0.2.0-sodium_compatibility.jar",
+            "gameVersion": "1.16.4",
+            "gameVersionTypeId": 70886,
+            "modLoader": 4,
+            "releaseType": 3
+        }],
+        "links": {
+            "issuesUrl": "https://github.com/IrisShaders/Iris/issues",
+            "sourceUrl": "https://github.com/IrisShaders/Iris",
+            "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/irisshaders",
+            "wikiUrl": "https://shaders.properties"
         },
-        {
-            "allowModDistribution": true,
-            "authors": [
-                {
-                    "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/6ba886f4-989b-4992-98fb-85c9af7769fb-profile_image-150x150.jpeg",
-                    "id": 107193613,
-                    "name": "auuruum_OLD",
-                    "url": "https://www.curseforge.com/members/auuruum_old"
-                }
-            ],
-            "categories": [
-                {
-                    "classId": 6,
-                    "dateModified": "2021-11-17T11:45:09.143Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/456/558/637727379086405233.png",
-                    "id": 5191,
-                    "isClass": false,
-                    "name": "Utility & QoL",
-                    "parentCategoryId": 6,
-                    "slug": "utility-qol",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/utility-qol"
-                }
-            ],
-            "classId": 6,
-            "dateCreated": "2024-06-08T15:45:53.77Z",
-            "dateModified": "2024-07-03T01:49:52.2Z",
-            "dateReleased": "2024-07-03T01:41:37.793Z",
-            "downloadCount": 710,
-            "gameId": 432,
-            "gamePopularityRank": 35123,
-            "id": 1033165,
-            "isAvailable": true,
-            "isFeatured": false,
-            "latestEarlyAccessFilesIndexes": [],
-            "latestFiles": [
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [],
-                    "displayName": "Gravel Tweaks (1.21)",
-                    "downloadCount": 172,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5497/47/gravel-tweaks-2.jar",
-                    "fileDate": "2024-07-03T01:41:37.793Z",
-                    "fileFingerprint": 783042476,
-                    "fileLength": 53854,
-                    "fileName": "gravel-tweaks-2.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "Fabric",
-                        "Client",
-                        "Forge",
-                        "1.21-Snapshot",
-                        "Server",
-                        "Quilt"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "3d68e92331d5b00fcd160f98c871633eadb92fb3"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "dc052cf6dc9cd72d6a2c6f84a6a3cf84"
-                        }
-                    ],
-                    "id": 5497047,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 1033165,
-                    "modules": [
-                        {
-                            "fingerprint": 22356416,
-                            "name": "pack.mcmeta"
-                        },
-                        {
-                            "fingerprint": 2874165114,
-                            "name": "pack.png"
-                        },
-                        {
-                            "fingerprint": 3150208920,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 2659324311,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 3739220449,
-                            "name": "quilt.mod.json"
-                        },
-                        {
-                            "fingerprint": 3659843440,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 2874165114,
-                            "name": "gravel-tweaks_pack.png"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Client",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Forge",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21-Snapshot",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-05-04T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Server",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Quilt",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-05-26T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        }
-                    ]
-                }
-            ],
-            "latestFilesIndexes": [
-                {
-                    "fileId": 5497047,
-                    "filename": "gravel-tweaks-2.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5497047,
-                    "filename": "gravel-tweaks-2.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5497047,
-                    "filename": "gravel-tweaks-2.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.3",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.3",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.3",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13.1",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13.1",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13.1",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.1",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.1",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.1",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.5",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.5",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.5",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.4",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.4",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.4",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.1",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.1",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.1",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.17",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.17",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.17",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.3",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.3",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.3",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.5",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.5",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.5",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.3",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.3",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.3",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15.2",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15.2",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15.2",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.6",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.6",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.6",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.18",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.4",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.4",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.4",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.2",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.2",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.14.2",
-                    "gameVersionTypeId": 64806,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.2",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.2",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.16.2",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13.2",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13.2",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.13.2",
-                    "gameVersionTypeId": 55023,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15.1",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15.1",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5409502,
-                    "filename": "gravel-tweaks-1.jar",
-                    "gameVersion": "1.15.1",
-                    "gameVersionTypeId": 68722,
-                    "modLoader": 5,
-                    "releaseType": 1
-                }
-            ],
-            "links": {
-                "issuesUrl": null,
-                "sourceUrl": null,
-                "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/gravel-tweaks",
-                "wikiUrl": null
-            },
-            "logo": {
-                "description": "",
-                "id": 1010756,
-                "modId": 1033165,
-                "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/1010/756/256/256/638534583539450543.webp",
-                "title": "638534583539450543.webp",
-                "url": "https://media.forgecdn.net/avatars/1010/756/638534583539450543.webp"
-            },
-            "mainFileId": 5497047,
-            "name": "Gravel Tweaks",
-            "primaryCategoryId": 5191,
-            "screenshots": [
-                {
-                    "description": "",
-                    "id": 885452,
-                    "modId": 1033165,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/885/452/310/172/fbff1bc776f59b2b4a0adb5a5d3a07896a0def8c.webp",
-                    "title": "Gravel packing",
-                    "url": "https://media.forgecdn.net/attachments/885/452/fbff1bc776f59b2b4a0adb5a5d3a07896a0def8c.webp"
-                },
-                {
-                    "description": "",
-                    "id": 885448,
-                    "modId": 1033165,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/885/448/310/172/a50c0a0da3bef4875a5db87ed5b0c4f6885c9add.png",
-                    "title": "Gravel unpacking",
-                    "url": "https://media.forgecdn.net/attachments/885/448/a50c0a0da3bef4875a5db87ed5b0c4f6885c9add.png"
-                },
-                {
-                    "description": "",
-                    "id": 885447,
-                    "modId": 1033165,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/885/447/310/172/20893175e8a8ee4bd02cad4b195b4e1cfe8e1f2d.png",
-                    "title": "Flint and steel",
-                    "url": "https://media.forgecdn.net/attachments/885/447/20893175e8a8ee4bd02cad4b195b4e1cfe8e1f2d.png"
-                },
-                {
-                    "description": "",
-                    "id": 885451,
-                    "modId": 1033165,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/885/451/310/172/fb8d93c47a9f536d5af01ff0aa41b61204609536.png",
-                    "title": "Arrow",
-                    "url": "https://media.forgecdn.net/attachments/885/451/fb8d93c47a9f536d5af01ff0aa41b61204609536.png"
-                },
-                {
-                    "description": "",
-                    "id": 885449,
-                    "modId": 1033165,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/885/449/310/172/d47d0fe4e09752464cfaaea84165d10ff0ebdc13.png",
-                    "title": "Fletching table",
-                    "url": "https://media.forgecdn.net/attachments/885/449/d47d0fe4e09752464cfaaea84165d10ff0ebdc13.png"
-                }
-            ],
-            "slug": "gravel-tweaks",
-            "status": 4,
-            "summary": "Adds the ability to allow you to pack and unpack gravel and also improves crafting",
-            "thumbsUpCount": 0
+        "logo": {
+            "description": "",
+            "id": 1002450,
+            "modId": 455508,
+            "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/1002/450/256/256/638522657871453967.png",
+            "title": "638522657871453967.png",
+            "url": "https://media.forgecdn.net/avatars/1002/450/638522657871453967.png"
         },
-        {
-            "allowModDistribution": true,
-            "authors": [
-                {
-                    "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/6bdba42d-f453-4d3d-90c9-2bc679fb66f2-profile_image-150x150.png",
-                    "id": 12099681,
-                    "name": "BlayTheNinth",
-                    "url": "https://www.curseforge.com/members/blaytheninth"
-                }
-            ],
-            "categories": [
-                {
-                    "classId": 6,
-                    "dateModified": "2021-11-17T11:45:09.143Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/456/558/637727379086405233.png",
-                    "id": 5191,
-                    "isClass": false,
-                    "name": "Utility & QoL",
-                    "parentCategoryId": 6,
-                    "slug": "utility-qol",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/utility-qol"
-                }
-            ],
-            "classId": 6,
-            "dateCreated": "2021-07-19T21:48:44.64Z",
-            "dateModified": "2024-10-28T15:22:02.853Z",
-            "dateReleased": "2024-08-13T05:27:05.76Z",
-            "downloadCount": 39209,
-            "gameId": 432,
-            "gamePopularityRank": 19086,
-            "id": 506456,
-            "isAvailable": true,
-            "isFeatured": false,
-            "latestEarlyAccessFilesIndexes": [],
-            "latestFiles": [
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 500525,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "gravelminer-fabric-11.0.0+0.jar",
-                    "downloadCount": 4104,
-                    "downloadUrl": "https://edge.forgecdn.net/files/3394/342/gravelminer-fabric-11.0.0%2b0.jar",
-                    "fileDate": "2021-07-19T21:55:27.927Z",
-                    "fileFingerprint": 2214745968,
-                    "fileLength": 20125,
-                    "fileName": "gravelminer-fabric-11.0.0+0.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.17.1",
-                        "Fabric"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "32339472384ab4ee7c590c6ae68b4b8aedb9e20e"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "222ad1370d54a8bf5d84588373f8d43c"
-                        }
-                    ],
-                    "id": 3394342,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 506456,
-                    "modules": [
-                        {
-                            "fingerprint": 2464251221,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 3616165828,
-                            "name": "gravelminer.mixins.json"
-                        },
-                        {
-                            "fingerprint": 3014345656,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 4241231567,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 2867976423,
-                            "name": "net"
-                        }
-                    ],
-                    "releaseType": 2,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.17.1",
-                            "gameVersionName": "1.17.1",
-                            "gameVersionPadded": "0000000001.0000000017.0000000001",
-                            "gameVersionReleaseDate": "2021-07-06T14:16:03.97Z",
-                            "gameVersionTypeId": 73242
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 500525,
-                            "relationType": 3
-                        },
-                        {
-                            "modId": 306612,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "gravelminer-fabric-1.21.1-21.1.1.jar",
-                    "downloadCount": 275,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5623/478/gravelminer-fabric-1.21.1-21.1.1.jar",
-                    "fileDate": "2024-08-13T05:27:05.76Z",
-                    "fileFingerprint": 3416376243,
-                    "fileLength": 78702,
-                    "fileName": "gravelminer-fabric-1.21.1-21.1.1.jar",
-                    "fileSizeOnDisk": 97250,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "Fabric",
-                        "1.21.1"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "9aab705dfe8a315c0bdb1027b831818e55a1b323"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "5bb76acfcff119d51f47daa16e83a9b0"
-                        }
-                    ],
-                    "id": 5623478,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 506456,
-                    "modules": [
-                        {
-                            "fingerprint": 2877031076,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 1031176930,
-                            "name": "LICENSE_Gravel Miner"
-                        },
-                        {
-                            "fingerprint": 951397510,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 3025156756,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 2322616012,
-                            "name": "gravelminer.fabric.mixins.json"
-                        },
-                        {
-                            "fingerprint": 2040486794,
-                            "name": "gravelminer.mixins.json"
-                        },
-                        {
-                            "fingerprint": 3396352931,
-                            "name": "gravelminer.png"
-                        },
-                        {
-                            "fingerprint": 3918655897,
-                            "name": "net"
-                        },
-                        {
-                            "fingerprint": 1123353161,
-                            "name": "pack.mcmeta"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        }
-                    ]
-                }
-            ],
-            "latestFilesIndexes": [
-                {
-                    "fileId": 5623478,
-                    "filename": "gravelminer-fabric-1.21.1-21.1.1.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5427040,
-                    "filename": "gravelminer-fabric-1.21-21.0.1.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5369075,
-                    "filename": "gravelminer-fabric-1.20.6-19.0.2.jar",
-                    "gameVersion": "1.20.6",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4990194,
-                    "filename": "gravelminer-fabric-1.20.4-18.0.1.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4770910,
-                    "filename": "gravelminer-fabric-1.20.2-17.0.0.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4596461,
-                    "filename": "gravelminer-fabric-1.20-16.0.2.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4596461,
-                    "filename": "gravelminer-fabric-1.20-16.0.2.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4438880,
-                    "filename": "gravelminer-fabric-1.19.4-15.0.1.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4191572,
-                    "filename": "gravelminer-fabric-1.19.3-14.0.0.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3833476,
-                    "filename": "gravelminer-fabric-1.19-13.0.0.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3833476,
-                    "filename": "gravelminer-fabric-1.19-13.0.0.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3833476,
-                    "filename": "gravelminer-fabric-1.19-13.0.0.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3550145,
-                    "filename": "gravelminer-fabric-1.18-12.0.0.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3550145,
-                    "filename": "gravelminer-fabric-1.18-12.0.0.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3550145,
-                    "filename": "gravelminer-fabric-1.18-12.0.0.jar",
-                    "gameVersion": "1.18",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3528000,
-                    "filename": "gravelminer-fabric-11.1.0+0.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3394342,
-                    "filename": "gravelminer-fabric-11.0.0+0.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 2
-                }
-            ],
-            "links": {
-                "issuesUrl": "https://github.com/ModdingForBlockheads/GravelMiner/issues",
-                "sourceUrl": "https://github.com/ModdingForBlockheads/GravelMiner",
-                "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/gravelminer-fabric",
-                "wikiUrl": "https://mods.twelveiterations.com/mc/gravelminer"
-            },
-            "logo": {
-                "description": "",
-                "id": 408918,
-                "modId": 506456,
-                "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/408/918/256/256/637623281246704739.png",
-                "title": "637623281246704739.png",
-                "url": "https://media.forgecdn.net/avatars/408/918/637623281246704739.png"
-            },
-            "mainFileId": 5623478,
-            "name": "GravelMiner (Fabric Edition)",
-            "primaryCategoryId": 5191,
-            "screenshots": [],
-            "serverAffiliation": {
-                "affiliationLink": "https://nodecraft.com/r/blay",
-                "affiliationService": 2,
-                "customImageUrl": "https://media.forgecdn.net/banner/console-affiliation-banners/banner_32ce334a-ba6e-47fe-89b1-050fbd860c11.png",
-                "hasDiscount": false,
-                "isDefaultBanner": false,
-                "isEnabled": true
-            },
-            "slug": "gravelminer-fabric",
-            "status": 4,
-            "summary": "Automatically (insta-)mines falling gravel blocks that get in your way while mining.",
-            "thumbsUpCount": 0
-        },
-        {
-            "allowModDistribution": true,
-            "authors": [
-                {
-                    "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/bc2c5df5-e0d0-44de-a6b0-84c39d2a3066-profile_image-150x150.png",
-                    "id": 100114338,
-                    "name": "someaddon",
-                    "url": "https://www.curseforge.com/members/someaddon"
-                }
-            ],
-            "categories": [
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:09:48.63Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/5/998/635351477886290676.png",
-                    "id": 426,
-                    "isClass": false,
-                    "name": "Addons",
-                    "parentCategoryId": 6,
-                    "slug": "mc-addons",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/mc-addons"
-                },
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:37:17.173Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/6/24/635351494371736208.png",
-                    "id": 409,
-                    "isClass": false,
-                    "name": "Structures",
-                    "parentCategoryId": 406,
-                    "slug": "world-structures",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/world-gen/world-structures"
-                }
-            ],
-            "classId": 6,
-            "dateCreated": "2024-11-24T13:55:20.607Z",
-            "dateModified": "2024-11-24T14:28:32.733Z",
-            "dateReleased": "2024-11-24T14:07:10.87Z",
-            "downloadCount": 3557,
-            "gameId": 432,
-            "gamePopularityRank": 16947,
-            "id": 1146846,
-            "isAvailable": true,
-            "isFeatured": false,
-            "latestEarlyAccessFilesIndexes": [],
-            "latestFiles": [
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 580689,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "lootintegrations_graveyard-1.0.jar",
-                    "downloadCount": 136,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5933/671/lootintegrations_graveyard-1.0.jar",
-                    "fileDate": "2024-11-24T14:07:10.87Z",
-                    "fileFingerprint": 2190129630,
-                    "fileLength": 5018,
-                    "fileName": "lootintegrations_graveyard-1.0.jar",
-                    "fileSizeOnDisk": 7093,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "Fabric",
-                        "1.18.2",
-                        "1.19.2",
-                        "NeoForge",
-                        "1.20.1",
-                        "Forge",
-                        "1.21.1",
-                        "Server"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "a623f06c73c2829ac63353460daf8911239563e7"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "709c0ec18e704e7207ab0e0eb0ca923d"
-                        }
-                    ],
-                    "id": 5933671,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 1146846,
-                    "modules": [
-                        {
-                            "fingerprint": 1606317618,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 1925743373,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 1389203976,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 1744335054,
-                            "name": "pack.mcmeta"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.18.2",
-                            "gameVersionName": "1.18.2",
-                            "gameVersionPadded": "0000000001.0000000018.0000000002",
-                            "gameVersionReleaseDate": "2022-02-28T14:23:37.723Z",
-                            "gameVersionTypeId": 73250
-                        },
-                        {
-                            "gameVersion": "1.19.2",
-                            "gameVersionName": "1.19.2",
-                            "gameVersionPadded": "0000000001.0000000019.0000000002",
-                            "gameVersionReleaseDate": "2022-08-05T14:12:22.413Z",
-                            "gameVersionTypeId": 73407
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "NeoForge",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.20.1",
-                            "gameVersionName": "1.20.1",
-                            "gameVersionPadded": "0000000001.0000000020.0000000001",
-                            "gameVersionReleaseDate": "2023-06-12T14:26:38.477Z",
-                            "gameVersionTypeId": 75125
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Forge",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-10-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Server",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        }
-                    ]
-                }
-            ],
-            "latestFilesIndexes": [
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 1,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5933671,
-                    "filename": "lootintegrations_graveyard-1.0.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 1
-                }
-            ],
-            "links": {
-                "issuesUrl": null,
-                "sourceUrl": null,
-                "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/loot-integrations-the-graveyard",
-                "wikiUrl": null
-            },
-            "logo": {
-                "description": "",
-                "id": 1123864,
-                "modId": 1146846,
-                "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/1123/864/256/256/638680533208902931.png",
-                "title": "638680533208902931.png",
-                "url": "https://media.forgecdn.net/avatars/1123/864/638680533208902931.png"
-            },
-            "mainFileId": 5933671,
-            "name": "Loot Integrations: The Graveyard",
-            "primaryCategoryId": 426,
-            "screenshots": [],
-            "slug": "loot-integrations-the-graveyard",
-            "status": 4,
-            "summary": "Adds better loot to \"The Graveyard\" structure's chests, including modded loot",
-            "thumbsUpCount": 0
-        },
-        {
-            "allowModDistribution": true,
-            "authors": [
-                {
-                    "avatarUrl": "https://static-cdn.jtvnw.net/jtv_user_pictures/69546c4f-5126-4c0b-ab45-14e83c168fc7-profile_image-150x150.png",
-                    "id": 61679721,
-                    "name": "Patbox",
-                    "url": "https://www.curseforge.com/members/patbox"
-                }
-            ],
-            "categories": [
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:44:55.057Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/6/48/635351498950580836.png",
-                    "id": 435,
-                    "isClass": false,
-                    "name": "Server Utility",
-                    "parentCategoryId": 6,
-                    "slug": "server-utility",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/server-utility"
-                },
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:41:17.203Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/6/35/635351496772023801.png",
-                    "id": 420,
-                    "isClass": false,
-                    "name": "Storage",
-                    "parentCategoryId": 6,
-                    "slug": "storage",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/storage"
-                }
-            ],
-            "classId": 6,
-            "dateCreated": "2021-06-23T20:10:16.97Z",
-            "dateModified": "2024-11-28T20:57:46.537Z",
-            "dateReleased": "2024-11-28T20:54:02.2Z",
-            "downloadCount": 4571190,
-            "gameId": 432,
-            "gamePopularityRank": 2867,
-            "id": 497175,
-            "isAvailable": true,
-            "isFeatured": false,
-            "latestEarlyAccessFilesIndexes": [],
-            "latestFiles": [
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [],
-                    "displayName": "graves-1.1.2+1.17.1.jar",
-                    "downloadCount": 19689,
-                    "downloadUrl": "https://edge.forgecdn.net/files/3486/89/graves-1.1.2%2b1.17.1.jar",
-                    "fileDate": "2021-10-09T19:57:47.137Z",
-                    "fileFingerprint": 1372398473,
-                    "fileLength": 476954,
-                    "fileName": "graves-1.1.2+1.17.1.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.17.1"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "53eb954d1793a44653985de7a06deaf4bfbe9410"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "ef625f1ea532adbfbc753a119583cb00"
-                        }
-                    ],
-                    "id": 3486089,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 497175,
-                    "modules": [
-                        {
-                            "fingerprint": 3576127828,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 1136524626,
-                            "name": "LICENSE_graves"
-                        },
-                        {
-                            "fingerprint": 2551987559,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 3756903282,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 3506607365,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 1808588720,
-                            "name": "universal-graves.mixins.json"
-                        },
-                        {
-                            "fingerprint": 4123383040,
-                            "name": "graves-refmap.json"
-                        },
-                        {
-                            "fingerprint": 1453850777,
-                            "name": "eu"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.17.1",
-                            "gameVersionName": "1.17.1",
-                            "gameVersionPadded": "0000000001.0000000017.0000000001",
-                            "gameVersionReleaseDate": "2021-07-06T14:16:03.97Z",
-                            "gameVersionTypeId": 73242
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [],
-                    "displayName": "graves-2.0.0-beta.3+1.18.jar",
-                    "downloadCount": 48220,
-                    "downloadUrl": "https://edge.forgecdn.net/files/3583/47/graves-2.0.0-beta.3%2b1.18.jar",
-                    "fileDate": "2021-12-28T13:37:21.133Z",
-                    "fileFingerprint": 3465119196,
-                    "fileLength": 864016,
-                    "fileName": "graves-2.0.0-beta.3+1.18.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.18.1",
-                        "Fabric"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "d412b92badd069faea7c0faeedd29d559b774ca1"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "3b8255aa3f8c532df5c4df21b980b021"
-                        }
-                    ],
-                    "id": 3583047,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 497175,
-                    "modules": [
-                        {
-                            "fingerprint": 3582946034,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 1136524626,
-                            "name": "LICENSE_graves"
-                        },
-                        {
-                            "fingerprint": 2614463930,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 1561147445,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 2216639437,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 2941910066,
-                            "name": "universal-graves.mixins.json"
-                        },
-                        {
-                            "fingerprint": 676395712,
-                            "name": "graves-refmap.json"
-                        },
-                        {
-                            "fingerprint": 3321416707,
-                            "name": "eu"
-                        }
-                    ],
-                    "releaseType": 2,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.18.1",
-                            "gameVersionName": "1.18.1",
-                            "gameVersionPadded": "0000000001.0000000018.0000000001",
-                            "gameVersionReleaseDate": "2021-12-10T10:37:38.06Z",
-                            "gameVersionTypeId": 73250
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [],
-                    "displayName": "graves-2.0.0-rc.2+1.18.1.jar",
-                    "downloadCount": 579,
-                    "downloadUrl": "https://edge.forgecdn.net/files/3638/79/graves-2.0.0-rc.2%2b1.18.1.jar",
-                    "fileDate": "2022-02-05T22:28:58.567Z",
-                    "fileFingerprint": 2350914992,
-                    "fileLength": 903329,
-                    "fileName": "graves-2.0.0-rc.2+1.18.1.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.18.1",
-                        "Fabric"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "a297eed39ebaa032cdbbee2e6897db4e318543f5"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "f4eea563b4216052eba4cbe0f887fcd7"
-                        }
-                    ],
-                    "id": 3638079,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 497175,
-                    "modules": [
-                        {
-                            "fingerprint": 2162401323,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 1136524626,
-                            "name": "LICENSE_graves"
-                        },
-                        {
-                            "fingerprint": 2216639437,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 3626391155,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 3199150020,
-                            "name": "universal-graves.mixins.json"
-                        },
-                        {
-                            "fingerprint": 208444709,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 1034928653,
-                            "name": "graves-refmap.json"
-                        },
-                        {
-                            "fingerprint": 2887571891,
-                            "name": "eu"
-                        }
-                    ],
-                    "releaseType": 3,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.18.1",
-                            "gameVersionName": "1.18.1",
-                            "gameVersionPadded": "0000000001.0000000018.0000000001",
-                            "gameVersionReleaseDate": "2021-12-10T10:37:38.06Z",
-                            "gameVersionTypeId": 73250
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 551890,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "graves-3.6.0+1.21.4.jar",
-                    "downloadCount": 57,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5945/288/graves-3.6.0%2b1.21.4.jar",
-                    "fileDate": "2024-11-28T20:54:02.2Z",
-                    "fileFingerprint": 3466500351,
-                    "fileLength": 1730588,
-                    "fileName": "graves-3.6.0+1.21.4.jar",
-                    "fileSizeOnDisk": 2259524,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "Fabric",
-                        "1.21.4",
-                        "Quilt",
-                        "1.21.4-Snapshot"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "3e530f6cf38fc31c204dc26fabd28975d5cffc6c"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "c7eddeb93611e591d438c80653364167"
-                        }
-                    ],
-                    "id": 5945288,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 497175,
-                    "modules": [
-                        {
-                            "fingerprint": 1270659061,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 1136524626,
-                            "name": "LICENSE_graves"
-                        },
-                        {
-                            "fingerprint": 1815215387,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 4279991900,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 3350509635,
-                            "name": "eu"
-                        },
-                        {
-                            "fingerprint": 1319888212,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 2809207918,
-                            "name": "graves-refmap.json"
-                        },
-                        {
-                            "fingerprint": 802849216,
-                            "name": "universal-graves.mixins.json"
-                        },
-                        {
-                            "fingerprint": 1915257002,
-                            "name": "universalgraves.accesswidener"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.4",
-                            "gameVersionName": "1.21.4",
-                            "gameVersionPadded": "0000000001.0000000021.0000000004",
-                            "gameVersionReleaseDate": "2024-12-03T16:26:15.35Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Quilt",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-05-26T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.4",
-                            "gameVersionName": "1.21.4-Snapshot",
-                            "gameVersionPadded": "0000000001.0000000021.0000000004",
-                            "gameVersionReleaseDate": "2024-11-01T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        }
-                    ]
-                }
-            ],
-            "latestFilesIndexes": [
-                {
-                    "fileId": 5945288,
-                    "filename": "graves-3.6.0+1.21.4.jar",
-                    "gameVersion": "1.21.4",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5945288,
-                    "filename": "graves-3.6.0+1.21.4.jar",
-                    "gameVersion": "1.21.4",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5834674,
-                    "filename": "graves-3.5.0+1.21.2.jar",
-                    "gameVersion": "1.21.3",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5834674,
-                    "filename": "graves-3.5.0+1.21.2.jar",
-                    "gameVersion": "1.21.3",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5834674,
-                    "filename": "graves-3.5.0+1.21.2.jar",
-                    "gameVersion": "1.21.2",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5834674,
-                    "filename": "graves-3.5.0+1.21.2.jar",
-                    "gameVersion": "1.21.2",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5706180,
-                    "filename": "graves-3.4.4+1.21.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5706180,
-                    "filename": "graves-3.4.4+1.21.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5706180,
-                    "filename": "graves-3.4.4+1.21.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5706180,
-                    "filename": "graves-3.4.4+1.21.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5706124,
-                    "filename": "graves-3.0.3+1.20.1.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5706124,
-                    "filename": "graves-3.0.3+1.20.1.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5321555,
-                    "filename": "graves-3.3.3+1.20.5.jar",
-                    "gameVersion": "1.20.5",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5321555,
-                    "filename": "graves-3.3.3+1.20.5.jar",
-                    "gameVersion": "1.20.5",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5253453,
-                    "filename": "graves-3.2.2+1.20.4.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5253453,
-                    "filename": "graves-3.2.2+1.20.4.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4932211,
-                    "filename": "graves-3.2.0+1.20.3.jar",
-                    "gameVersion": "1.20.3",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4932211,
-                    "filename": "graves-3.2.0+1.20.3.jar",
-                    "gameVersion": "1.20.3",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4771455,
-                    "filename": "graves-3.1.1+1.20.2.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4771455,
-                    "filename": "graves-3.1.1+1.20.2.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4610073,
-                    "filename": "graves-3.0.0-beta.4+1.20.1.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4610073,
-                    "filename": "graves-3.0.0-beta.4+1.20.1.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4432377,
-                    "filename": "graves-2.2.1+1.19.4.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4432377,
-                    "filename": "graves-2.2.1+1.19.4.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4142005,
-                    "filename": "graves-2.2.0+1.19.3.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4142005,
-                    "filename": "graves-2.2.0+1.19.3.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4060158,
-                    "filename": "graves-2.1.3+1.19.2.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4060158,
-                    "filename": "graves-2.1.3+1.19.2.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3902740,
-                    "filename": "graves-2.1.1+1.19.1.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3902740,
-                    "filename": "graves-2.1.1+1.19.1.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3844931,
-                    "filename": "graves-2.1.0+1.19.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3844931,
-                    "filename": "graves-2.1.0+1.19.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 5,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3813884,
-                    "filename": "graves-2.0.3+1.18.2.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3662452,
-                    "filename": "graves-2.0.0-rc.5+1.18.1.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3638079,
-                    "filename": "graves-2.0.0-rc.2+1.18.1.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 3
-                },
-                {
-                    "fileId": 3583047,
-                    "filename": "graves-2.0.0-beta.3+1.18.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 3548769,
-                    "filename": "graves-1.2.2+1.18.jar",
-                    "gameVersion": "1.18",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3525741,
-                    "filename": "graves-1.1.4+1.17.1.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3486089,
-                    "filename": "graves-1.1.2+1.17.1.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3368061,
-                    "filename": "graves-1.0.5.jar",
-                    "gameVersion": "1.17",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 1
-                }
-            ],
-            "links": {
-                "issuesUrl": "https://github.com/Patbox/UniversalGraves/issues",
-                "sourceUrl": "https://github.com/Patbox/UniversalGraves",
-                "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/universal-graves",
-                "wikiUrl": ""
-            },
-            "logo": {
-                "description": "",
-                "id": 839702,
-                "modId": 497175,
-                "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/839/702/256/256/638233006907825987.png",
-                "title": "638233006907825987.png",
-                "url": "https://media.forgecdn.net/avatars/839/702/638233006907825987.png"
-            },
-            "mainFileId": 5945288,
-            "name": "Universal Graves",
-            "primaryCategoryId": 435,
-            "screenshots": [],
-            "slug": "universal-graves",
-            "status": 4,
-            "summary": "Customisable grave mod for Fabric!",
-            "thumbsUpCount": 0
-        },
-        {
-            "allowModDistribution": true,
-            "authors": [
-                {
-                    "avatarUrl": "https://static-cdn.jtvnw.net/user-default-pictures-uv/ebb84563-db81-4b9c-8940-64ed33ccfc7b-profile_image-150x150.png",
-                    "id": 102699573,
-                    "name": "b1n_ry",
-                    "url": "https://www.curseforge.com/members/b1n_ry"
-                }
-            ],
-            "categories": [
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:41:17.203Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/6/35/635351496772023801.png",
-                    "id": 420,
-                    "isClass": false,
-                    "name": "Storage",
-                    "parentCategoryId": 6,
-                    "slug": "storage",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/storage"
-                },
-                {
-                    "classId": 6,
-                    "dateModified": "2014-05-08T17:42:09.54Z",
-                    "gameId": 432,
-                    "iconUrl": "https://media.forgecdn.net/avatars/6/37/635351497295252123.png",
-                    "id": 422,
-                    "isClass": false,
-                    "name": "Adventure and RPG",
-                    "parentCategoryId": 6,
-                    "slug": "adventure-rpg",
-                    "url": "https://www.curseforge.com/minecraft/mc-mods/adventure-rpg"
-                }
-            ],
-            "classId": 6,
-            "dateCreated": "2021-11-06T20:49:28.697Z",
-            "dateModified": "2024-10-11T12:00:52.007Z",
-            "dateReleased": "2024-10-11T11:58:12.89Z",
-            "downloadCount": 17855772,
-            "gameId": 432,
-            "gamePopularityRank": 544,
-            "id": 544912,
-            "isAvailable": true,
-            "isFeatured": false,
-            "latestEarlyAccessFilesIndexes": [],
-            "latestFiles": [
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 306612,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "youre-in-grave-danger-1.2.2",
-                    "downloadCount": 172,
-                    "downloadUrl": "https://edge.forgecdn.net/files/3537/268/youre-in-grave-danger-1.2.2.jar",
-                    "fileDate": "2021-11-25T21:00:55.57Z",
-                    "fileFingerprint": 1575005338,
-                    "fileLength": 947378,
-                    "fileName": "youre-in-grave-danger-1.2.2.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.18-Snapshot"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "58f8e5b9f1004aeb32628c4cd70a6af3f90ed495"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "1bc1ef42a57f09bc2fddda770e1bd529"
-                        }
-                    ],
-                    "id": 3537268,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 544912,
-                    "modules": [
-                        {
-                            "fingerprint": 519084616,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 3657582198,
-                            "name": "LICENSE_youre-in-grave-danger"
-                        },
-                        {
-                            "fingerprint": 2489145676,
-                            "name": "yigd.mixins.json"
-                        },
-                        {
-                            "fingerprint": 3142997716,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 1374973092,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 2195631825,
-                            "name": "youre-in-grave-danger-refmap.json"
-                        },
-                        {
-                            "fingerprint": 3709962705,
-                            "name": "com"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.18",
-                            "gameVersionName": "1.18-Snapshot",
-                            "gameVersionPadded": "0000000001.0000000018",
-                            "gameVersionReleaseDate": "2021-08-12T00:00:00Z",
-                            "gameVersionTypeId": 73250
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 306612,
-                            "relationType": 3
-                        },
-                        {
-                            "modId": 348521,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "You're in Grave Danger 2.0.0-beta.13",
-                    "downloadCount": 1329580,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5370/734/youre-in-grave-danger-2.0.0-beta.13.jar",
-                    "fileDate": "2024-05-25T11:11:18.037Z",
-                    "fileFingerprint": 3185004712,
-                    "fileLength": 788378,
-                    "fileName": "youre-in-grave-danger-2.0.0-beta.13.jar",
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "Fabric",
-                        "Client",
-                        "1.20.1",
-                        "1.20",
-                        "Server"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "1c637514c77ecdc5f4bc2a0f2892fdd23b143df2"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "c952791106fb2aee5e8581ca28287ea2"
-                        }
-                    ],
-                    "id": 5370734,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 544912,
-                    "modules": [
-                        {
-                            "fingerprint": 3247416855,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 3657582198,
-                            "name": "LICENSE_youre-in-grave-danger"
-                        },
-                        {
-                            "fingerprint": 489923940,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 3403661570,
-                            "name": "com"
-                        },
-                        {
-                            "fingerprint": 4082410288,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 3189287379,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 229855026,
-                            "name": "yigd.mixins.json"
-                        },
-                        {
-                            "fingerprint": 674152078,
-                            "name": "youre-in-grave-danger-refmap.json"
-                        }
-                    ],
-                    "releaseType": 2,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Client",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        },
-                        {
-                            "gameVersion": "1.20.1",
-                            "gameVersionName": "1.20.1",
-                            "gameVersionPadded": "0000000001.0000000020.0000000001",
-                            "gameVersionReleaseDate": "2023-06-12T14:26:38.477Z",
-                            "gameVersionTypeId": 75125
-                        },
-                        {
-                            "gameVersion": "1.20",
-                            "gameVersionName": "1.20",
-                            "gameVersionPadded": "0000000001.0000000020",
-                            "gameVersionReleaseDate": "2023-06-07T00:00:00Z",
-                            "gameVersionTypeId": 75125
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Server",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 348521,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "You're in Grave Danger [NeoForge] 2.0.4",
-                    "downloadCount": 43156,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5748/762/youre-in-grave-danger-neoforge-2.0.4.jar",
-                    "fileDate": "2024-09-23T07:28:32.393Z",
-                    "fileFingerprint": 1934706194,
-                    "fileLength": 414989,
-                    "fileName": "youre-in-grave-danger-neoforge-2.0.4.jar",
-                    "fileSizeOnDisk": 855356,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "Client",
-                        "NeoForge",
-                        "1.21.1",
-                        "Server"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "b4f584ad4d8e2f40ffb32af21f7d6d9920300628"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "08aab429360309c98acd93ad5172e734"
-                        }
-                    ],
-                    "id": 5748762,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 544912,
-                    "modules": [
-                        {
-                            "fingerprint": 1532615390,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 360907538,
-                            "name": "com"
-                        },
-                        {
-                            "fingerprint": 4210633124,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 1202415794,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 2589578267,
-                            "name": "yigd.mixins.json"
-                        }
-                    ],
-                    "releaseType": 2,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Client",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "NeoForge",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Server",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 306612,
-                            "relationType": 3
-                        },
-                        {
-                            "modId": 348521,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "You're in Grave Danger [Fabric] 2.4.11",
-                    "downloadCount": 34725,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5802/603/youre-in-grave-danger-fabric-2.4.11.jar",
-                    "fileDate": "2024-10-11T11:57:23.957Z",
-                    "fileFingerprint": 1543648979,
-                    "fileLength": 805007,
-                    "fileName": "youre-in-grave-danger-fabric-2.4.11.jar",
-                    "fileSizeOnDisk": 1261765,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "Fabric",
-                        "Client",
-                        "1.21.1",
-                        "Server"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "8fd166708e500fb5b33546f9b3d9cfd3f4f3e77d"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "f320aa2bd0a3623bbcdb936a9028b96e"
-                        }
-                    ],
-                    "id": 5802603,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 544912,
-                    "modules": [
-                        {
-                            "fingerprint": 173603671,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 3652499857,
-                            "name": "LICENSE_youre-in-grave-danger-fabric"
-                        },
-                        {
-                            "fingerprint": 2172095486,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 2523258317,
-                            "name": "com"
-                        },
-                        {
-                            "fingerprint": 1202415794,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 1447163646,
-                            "name": "fabric.mod.json"
-                        },
-                        {
-                            "fingerprint": 1161101927,
-                            "name": "yigd.mixins.json"
-                        },
-                        {
-                            "fingerprint": 1313213083,
-                            "name": "youre-in-grave-danger-fabric-refmap.json"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Fabric",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-09-01T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Client",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Server",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        }
-                    ]
-                },
-                {
-                    "alternateFileId": 0,
-                    "dependencies": [
-                        {
-                            "modId": 348521,
-                            "relationType": 3
-                        }
-                    ],
-                    "displayName": "You're in Grave Danger [NeoForge] 2.0.7",
-                    "downloadCount": 115090,
-                    "downloadUrl": "https://edge.forgecdn.net/files/5802/611/youre-in-grave-danger-neoforge-2.0.7.jar",
-                    "fileDate": "2024-10-11T11:58:12.89Z",
-                    "fileFingerprint": 3915117135,
-                    "fileLength": 420979,
-                    "fileName": "youre-in-grave-danger-neoforge-2.0.7.jar",
-                    "fileSizeOnDisk": 870073,
-                    "fileStatus": 4,
-                    "gameId": 432,
-                    "gameVersions": [
-                        "1.21",
-                        "Client",
-                        "NeoForge",
-                        "1.21.1",
-                        "Server"
-                    ],
-                    "hashes": [
-                        {
-                            "algo": 1,
-                            "value": "06864eda0ad6417656dce3ee8e1a0664a97f507b"
-                        },
-                        {
-                            "algo": 2,
-                            "value": "c8c29b3bb4700cb3f71c12e50ce7e47c"
-                        }
-                    ],
-                    "id": 5802611,
-                    "isAvailable": true,
-                    "isServerPack": false,
-                    "modId": 544912,
-                    "modules": [
-                        {
-                            "fingerprint": 2666527421,
-                            "name": "META-INF"
-                        },
-                        {
-                            "fingerprint": 210531084,
-                            "name": "com"
-                        },
-                        {
-                            "fingerprint": 1209565310,
-                            "name": "assets"
-                        },
-                        {
-                            "fingerprint": 1202415794,
-                            "name": "data"
-                        },
-                        {
-                            "fingerprint": 2589578267,
-                            "name": "yigd.mixins.json"
-                        }
-                    ],
-                    "releaseType": 1,
-                    "sortableGameVersions": [
-                        {
-                            "gameVersion": "1.21",
-                            "gameVersionName": "1.21",
-                            "gameVersionPadded": "0000000001.0000000021",
-                            "gameVersionReleaseDate": "2024-06-14T00:00:00Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Client",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "NeoForge",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2023-07-25T00:00:00Z",
-                            "gameVersionTypeId": 68441
-                        },
-                        {
-                            "gameVersion": "1.21.1",
-                            "gameVersionName": "1.21.1",
-                            "gameVersionPadded": "0000000001.0000000021.0000000001",
-                            "gameVersionReleaseDate": "2024-08-08T15:17:53.787Z",
-                            "gameVersionTypeId": 77784
-                        },
-                        {
-                            "gameVersion": "",
-                            "gameVersionName": "Server",
-                            "gameVersionPadded": "0",
-                            "gameVersionReleaseDate": "2022-12-08T00:00:00Z",
-                            "gameVersionTypeId": 75208
-                        }
-                    ]
-                }
-            ],
-            "latestFilesIndexes": [
-                {
-                    "fileId": 5802611,
-                    "filename": "youre-in-grave-danger-neoforge-2.0.7.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5802611,
-                    "filename": "youre-in-grave-danger-neoforge-2.0.7.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5802603,
-                    "filename": "youre-in-grave-danger-fabric-2.4.11.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5802603,
-                    "filename": "youre-in-grave-danger-fabric-2.4.11.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5802593,
-                    "filename": "youre-in-grave-danger-fabric-2.0.10.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5802593,
-                    "filename": "youre-in-grave-danger-fabric-2.0.10.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5748762,
-                    "filename": "youre-in-grave-danger-neoforge-2.0.4.jar",
-                    "gameVersion": "1.21",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 5748762,
-                    "filename": "youre-in-grave-danger-neoforge-2.0.4.jar",
-                    "gameVersion": "1.21.1",
-                    "gameVersionTypeId": 77784,
-                    "modLoader": 6,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 5602627,
-                    "filename": "youre-in-grave-danger-2.3.0.jar",
-                    "gameVersion": "1.20.6",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5602624,
-                    "filename": "youre-in-grave-danger-2.2.0.jar",
-                    "gameVersion": "1.20.4",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5602622,
-                    "filename": "youre-in-grave-danger-2.1.0.jar",
-                    "gameVersion": "1.20.2",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 5370734,
-                    "filename": "youre-in-grave-danger-2.0.0-beta.13.jar",
-                    "gameVersion": "1.20.1",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 5370734,
-                    "filename": "youre-in-grave-danger-2.0.0-beta.13.jar",
-                    "gameVersion": "1.20",
-                    "gameVersionTypeId": 75125,
-                    "modLoader": 4,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 4503999,
-                    "filename": "youre-in-grave-danger-1.6.0.jar",
-                    "gameVersion": "1.19.4",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4503997,
-                    "filename": "youre-in-grave-danger-1.5.2.jar",
-                    "gameVersion": "1.19.3",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4503995,
-                    "filename": "youre-in-grave-danger-1.4.9.jar",
-                    "gameVersion": "1.19.2",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4503995,
-                    "filename": "youre-in-grave-danger-1.4.9.jar",
-                    "gameVersion": "1.19.1",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4503995,
-                    "filename": "youre-in-grave-danger-1.4.9.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 4503992,
-                    "filename": "youre-in-grave-danger-1.3.15.jar",
-                    "gameVersion": "1.18.2",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3825168,
-                    "filename": "youre-in-grave-danger-1.4.1-beta.1.jar",
-                    "gameVersion": "1.19",
-                    "gameVersionTypeId": 73407,
-                    "modLoader": 4,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 3807306,
-                    "filename": "youre-in-grave-danger-1.2.27.jar",
-                    "gameVersion": "1.18.1",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3645090,
-                    "filename": "youre-in-grave-danger-1.1.15.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3645089,
-                    "filename": "youre-in-grave-danger-1.0.9.jar",
-                    "gameVersion": "1.16.5",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3640140,
-                    "filename": "youre-in-grave-danger-1.1.12.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "modLoader": 4,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 3640137,
-                    "filename": "youre-in-grave-danger-1.0.4.jar",
-                    "gameVersion": "1.16.5",
-                    "gameVersionTypeId": 70886,
-                    "modLoader": 4,
-                    "releaseType": 2
-                },
-                {
-                    "fileId": 3554082,
-                    "filename": "youre-in-grave-danger-1.2.6.jar",
-                    "gameVersion": "1.18",
-                    "gameVersionTypeId": 73250,
-                    "modLoader": 4,
-                    "releaseType": 1
-                },
-                {
-                    "fileId": 3537267,
-                    "filename": "youre-in-grave-danger-1.1.8.jar",
-                    "gameVersion": "1.17.1",
-                    "gameVersionTypeId": 73242,
-                    "releaseType": 1
-                }
-            ],
-            "links": {
-                "issuesUrl": "https://github.com/B1n-ry/Youre-in-grave-danger/issues",
-                "sourceUrl": "https://github.com/B1n-ry/Youre-in-grave-danger",
-                "websiteUrl": "https://www.curseforge.com/minecraft/mc-mods/youre-in-grave-danger",
-                "wikiUrl": "https://github.com/B1n-ry/Youre-in-grave-danger/wiki"
-            },
-            "logo": {
-                "description": "",
-                "id": 453234,
-                "modId": 544912,
-                "thumbnailUrl": "https://media.forgecdn.net/avatars/thumbnails/453/234/256/256/637718285687638364.png",
-                "title": "637718285687638364.png",
-                "url": "https://media.forgecdn.net/avatars/453/234/637718285687638364.png"
-            },
-            "mainFileId": 5802611,
-            "name": "You're in Grave Danger",
-            "primaryCategoryId": 422,
-            "screenshots": [
-                {
-                    "description": "Grave using custom model resource pack",
-                    "id": 419153,
-                    "modId": 544912,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/419/153/310/172/2021-12-28_20.png",
-                    "title": "head on a pole",
-                    "url": "https://media.forgecdn.net/attachments/419/153/2021-12-28_20.png"
-                },
-                {
-                    "description": "Grave using the adapt renderer underground in a lush cave",
-                    "id": 412551,
-                    "modId": 544912,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/412/551/310/172/2021-12-04_20.png",
-                    "title": "Grave in lush cave",
-                    "url": "https://media.forgecdn.net/attachments/412/551/2021-12-04_20.png"
-                },
-                {
-                    "description": "Grave using the adapt renderer config",
-                    "id": 409504,
-                    "modId": 544912,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/409/504/310/172/2021-11-21_22.png",
-                    "title": "Grave",
-                    "url": "https://media.forgecdn.net/attachments/409/504/2021-11-21_22.png"
-                },
-                {
-                    "description": "Grave with default textures/render",
-                    "id": 412553,
-                    "modId": 544912,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/412/553/310/172/2021-12-04_23.png",
-                    "title": "Grave",
-                    "url": "https://media.forgecdn.net/attachments/412/553/2021-12-04_23.png"
-                },
-                {
-                    "description": "Grave model with more than cuboids generated from a resource pack",
-                    "id": 419154,
-                    "modId": 544912,
-                    "thumbnailUrl": "https://media.forgecdn.net/attachments/thumbnails/419/154/310/172/2021-12-29_03.png",
-                    "title": "Advanced Grave Model",
-                    "url": "https://media.forgecdn.net/attachments/419/154/2021-12-29_03.png"
-                }
-            ],
-            "slug": "youre-in-grave-danger",
-            "status": 4,
-            "summary": "A fabric grave mod for easier item retrieval",
-            "thumbsUpCount": 0
-        }
-    ],
-    "pagination": {
-        "index": 0,
-        "pageSize": 20,
-        "resultCount": 6,
-        "totalCount": 6
+        "mainFileId": 5983972,
+        "name": "Iris Shaders",
+        "primaryCategoryId": 425,
+        "screenshots": [],
+        "slug": "irisshaders",
+        "status": 4,
+        "summary": "A modern shaders mod for Minecraft intended to be compatible with existing Optifine shaders",
+        "thumbsUpCount": 0
     }
 }

@@ -6,6 +6,7 @@ from pathlib import Path
 import platformdirs
 import darkdetect
 import logging
+import markdown
 import ctypes
 import os
 
@@ -234,6 +235,8 @@ class Window(Qt.QMainWindow):
         self.modsScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.modsScroll.setWidget(self.modsScrollWidget)
         self.modsListLayout.addWidget(self.modsScroll)
+
+        self.modsListWidget.setVisible(False)
     
     def buildModSearch(self):
         """builds the UI for the mod search part"""
@@ -290,6 +293,8 @@ class Window(Qt.QMainWindow):
         self.resultsScrollLayout.setAlignment(QtCore.Qt.AlignTop)
         self.resultsScroll.setWidget(self.resultsScrollWidget)
         self.modSearchLayout.addWidget(self.resultsScroll)
+
+        self.modSearchWidget.setVisible(False)
     
     def buildModDescription(self):
         """builds the UI for the mod description part"""
@@ -298,13 +303,17 @@ class Window(Qt.QMainWindow):
         self.modNameLayout = Qt.QHBoxLayout()
         self.modNameLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
         self.modNameWidget.setLayout(self.modNameLayout)
-        self.modDescriptionLayout.addWidget(self.modNameWidget)
+        self.modDescriptionLayout.addWidget(self.modNameWidget, 1)
 
-        #TODO: mod icon display
+        # mod icon
+        self.modDescriptionIcon = Qt.QLabel()
+        self.modDescriptionIcon.setFixedSize(50, 50)
+        self.modNameLayout.addWidget(self.modDescriptionIcon, 1)
 
-        self.modNameLabel = Qt.QLabel("Iris Shader")  #TODO: placeholder text
+        self.modNameLabel = Qt.QLabel()
         self.modNameLabel.setFont(Fonts.bigTitleFont)
-        self.modNameLayout.addWidget(self.modNameLabel)
+        self.modNameLabel.setWordWrap(True)
+        self.modNameLayout.addWidget(self.modNameLabel, 1)
 
         self.separationLine = customWidgets.SeparationLine()
         self.modDescriptionLayout.addWidget(self.separationLine)
@@ -319,7 +328,6 @@ class Window(Qt.QMainWindow):
         self.modDescriptionLayout.addWidget(self.modDescriptionScroll)
 
         self.modDescriptionText = Qt.QTextBrowser()
-        self.modDescriptionText.setHtml(r'<h2>Links</h2> <ul> <li><strong>Visit <a href="https://irisshaders.dev" rel="noopener nofollow ugc">our website</a> for downloads and pretty screenshots!</strong></li> <li><strong>Visit <a href="https://modrinth.com/shaders">the shaders section</a> to find shader packs!</strong></li> <li>Visit <a href="https://discord.gg/jQJnav2jPu" rel="noopener nofollow ugc">our Discord server</a> to chat about the mod and get support! It\'s also a great place to get development updates right as they\'re happening.</li> <li>Visit <a href="https://github.com/IrisShaders/Iris/tree/1.21/docs/development" rel="noopener nofollow ugc">the developer documentation</a> for information on developing, building, and contributing to Iris!</li> </ul> <h2>Installation</h2> <p>You can find a guide to installation <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/guide.md" rel="noopener nofollow ugc">here</a>.</p> <h2>FAQ</h2> <ul> <li>Find answers to frequently asked questions on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/faq.md" rel="noopener nofollow ugc">FAQ page</a>.</li> <li>Iris supports almost all shaderpacks, but a list of unsupported shaderpacks is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/unsupportedshaders.md" rel="noopener nofollow ugc">here</a>.</li> <li>A list of unfixable limitations in Iris is available <a href="https://github.com/IrisShaders/Iris/blob/1.21/docs/usage/limitations.md" rel="noopener nofollow ugc">here</a>.</li> </ul> <h2>More Info</h2> <p>More info can be found on our <a href="https://github.com/IrisShaders/Iris/blob/1.21/README.md" rel="noopener nofollow ugc">README</a>.</p>')  #TODO: placeholder text, also need to remove links
         self.modDescriptionText.setFont(Fonts.textFont)
         self.modDescriptionText.setStyleSheet("background: transparent;")
         self.modDescriptionScrollLayout.addWidget(self.modDescriptionText)
@@ -360,6 +368,8 @@ class Window(Qt.QMainWindow):
         self.installModButton.setFont(Fonts.titleFont)
         self.installModButton.setFixedHeight(50)
         self.installButtonsLayout.addWidget(self.installModButton)
+
+        self.modInstallWidget.setVisible(False)
     
     def setupInterface(self):
         """setup the interface after its creation"""
@@ -392,6 +402,8 @@ class Window(Qt.QMainWindow):
         for profile in self.profileWidgets:
             if profile.name == profileName:
                 self.currentProfile = profileName
+                self.modsListWidget.setVisible(True)
+                self.modSearchWidget.setVisible(True)
                 self.currentProfileProperties = Methods.getProfiles()[profileName]
             else:
                 profile.setSelected(False)
@@ -422,13 +434,31 @@ class Window(Qt.QMainWindow):
             self.resultsScrollLayout.addWidget(self.modWidgets[-1])
             self.modWidgets[-1].wasSelected.connect(self.selectMod)
     
-    def selectMod(self, modId:str):
+    def selectMod(self, modData:dict):
         """select a mod and deselect the others"""
+        modId = modData["id"]
+        platform = modData["platform"].lower()
         for mod in self.modWidgets:
             if mod.modId == modId:
                 self.currentMod = modId
+                self.modInstallWidget.setVisible(True)
             else:
                 mod.setSelected(False)
+        
+        modRequestData = Methods.getModInfos(modId, modData["platform"])
+        
+        # put the mod infos in the mod description
+        self.modNameLabel.setText(modData["name"])
+        iconCacheDir = cacheDir/"modIcons"/platform
+        Methods.downloadIcon(modRequestData, platform, modId)
+        if os.path.exists(iconCacheDir/f"{modId}.png"):
+            self.modDescriptionIcon.setPixmap(QtGui.QPixmap(str(iconCacheDir/f"{modId}.png")).scaled(50, 50))
+        else:
+            self.modDescriptionIcon.setPixmap(QtGui.QPixmap(str(iconsAssetsDir/"noMedia.png")).scaled(50, 50))
+        if platform == "modrinth":
+            self.modDescriptionText.setHtml(Methods.cleanHtml(markdown.markdown(modRequestData["body"])))
+        elif platform == "curseforge":
+            self.modDescriptionText.setHtml(f"<h2>{modRequestData["data"]["summary"]}<\\h2>")
 
 
 def setDarkMode(App:Qt.QApplication):

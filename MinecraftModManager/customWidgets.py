@@ -37,7 +37,7 @@ class ProfileSelect(Qt.QFrame):
         self.informationsWidget = Qt.QWidget()
         self.informationsLayout = Qt.QVBoxLayout()
         self.informationsWidget.setLayout(self.informationsLayout)
-        self.mainLayout.addWidget(self.informationsWidget)
+        self.mainLayout.addWidget(self.informationsWidget, 1)  # the 1 makes the widget expandable
 
         self.nameLabel = Qt.QLabel(self.name)
         self.nameLabel.setFont(Fonts.smallTitleFont)
@@ -159,7 +159,7 @@ class ModSelect(Qt.QFrame):
             self.isSelected = False
 
 class SearchModSelect(Qt.QFrame):
-    wasSelected = QtCore.pyqtSignal(str)
+    wasSelected = QtCore.pyqtSignal(dict)
     def __init__(self, modData:dict):
         """a button to select the mod to view and install"""
         super().__init__()
@@ -167,7 +167,9 @@ class SearchModSelect(Qt.QFrame):
         self.mainLayout.setAlignment(QtCore.Qt.AlignLeft)
         self.setLayout(self.mainLayout)
 
+        self.modData = modData
         self.name = modData["name"]
+        self.author = modData["author"]
         self.iconPath = modData["icon"]
         self.modId = modData["id"]
         self.platform = modData["platform"]
@@ -175,19 +177,27 @@ class SearchModSelect(Qt.QFrame):
 
         # mod icon
         self.iconLabel = Qt.QLabel()
-        self.iconLabel.setPixmap(QtGui.QPixmap(str(self.iconPath)).scaled(64, 64))
+        if os.path.exists(self.iconPath):
+            self.iconLabel.setPixmap(QtGui.QPixmap(str(self.iconPath)).scaled(64, 64))
+        else:
+            self.iconLabel.setPixmap(QtGui.QPixmap(str(iconsAssetsDir/"noMedia.png")).scaled(64, 64))
         self.mainLayout.addWidget(self.iconLabel)
 
         # widget containing the informations about the mod
         self.textWidget = Qt.QWidget()
         self.textLayout = Qt.QVBoxLayout()
         self.textWidget.setLayout(self.textLayout)
-        self.mainLayout.addWidget(self.textWidget)
+        self.mainLayout.addWidget(self.textWidget, 1)  # the 1 makes the widget expandable
 
         self.nameLabel = Qt.QLabel(self.name)
         self.nameLabel.setFont(Fonts.smallTitleFont)
         self.nameLabel.setWordWrap(True)
         self.textLayout.addWidget(self.nameLabel)
+
+        self.authorLabel = Qt.QLabel(f"by {self.author}")
+        self.authorLabel.setFont(Fonts.textFont)
+        self.authorLabel.setWordWrap(True)
+        self.textLayout.addWidget(self.authorLabel)
 
         # mouse tracking
         self.setMouseTracking(True)
@@ -223,7 +233,7 @@ class SearchModSelect(Qt.QFrame):
         if selected:
             self.setFrameShape(Qt.QFrame.Box)
             self.isSelected = True
-            self.wasSelected.emit(self.modId)
+            self.wasSelected.emit(self.modData)
         else:
             self.setFrameShape(Qt.QFrame.NoFrame)
             self.isSelected = False
