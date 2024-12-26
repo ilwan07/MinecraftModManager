@@ -25,6 +25,7 @@ class Window(Qt.QMainWindow):
     def __init__(self):
         """a class to manage the app and its main window"""
         self.currentProfile = None
+        self.currentModData = {}
 
     def start(self):
         """launches the GUI and the app"""
@@ -351,6 +352,11 @@ class Window(Qt.QMainWindow):
         self.versionsScroll.setWidget(self.versionsScrollWidget)
         self.modVersionsLayout.addWidget(self.versionsScroll)
 
+        # radio buttons for each version
+        self.versionsRadio = customWidgets.ModVersionRadio()
+        self.onlyShowCompatible.stateChanged.connect(self.updateVersions)
+        self.versionsScrollLayout.addWidget(self.versionsRadio)
+
         # buttons to install or remove mod
         self.installButtonsWidget = Qt.QWidget()
         self.installButtonsLayout = Qt.QHBoxLayout()
@@ -401,6 +407,8 @@ class Window(Qt.QMainWindow):
         """select a profile and deselect the others"""
         for profile in self.profileWidgets:
             if profile.name == profileName:
+                if profileName != self.currentProfile:
+                    self.clearSearch()
                 self.currentProfile = profileName
                 self.modsListWidget.setVisible(True)
                 self.modSearchWidget.setVisible(True)
@@ -436,6 +444,7 @@ class Window(Qt.QMainWindow):
     
     def selectMod(self, modData:dict):
         """select a mod and deselect the others"""
+        self.currentModData = modData
         modId = modData["id"]
         platform = modData["platform"].lower()
         for mod in self.modWidgets:
@@ -459,6 +468,21 @@ class Window(Qt.QMainWindow):
             self.modDescriptionText.setHtml(Methods.cleanHtml(markdown.markdown(modRequestData["body"])))
         elif platform == "curseforge":
             self.modDescriptionText.setHtml(f"<h2>{modRequestData["data"]["summary"]}<\\h2>")
+        
+        # get and display the mod versions
+        self.updateVersions()
+    
+    def updateVersions(self):
+        """update the list of versions for the selected mod"""
+        self.versionsInfos = Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"], self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"])
+        self.versionsRadio.setVersions(self.versionsInfos)
+    
+    def clearSearch(self):
+        """clear the search section"""
+        self.searchBar.clear()
+        for i in reversed(range(self.resultsScrollLayout.count())):
+            self.resultsScrollLayout.itemAt(i).widget().deleteLater()
+        self.modInstallWidget.setVisible(False)
 
 
 def setDarkMode(App:Qt.QApplication):

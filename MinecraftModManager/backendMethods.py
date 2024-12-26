@@ -39,7 +39,11 @@ class Start():
 
 
 class Methods():
-    """a class containing usefull methods"""
+    def __init__(self):
+        """a class containing usefull methods"""
+        self.curseforgeModloaders = {"fabric": 4, "forge": 1, "neoforge": 6, "quilt": 5}
+        self.curseforgeReleases = {1: "release", 2: "beta", 3: "alpha"}
+
     def curseforgeRequest(self, endpoint, **params) -> dict:
         """make a generic request to the curseforge api via the proxy containing the api key"""
         serverUrl = "http://mmm.ilwan.hackclub.app/curseforge"
@@ -57,11 +61,10 @@ class Methods():
     
     def curseforgeSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=50) -> dict:
         """search for a mod on curseforge"""
-        modloaders = {"fabric": 4, "forge": 1, "neoforge": 6, "quilt": 5}
         if onlyCompatible:
-            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=modloaders[modloader.lower()], gameVersion=version, pageSize=nbResults)
+            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=self.curseforgeModloaders[modloader.lower()], gameVersion=version, pageSize=nbResults, classId=6)
         else:
-            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=modloaders[modloader.lower()], pageSize=nbResults)
+            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=self.curseforgeModloaders[modloader.lower()], pageSize=nbResults, classId=6)
         log.info(f"searched for mod on curseforge: {query}")
         return result
 
@@ -140,7 +143,10 @@ class Methods():
             if platform.lower() == "modrinth":
                 iconUrl = modData["icon_url"]
             elif platform.lower() == "curseforge":
-                iconUrl = modData["logo"]["thumbnailUrl"]
+                if "logo" in modData:
+                    iconUrl = modData["logo"]["thumbnailUrl"]
+                else:
+                    iconUrl = None
             else:
                 log.error(f"platform {platform} is not supported")
                 return
@@ -166,9 +172,42 @@ class Methods():
             img.decompose()
         return str(soup)
     
-    def getMods(self, profile:str) -> dict:
-        """get a dictionary of all the mods in the profile, return a dict of the mods names (filenames if custom) and their properties (if not custom)"""
-        pass  #TODO
+    def getVersionsInfos(self, modId:str, platform:str, modloader:str, onlyCompatible:bool=False, mcVersion:str=None) -> dict:
+        """get a dictionary of all the versions of a mod with version as key,
+        then the minecraft versions, version id, the mod id, the platform, the modloader, the release type, the download url and the filename"""
+        self.modVersions = {}
+        modData = self.getModInfos(modId, platform)
+        if platform.lower() == "modrinth":
+            for version in reversed(modData["versions"]):  # for each version id of the mod
+                versionData = self.modrinthRequest(f"version/{version}")
+                if versionData is None:
+                    continue
+                if modloader.lower() in versionData["loaders"]:
+                    if onlyCompatible:
+                        if mcVersion not in versionData["game_versions"]:
+                            continue
+                    self.modVersions[versionData["version_number"]] = {"mcVersions": versionData["game_versions"],
+                                                                        "versionId": version,
+                                                                        "modId": modId, "platform": platform, "modloader": modloader,
+                                                                       "releaseType": versionData["version_type"],
+                                                                       "downloadUrl": versionData["files"][0]["url"],
+                                                                       "filename": versionData["files"][0]["filename"]}
+
+        elif platform.lower() == "curseforge":
+            for version in modData["data"]["latestFilesIndexes"]:
+                if self.curseforgeModloaders[modloader.lower()] == version["modLoader"]:
+                    if onlyCompatible:
+                        if version["gameVersion"] != mcVersion:
+                            continue
+                    versionData = self.curseforgeRequest(f"mods/{modId}/files/{version['fileId']}")
+                    self.modVersions[versionData["data"]["displayName"]] = {"mcVersions": [mcVersion["gameVersion"] for mcVersion in versionData["data"]["sortableGameVersions"] if mcVersion["gameVersion"]],
+                                                                "versionId": version["fileId"],
+                                                                "modId": modId, "platform": platform, "modloader": modloader,
+                                                                "releaseType": self.curseforgeReleases[version["releaseType"]],
+                                                                "downloadUrl": versionData["data"]["downloadUrl"],
+                                                                "filename": version["filename"]}
+        return self.modVersions
+
 
 class addProfilePopup(Qt.QDialog):
     """popup to create a new profile"""

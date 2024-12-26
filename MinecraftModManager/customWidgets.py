@@ -237,3 +237,39 @@ class SearchModSelect(Qt.QFrame):
         else:
             self.setFrameShape(Qt.QFrame.NoFrame)
             self.isSelected = False
+
+class ModVersionRadio(Qt.QWidget):
+    def __init__(self):
+        """a serie of radio buttons to select the mod version, given a list of versions with their properties"""
+        super().__init__()
+        self.versions = {}
+        self.radioButtons = []
+        self.mainLayout = Qt.QVBoxLayout()
+        self.setLayout(self.mainLayout)
+        self.radioGroup = Qt.QButtonGroup(self)
+    
+    def setVersions(self, versions:dict):
+        """update the radio buttons with the new versions"""
+        self.versions = versions
+        # clear previous radio buttons
+        for radioButton in self.radioButtons:
+            self.radioGroup.removeButton(radioButton)
+        self.radioButtons = []
+        for i in reversed(range(self.mainLayout.count())):
+            self.mainLayout.itemAt(i).widget().deleteLater()
+        
+        # create new radio buttons
+        for version, properties in self.versions.items():
+            radioButton = Qt.QRadioButton(f"{properties["releaseType"]} - {version}")
+            radioButton.setFont(Fonts.subtitleFont)
+            self.radioGroup.addButton(radioButton)
+            self.radioButtons.append(radioButton)
+            self.mainLayout.addWidget(radioButton)
+    
+    def getCheckedVersion(self):
+        """return the version data of the checked radio button"""
+        for radioButton in self.radioGroup.buttons():
+            if radioButton.isChecked():
+                version = radioButton.text()
+                return version, self.versions[version]
+        return None
