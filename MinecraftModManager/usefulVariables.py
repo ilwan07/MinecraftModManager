@@ -22,6 +22,9 @@ profilesDir = appDataDir/"profiles"  # path to the profiles folder
 cacheDir = appDataDir/"cache"  # path to the cache folder
 logDir = appDataDir/"logs"  # path to the logs folder
 
+modrinthApi = "https://api.modrinth.com/v2"
+curseForgeApi = "http://mmm.ilwan.hackclub.app/curseforge"
+
 class Fonts():
     """a class containing useful fonts"""
     bigTitleFont = QtGui.QFont("Arial", 24)

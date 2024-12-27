@@ -8,6 +8,7 @@ import darkdetect
 import logging
 import markdown
 import ctypes
+import asyncio
 import os
 
 log = logging.getLogger(__name__)
@@ -474,7 +475,7 @@ class Window(Qt.QMainWindow):
     
     def updateVersions(self):
         """update the list of versions for the selected mod"""
-        self.versionsInfos = Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"], self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"])
+        self.versionsInfos = asyncio.run(Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"].lower(), self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"]))
         self.versionsRadio.setVersions(self.versionsInfos)
     
     def clearSearch(self):

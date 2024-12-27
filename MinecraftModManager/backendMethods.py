@@ -5,15 +5,17 @@ from pathlib import Path
 import PyQt5.QtWidgets as Qt
 from PyQt5.QtWidgets import QMessageBox
 from PyQt5 import QtCore, QtGui
+from bs4 import BeautifulSoup
+from datetime import datetime
 import minecraft_launcher_lib
 import platformdirs
 import requests
 import logging
-import shutil
+import asyncio
+import aiohttp
 import glob
 import json
 import os
-from bs4 import BeautifulSoup
 
 localPath = Path(__file__).resolve().parent  # path of the software folder
 appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
@@ -46,8 +48,7 @@ class Methods():
 
     def curseforgeRequest(self, endpoint, **params) -> dict:
         """make a generic request to the curseforge api via the proxy containing the api key"""
-        serverUrl = "http://mmm.ilwan.hackclub.app/curseforge"
-        url = f"{serverUrl}/{endpoint}"
+        url = f"{curseForgeApi}/{endpoint}"
 
         try:
             response = requests.get(url, params=params)
@@ -70,7 +71,7 @@ class Methods():
 
     def modrinthRequest(self, endpoint:str, **params) -> dict:
         """directly make a generic request to the modrinth api"""
-        url = f"https://api.modrinth.com/v2/{endpoint}"
+        url = f"{modrinthApi}/{endpoint}"
         try:
             response = requests.get(url, params=params)
             response.raise_for_status()
@@ -172,41 +173,68 @@ class Methods():
             img.decompose()
         return str(soup)
     
-    def getVersionsInfos(self, modId:str, platform:str, modloader:str, onlyCompatible:bool=False, mcVersion:str=None) -> dict:
+    async def getVersionsInfos(self, modId:str, platform:str, modloader:str, onlyCompatible:bool=False, mcVersion:str=None) -> dict:
         """get a dictionary of all the versions of a mod with version as key,
         then the minecraft versions, version id, the mod id, the platform, the modloader, the release type, the download url and the filename"""
+        #TODO: cache the versions data and avoid requests as much as possible
         self.modVersions = {}
+        self.modVersionsData = []
+        self.modVersionThreads = []
         modData = self.getModInfos(modId, platform)
+
         if platform.lower() == "modrinth":
-            for version in reversed(modData["versions"]):  # for each version id of the mod
-                versionData = self.modrinthRequest(f"version/{version}")
-                if versionData is None:
-                    continue
+            versionsIds = modData["versions"]
+            self.modVersionsData = await self.fetchAll([f"{modrinthApi}/version/{versionId}" for versionId in versionsIds])
+            self.modVersionsData.sort(key=lambda data: datetime.fromisoformat(data["date_published"].replace("Z", "")), reverse=True)
+            for versionData in self.modVersionsData:
                 if modloader.lower() in versionData["loaders"]:
                     if onlyCompatible:
                         if mcVersion not in versionData["game_versions"]:
                             continue
                     self.modVersions[versionData["version_number"]] = {"mcVersions": versionData["game_versions"],
-                                                                        "versionId": version,
-                                                                        "modId": modId, "platform": platform, "modloader": modloader,
+                                                                       "versionId": versionData["id"],
+                                                                       "modId": modId, "platform": platform, "modloader": modloader,
                                                                        "releaseType": versionData["version_type"],
                                                                        "downloadUrl": versionData["files"][0]["url"],
                                                                        "filename": versionData["files"][0]["filename"]}
-
         elif platform.lower() == "curseforge":
-            for version in modData["data"]["latestFilesIndexes"]:
-                if self.curseforgeModloaders[modloader.lower()] == version["modLoader"]:
-                    if onlyCompatible:
-                        if version["gameVersion"] != mcVersion:
-                            continue
-                    versionData = self.curseforgeRequest(f"mods/{modId}/files/{version['fileId']}")
-                    self.modVersions[versionData["data"]["displayName"]] = {"mcVersions": [mcVersion["gameVersion"] for mcVersion in versionData["data"]["sortableGameVersions"] if mcVersion["gameVersion"]],
-                                                                "versionId": version["fileId"],
+            versionsIds = []
+            if onlyCompatible:
+                for modVersion in modData["data"]["latestFilesIndexes"]:
+                    if "modLoader" in modVersion:
+                        if self.curseforgeModloaders[modloader] == modVersion["modLoader"] and modVersion["gameVersion"] == mcVersion:
+                            versionsIds.append(modVersion["fileId"])
+            else:
+                for modVersion in modData["data"]["latestFilesIndexes"]:
+                    if "modLoader" in modVersion:
+                        if self.curseforgeModloaders[modloader] == modVersion["modLoader"]:
+                            versionsIds.append(modVersion["fileId"])
+            self.modVersionsData = await self.fetchAll([f"{curseForgeApi}/mods/{modId}/files/{versionId}" for versionId in versionsIds])
+            self.modVersionsData.sort(key=lambda data: datetime.fromisoformat(data["data"]["fileDate"].replace("Z", "")), reverse=True)
+            for versionData in self.modVersionsData:
+                self.modVersions[versionData["data"]["displayName"]] = {"mcVersions": [mcVersion["gameVersion"] for mcVersion in versionData["data"]["sortableGameVersions"] if mcVersion["gameVersion"]],
+                                                                "versionId": versionData["data"]["id"],
                                                                 "modId": modId, "platform": platform, "modloader": modloader,
-                                                                "releaseType": self.curseforgeReleases[version["releaseType"]],
+                                                                "releaseType": self.curseforgeReleases[versionData["data"]["releaseType"]],
                                                                 "downloadUrl": versionData["data"]["downloadUrl"],
-                                                                "filename": version["filename"]}
+                                                                "filename": versionData["data"]["fileName"]}
+        else:
+            log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
+    
+    async def fetch(self, session, url:str):
+        """fetch a url with aiohttp"""
+        async with session.get(url) as response:
+            return await response.json()
+
+    async def fetchAll(self, urls:list):
+        """fetch all the urls with aiohttp in parallel, don't preserve order"""
+        async with aiohttp.ClientSession() as session:
+            tasks = [self.fetch(session, url) for url in urls]
+            responses = []
+            for task in asyncio.as_completed(tasks):  # Process tasks as they finish
+                responses.append(await task)
+            return responses
 
 
 class addProfilePopup(Qt.QDialog):
