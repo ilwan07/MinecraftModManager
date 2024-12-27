@@ -99,7 +99,7 @@ class Methods():
             return self.curseforgeSearchMod(query, modloader, onlyCompatible, version, nbResults)
     
     def listMcVersions(self, onlyReleases:bool=True) -> list:
-        """returns a list of all the minecraft version"""
+        """returns a list of all the minecraft versions"""
         acceptedTypes = ["release"]
         if not onlyReleases:
             acceptedTypes.append("snapshot")
@@ -176,15 +176,37 @@ class Methods():
     async def getVersionsInfos(self, modId:str, platform:str, modloader:str, onlyCompatible:bool=False, mcVersion:str=None) -> dict:
         """get a dictionary of all the versions of a mod with version as key,
         then the minecraft versions, version id, the mod id, the platform, the modloader, the release type, the download url and the filename"""
-        #TODO: cache the versions data and avoid requests as much as possible
         self.modVersions = {}
         self.modVersionsData = []
         self.modVersionThreads = []
-        modData = self.getModInfos(modId, platform)
+
+        versionsDataCache = cacheDir/"modsVersions"/platform.lower()/modId
+        versionsDataCache.mkdir(parents=True, exist_ok=True)
+        modsDataCache = cacheDir/"modsData"/platform.lower()
+        modsDataCache.mkdir(parents=True, exist_ok=True)
 
         if platform.lower() == "modrinth":
+            # either request and save or load the mod data
+            if (modsDataCache/f"{modId}.json").exists():
+                with open(modsDataCache/f"{modId}.json", "r") as f:
+                    modData = json.load(f)
+            else:
+                modData = self.getModInfos(modId, platform)
+                with open(modsDataCache/f"{modId}.json", "w") as f:
+                    json.dump(modData, f, indent=4)
+            
             versionsIds = modData["versions"]
-            self.modVersionsData = await self.fetchAll([f"{modrinthApi}/version/{versionId}" for versionId in versionsIds])
+            versionsToFetch = [versionId for versionId in versionsIds if not (versionsDataCache/f"{versionId}.json").exists()]
+            alreadyFetched = [versionId for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
+            if versionsToFetch:
+                self.modVersionsData = await self.fetchAll([f"{modrinthApi}/version/{versionId}" for versionId in versionsIds])
+                for versionData in self.modVersionsData:
+                    print(versionData, "\n\n\n")
+                    with open(versionsDataCache/f"{versionData['id']}.json", "w") as f:
+                        json.dump(versionData, f, indent=4)
+            alreadyFetchedData = [json.load(open(versionsDataCache/f"{versionId}.json", "r")) for versionId in alreadyFetched]
+            self.modVersionsData.extend(alreadyFetchedData)
+            
             self.modVersionsData.sort(key=lambda data: datetime.fromisoformat(data["date_published"].replace("Z", "")), reverse=True)
             for versionData in self.modVersionsData:
                 if modloader.lower() in versionData["loaders"]:
@@ -198,6 +220,15 @@ class Methods():
                                                                        "downloadUrl": versionData["files"][0]["url"],
                                                                        "filename": versionData["files"][0]["filename"]}
         elif platform.lower() == "curseforge":
+            # either request and save or load the mod data
+            if (modsDataCache/f"{modId}.json").exists():
+                with open(modsDataCache/f"{modId}.json", "r") as f:
+                    modData = json.load(f)
+            else:
+                modData = self.getModInfos(modId, platform)
+                with open(modsDataCache/f"{modId}.json", "w") as f:
+                    json.dump(modData, f, indent=4)
+
             versionsIds = []
             if onlyCompatible:
                 for modVersion in modData["data"]["latestFilesIndexes"]:
@@ -209,7 +240,17 @@ class Methods():
                     if "modLoader" in modVersion:
                         if self.curseforgeModloaders[modloader] == modVersion["modLoader"]:
                             versionsIds.append(modVersion["fileId"])
-            self.modVersionsData = await self.fetchAll([f"{curseForgeApi}/mods/{modId}/files/{versionId}" for versionId in versionsIds])
+            
+            versionsToFetch = [versionId for versionId in versionsIds if not (versionsDataCache/f"{versionId}.json").exists()]
+            alreadyFetched = [versionId for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
+            if versionsToFetch:
+                self.modVersionsData = await self.fetchAll([f"{curseForgeApi}/mods/{modId}/files/{versionId}" for versionId in versionsIds])
+                for versionData in self.modVersionsData:
+                    with open(versionsDataCache/f"{versionData['data']['id']}.json", "w") as f:
+                        json.dump(versionData, f, indent=4)
+            alreadyFetchedData = [json.load(open(versionsDataCache/f"{versionId}.json", "r")) for versionId in alreadyFetched]
+            self.modVersionsData.extend(alreadyFetchedData)
+
             self.modVersionsData.sort(key=lambda data: datetime.fromisoformat(data["data"]["fileDate"].replace("Z", "")), reverse=True)
             for versionData in self.modVersionsData:
                 self.modVersions[versionData["data"]["displayName"]] = {"mcVersions": [mcVersion["gameVersion"] for mcVersion in versionData["data"]["sortableGameVersions"] if mcVersion["gameVersion"]],
@@ -224,16 +265,21 @@ class Methods():
     
     async def fetch(self, session, url:str):
         """fetch a url with aiohttp"""
-        async with session.get(url) as response:
-            return await response.json()
+        try:
+            async with session.get(url) as response:
+                return await response.json()
+        except Exception as e:
+            log.error(f"error while fetching {url} : {e}")
+            return None
 
     async def fetchAll(self, urls:list):
-        """fetch all the urls with aiohttp in parallel, don't preserve order"""
+        """fetch all the urls with aiohttp in parallel, don't preserve order and delete the failed requests"""
         async with aiohttp.ClientSession() as session:
             tasks = [self.fetch(session, url) for url in urls]
             responses = []
             for task in asyncio.as_completed(tasks):  # Process tasks as they finish
                 responses.append(await task)
+            responses = [response for response in responses if response is not None]
             return responses
 
 
