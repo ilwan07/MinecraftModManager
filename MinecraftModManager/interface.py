@@ -5,6 +5,7 @@ from PyQt5 import QtCore, QtGui
 from pathlib import Path
 import platformdirs
 import darkdetect
+import threading
 import logging
 import markdown
 import ctypes
@@ -284,6 +285,7 @@ class Window(Qt.QMainWindow):
         self.onlySearchCompatible.setText(lang("onlySearchCompatible"))
         self.onlySearchCompatible.setFont(Fonts.bigTextFont)
         self.onlySearchCompatible.setChecked(True)
+        self.onlySearchCompatible.stateChanged.connect(lambda: self.searchMod() if self.resultsScrollLayout.count() > 0 else None)  # only restart search if there is the user has already made one
         self.modSearchLayout.addWidget(self.onlySearchCompatible)
 
         # results list
@@ -423,7 +425,7 @@ class Window(Qt.QMainWindow):
     
     def searchMod(self):
         """search for a mod on the selected platform"""
-        modloader = self.currentProfileProperties["modloader"]
+        modloader = self.currentProfileProperties["modloader"].lower()
         version = self.currentProfileProperties["version"]
         platform = self.platformSelect.currentText().lower()
         results = Methods.searchMod(self.searchBar.text(), platform, modloader, self.onlySearchCompatible.isChecked(), version)
@@ -440,6 +442,7 @@ class Window(Qt.QMainWindow):
         self.modWidgets = []  # list of all mod widgets objects
         for mod in mods:
             self.modWidgets.append(customWidgets.SearchModSelect(mod))
+            threading.Thread(target=Methods.downloadIcon, args=(mod["rawData"], platform, mod["id"], self.modWidgets[-1])).start()
             self.resultsScrollLayout.addWidget(self.modWidgets[-1])
             self.modWidgets[-1].wasSelected.connect(self.selectMod)
     

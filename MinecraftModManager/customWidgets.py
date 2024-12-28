@@ -177,10 +177,7 @@ class SearchModSelect(Qt.QFrame):
 
         # mod icon
         self.iconLabel = Qt.QLabel()
-        if os.path.exists(self.iconPath):
-            self.iconLabel.setPixmap(QtGui.QPixmap(str(self.iconPath)).scaled(64, 64))
-        else:
-            self.iconLabel.setPixmap(QtGui.QPixmap(str(iconsAssetsDir/"noMedia.png")).scaled(64, 64))
+        self.updateIcon()
         self.mainLayout.addWidget(self.iconLabel)
 
         # widget containing the informations about the mod
@@ -205,6 +202,13 @@ class SearchModSelect(Qt.QFrame):
         self.leaveEvent = self.onLeave
 
         self.mousePressEvent = self.onMousePress
+    
+    def updateIcon(self):
+        """update the icon from the iconPath if it exists"""
+        if os.path.exists(self.iconPath):
+            self.iconLabel.setPixmap(QtGui.QPixmap(str(self.iconPath)).scaled(64, 64))
+        else:
+            self.iconLabel.setPixmap(QtGui.QPixmap(str(iconsAssetsDir/"noMedia.png")).scaled(64, 64))
 
     def onMousePress(self, event):
         if not self.isSelected:

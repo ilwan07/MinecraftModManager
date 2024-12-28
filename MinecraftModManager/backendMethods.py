@@ -117,27 +117,25 @@ class Methods():
         return self.profiles
     
     def modrinthSearchToMods(self, searchResult:dict) -> list:
-        """convert a search result from modrinth to a list of mods data with the name, id, platform and icon path in cache"""
+        """convert a search result from modrinth to a list of mods data with the name, author, id, platform and icon path in cache, and the complete raw data"""
         iconCacheDir = cacheDir/"modIcons"/"modrinth"
         self.mods = []
         for mod in searchResult["hits"]:
             if mod["project_type"] == "mod": # only accept mods, no modpacks
-                self.mods.append({"name": mod["title"], "author": mod["author"], "id": mod["project_id"], "platform": "modrinth", "icon": iconCacheDir/f"{mod['project_id']}.png"})
-                self.downloadIcon(mod, "modrinth", mod["project_id"])
+                self.mods.append({"name": mod["title"], "author": mod["author"], "id": mod["project_id"], "platform": "modrinth", "icon": iconCacheDir/f"{mod['project_id']}.png", "rawData": mod})
         return self.mods
 
     def curseforgeSearchToMods(self, searchResult:dict) -> list:
-        """convert a search result from curseforge to a list of mods data with the name, id, platform and icon path in cache"""
+        """convert a search result from curseforge to a list of mods data with the name, author, id, platform and icon path in cache, and the complete raw data"""
         iconCacheDir = cacheDir/"modIcons"/"curseforge"
         self.mods = []
         for mod in searchResult["data"]:
             authors = ", ".join([author["name"] for author in mod["authors"]])
-            self.mods.append({"name": mod["name"], "author": authors, "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png"})
-            self.downloadIcon(mod, "curseforge", str(mod["id"]))
+            self.mods.append({"name": mod["name"], "author": authors, "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png", "rawData": mod})
         return self.mods
     
-    def downloadIcon(self, modData:dict, platform:str, id:str):
-        """download the icon of a mod in cache"""
+    def downloadIcon(self, modData:dict, platform:str, id:str, modWidget:Qt.QWidget=None):
+        """download the icon of a mod in cache, eventually updating the widget when downloaded"""
         iconCacheDir = cacheDir/"modIcons"/platform.lower()
         iconCacheDir.mkdir(parents=True, exist_ok=True)
         if not (iconCacheDir/f"{id}.png").exists():
@@ -150,10 +148,13 @@ class Methods():
                     iconUrl = None
             else:
                 log.error(f"platform {platform} is not supported")
+                iconUrl = None
                 return
             if iconUrl:  # if the mod has an icon
                 with open(iconCacheDir/f"{id}.png", "wb") as f:
                     f.write(requests.get(iconUrl).content)
+                if modWidget:
+                    modWidget.updateIcon()
 
     def getModInfos(self, modId:str, platform:str) -> dict:
         """do a request to get every informations about a mod"""
