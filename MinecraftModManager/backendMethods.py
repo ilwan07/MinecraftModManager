@@ -253,19 +253,26 @@ class Methods():
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
     
-    async def fetch(self, session, url:str):
+    async def fetch(self, session, url:str, retries:int=5) -> dict:
         """fetch a url with aiohttp"""
-        try:
-            async with session.get(url) as response:
-                if response.status == 429:  # if rate-limited
-                    retry_after = int(response.headers.get("Retry-After", 1)) / 1000
-                    log.debug(f"rate limited, waiting {retry_after} seconds")
-                    await asyncio.sleep(retry_after)  # wait and retry
-                else:
-                    return await response.json()
-        except Exception as e:
-            log.error(f"error while fetching {url} : {e}")
-            return None
+        retryAttempts = 0
+        while True:
+            try:
+                async with session.get(url) as response:
+                    if response.status == 429:  # if rate limited
+                        response_json = await response.json()
+                        retry_after = int(response_json["description"].split(" ")[6]) / 1000  # extract delay
+                        log.debug(f"Rate limited for {url}, waiting {retry_after} seconds")
+                        await asyncio.sleep(retry_after)  # wait before retrying
+                    else:
+                        return await response.json()
+            except Exception as e:
+                retryAttempts += 1
+                log.warning(f"Error while fetching {url}, attempt {retryAttempts} of {retries}: {e}")
+                if retryAttempts >= retries:  # stop after max retries
+                    log.error(f"Failed to fetch {url} after {retries} attempts: {e}")
+                    return None
+                await asyncio.sleep(0.01)  # delay before retrying
 
     async def fetchAll(self, urls:list):
         """fetch all the urls with aiohttp in parallel, don't preserve order and delete the failed requests"""
@@ -274,7 +281,11 @@ class Methods():
             responses = []
             for task in asyncio.as_completed(tasks):  # Process tasks as they finish
                 responses.append(await task)
+            len1 = len(responses)
             responses = [response for response in responses if response is not None]
+            len2 = len(responses)
+            if len1 != len2:
+                log.warning(f"deleted {len1-len2} failed versions requests")
             return responses
 
 
