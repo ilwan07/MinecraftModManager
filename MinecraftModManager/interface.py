@@ -10,6 +10,8 @@ import logging
 import markdown
 import ctypes
 import asyncio
+import shutil
+import json
 import os
 
 log = logging.getLogger(__name__)
@@ -285,7 +287,7 @@ class Window(Qt.QMainWindow):
         self.onlySearchCompatible.setText(lang("onlySearchCompatible"))
         self.onlySearchCompatible.setFont(Fonts.bigTextFont)
         self.onlySearchCompatible.setChecked(True)
-        self.onlySearchCompatible.stateChanged.connect(lambda: self.searchMod() if self.resultsScrollLayout.count() > 0 else None)  # only restart search if there is the user has already made one
+        self.onlySearchCompatible.stateChanged.connect(lambda: self.searchMod() if self.startedSearching else None)  # only restart search if there is the user has already made one
         self.modSearchLayout.addWidget(self.onlySearchCompatible)
 
         # results list
@@ -370,18 +372,21 @@ class Window(Qt.QMainWindow):
         self.removeModButton.setText(lang("remove"))
         self.removeModButton.setFont(Fonts.titleFont)
         self.removeModButton.setFixedHeight(50)
+        self.removeModButton.clicked.connect(lambda: Methods.removeCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"]))
         self.installButtonsLayout.addWidget(self.removeModButton)
 
         self.installModButton = Qt.QPushButton()
         self.installModButton.setText(lang("install"))
         self.installModButton.setFont(Fonts.titleFont)
         self.installModButton.setFixedHeight(50)
+        self.installModButton.clicked.connect(lambda: Methods.installCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"], self.versionsRadio.getSelectionData()))
         self.installButtonsLayout.addWidget(self.installModButton)
 
         self.modInstallWidget.setVisible(False)
     
     def setupInterface(self):
         """setup the interface after its creation"""
+        self.startedSearching = False
         self.refreshProfiles()
     
     def addProfile(self):
@@ -412,6 +417,7 @@ class Window(Qt.QMainWindow):
             if profile.name == profileName:
                 if profileName != self.currentProfile:
                     self.clearSearch()
+                    self.startedSearching = False
                 self.currentProfile = profileName
                 self.modsListWidget.setVisible(True)
                 self.modSearchWidget.setVisible(True)
@@ -425,6 +431,8 @@ class Window(Qt.QMainWindow):
     
     def searchMod(self):
         """search for a mod on the selected platform"""
+        #TODO: optimize by not freezing the UI while searching
+        self.startedSearching = True
         modloader = self.currentProfileProperties["modloader"].lower()
         version = self.currentProfileProperties["version"]
         platform = self.platformSelect.currentText().lower()
@@ -478,8 +486,9 @@ class Window(Qt.QMainWindow):
     
     def updateVersions(self):
         """update the list of versions for the selected mod"""
+        #TODO: optimize by dynamically loading the versions in the UI
         self.versionsInfos = asyncio.run(Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"].lower(), self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"]))
-        self.versionsRadio.setVersions(self.versionsInfos)
+        self.versionsRadio.setVersions(self.versionsInfos, self.currentProfileProperties["version"])
     
     def clearSearch(self):
         """clear the search section"""

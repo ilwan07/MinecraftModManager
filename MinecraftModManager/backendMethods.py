@@ -13,6 +13,7 @@ import requests
 import logging
 import asyncio
 import aiohttp
+import shutil
 import glob
 import json
 import os
@@ -112,7 +113,7 @@ class Methods():
         """get a dictionary of all the profiles and their properties"""
         self.profiles = {}
         for profile in [Path(item).name for item in glob.glob(str(profilesDir/"*"))]:
-            with open(profilesDir/profile/"properties.json", "r") as f:
+            with open(profilesDir/profile/"properties.json", "r", encoding="utf-8") as f:
                 self.profiles[profile] = json.load(f)
         return self.profiles
     
@@ -188,21 +189,22 @@ class Methods():
         if platform.lower() == "modrinth":
             # either request and save or load the mod data
             if (modsDataCache/f"{modId}.json").exists():
-                with open(modsDataCache/f"{modId}.json", "r") as f:
+                with open(modsDataCache/f"{modId}.json", "r", encoding="utf-8") as f:
                     modData = json.load(f)
             else:
                 modData = self.getModInfos(modId, platform.lower())
-                with open(modsDataCache/f"{modId}.json", "w") as f:
+                #TODO: batch requests, see: https://docs.modrinth.com/api/operations/getversions/
+                with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
             
             versionsIds = modData["versions"]
             if (versionsDataCache).exists():
-                self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
+                self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r", encoding="utf-8")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
             else:
                 versionsDataCache.mkdir(parents=True, exist_ok=True)
                 self.modVersionsData = await self.fetchAll([f"{modrinthApi}/version/{versionId}" for versionId in versionsIds])
                 for versionData in self.modVersionsData:
-                    with open(versionsDataCache/f"{versionData['id']}.json", "w") as f:
+                    with open(versionsDataCache/f"{versionData['id']}.json", "w", encoding="utf-8") as f:
                         json.dump(versionData, f, indent=4)
             
             self.modVersionsData.sort(key=lambda data: datetime.fromisoformat(data["date_published"].replace("Z", "")), reverse=True)
@@ -216,25 +218,27 @@ class Methods():
                                                                        "modId": modId, "platform": platform.lower(), "modloader": modloader.lower(),
                                                                        "releaseType": versionData["version_type"],
                                                                        "downloadUrl": versionData["files"][0]["url"],
-                                                                       "filename": versionData["files"][0]["filename"]}
+                                                                       "fileName": versionData["files"][0]["filename"],
+                                                                       "versionName": versionData["version_number"],
+                                                                       "modName": modData["title"]}
         elif platform.lower() == "curseforge":
             # either request and save or load the mod data
             if (modsDataCache/f"{modId}.json").exists():
-                with open(modsDataCache/f"{modId}.json", "r") as f:
+                with open(modsDataCache/f"{modId}.json", "r", encoding="utf-8") as f:
                     modData = json.load(f)
             else:
                 modData = self.getModInfos(modId, platform.lower())
-                with open(modsDataCache/f"{modId}.json", "w") as f:
+                with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
 
             versionsIds = [modVersion["fileId"] for modVersion in modData["data"]["latestFilesIndexes"]]
             if (versionsDataCache).exists():
-                self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
+                self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r", encoding="utf-8")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
             else:
                 versionsDataCache.mkdir(parents=True, exist_ok=True)
                 self.modVersionsData = await self.fetchAll([f"{curseForgeApi}/mods/{modId}/files/{versionId}" for versionId in versionsIds])
                 for versionData in self.modVersionsData:
-                    with open(versionsDataCache/f"{versionData['data']['id']}.json", "w") as f:
+                    with open(versionsDataCache/f"{versionData['data']['id']}.json", "w", encoding="utf-8") as f:
                         json.dump(versionData, f, indent=4)
 
             self.modVersionsData.sort(key=lambda data: datetime.fromisoformat(data["data"]["fileDate"].replace("Z", "")), reverse=True)
@@ -248,12 +252,14 @@ class Methods():
                                                                 "modId": modId, "platform": platform.lower(), "modloader": modloader.lower(),
                                                                 "releaseType": self.curseforgeReleases[versionData["data"]["releaseType"]],
                                                                 "downloadUrl": versionData["data"]["downloadUrl"],
-                                                                "filename": versionData["data"]["fileName"]}
+                                                                "fileName": versionData["data"]["fileName"],
+                                                                "versionName": versionData["data"]["displayName"],
+                                                                "modName": modData["data"]["name"]}
         else:
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
     
-    async def fetch(self, session, url:str, retries:int=5) -> dict:
+    async def fetch(self, session, url:str, retryDelay:float=0.2, retries:int=5) -> dict:
         """fetch a url with aiohttp"""
         retryAttempts = 0
         while True:
@@ -261,9 +267,8 @@ class Methods():
                 async with session.get(url) as response:
                     if response.status == 429:  # if rate limited
                         response_json = await response.json()
-                        retry_after = int(response_json["description"].split(" ")[6]) / 1000  # extract delay
-                        log.debug(f"Rate limited for {url}, waiting {retry_after} seconds")
-                        await asyncio.sleep(retry_after)  # wait before retrying
+                        log.debug(f"Rate limited for {url}, waiting {retryDelay} seconds")
+                        await asyncio.sleep(retryDelay)  # wait before retrying
                     else:
                         return await response.json()
             except Exception as e:
@@ -285,8 +290,41 @@ class Methods():
             responses = [response for response in responses if response is not None]
             len2 = len(responses)
             if len1 != len2:
-                log.warning(f"deleted {len1-len2} failed versions requests")
+                log.error(f"deleted {len1-len2} failed versions requests")
             return responses
+    
+    def removeCurrentMod(self, profile:str, modId:str, platform:str, auto:bool=False):
+        """remove the currently selected mod"""
+        #TODO: warn the user before removing the mod and add success message
+        currentModPath = profilesDir/profile/platform.lower()/modId
+        if os.path.exists(currentModPath):
+            shutil.rmtree(currentModPath)
+            log.info(f"Removed mod at {currentModPath}")
+        else:
+            log.warning(f"Mod at {currentModPath} not found")
+
+    def installCurrentMod(self, profile:str, modId:str, platform:str, modVersionData:str):
+        """install the currently selected mod"""
+        #TODO: warn the user before updating the mod and add success message
+        if modVersionData is None:
+            log.warning("No mod version data provided, cannot install the mod")
+            return
+        currentModPath = profilesDir/profile/platform.lower()/modId
+        # check if the mod is already installed
+        if os.path.exists(currentModPath):
+            previousVersionId = json.load(open(currentModPath/"properties.json", "r", encoding="utf-8"))["versionId"]
+            if previousVersionId != modVersionData["versionId"]:
+                log.warning(f"Mod at {currentModPath} already installed, updating")
+                self.removeCurrentMod(profile, modId, platform, auto=True)
+            else:
+                return # the mod is already installed with the same version
+        # install the mod
+        currentModPath.mkdir(parents=True, exist_ok=True)
+        with open(currentModPath/"properties.json", "w", encoding="utf-8") as f:
+            json.dump(modVersionData, f, indent=4)
+        with open(currentModPath/modVersionData["fileName"], "wb") as f:
+            f.write(requests.get(modVersionData["downloadUrl"]).content)
+        log.info(f"Installed mod '{modVersionData['modName']}' version '{modVersionData['versionName']}' in profile {profile}")
 
 
 class addProfilePopup(Qt.QDialog):
@@ -400,7 +438,7 @@ class addProfilePopup(Qt.QDialog):
         self.profilePath.mkdir(parents=True, exist_ok=False)
         self.profilePropertiesPath = self.profilePath/"properties.json"
         
-        with open(self.profilePropertiesPath, "w") as f:
+        with open(self.profilePropertiesPath, "w", encoding="utf-8") as f:
             # write the profile properties to the file
             json.dump({"name": self.profileName, "version": self.mcVersion, "modloader": self.modloader}, f, indent=4)
         

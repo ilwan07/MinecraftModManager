@@ -252,7 +252,7 @@ class ModVersionRadio(Qt.QWidget):
         self.setLayout(self.mainLayout)
         self.radioGroup = Qt.QButtonGroup(self)
     
-    def setVersions(self, versions:dict):
+    def setVersions(self, versions:dict, gameVersion:str):
         """update the radio buttons with the new versions"""
         self.versions = versions
         # clear previous radio buttons
@@ -263,12 +263,32 @@ class ModVersionRadio(Qt.QWidget):
             self.mainLayout.itemAt(i).widget().deleteLater()
         
         # create new radio buttons
+        foundRecommended = False
+        isFirst = True
         for version, properties in self.versions.items():
-            radioButton = Qt.QRadioButton(f"{properties["releaseType"]} - {version}")
+            text = f"{properties['releaseType']} - {version}"
+            if isFirst:
+                text = f"(latest) {text}"
+            if not foundRecommended and properties['releaseType'] == "release" and gameVersion in properties['mcVersions']:
+                text = f"(recommended) {text}"
+                foundRecommended = True
+            radioButton = Qt.QRadioButton(text)
             radioButton.setFont(Fonts.subtitleFont)
             self.radioGroup.addButton(radioButton)
             self.radioButtons.append(radioButton)
             self.mainLayout.addWidget(radioButton)
+            isFirst = False
+        
+    def getSelectionData(self) -> dict:
+        """return the version data of the selected radio button"""
+        for radioButton in self.radioButtons:
+            if radioButton.isChecked():
+                version = radioButton.text()
+                cleanVersion = version
+                for prefix in ["(latest) ", "(recommended) ", "release - ", "beta - ", "alpha - "]:
+                    cleanVersion = cleanVersion.replace(prefix, "", 1)  # remove the prefix
+                return self.versions[cleanVersion]
+        return None  # if no version selected
     
     def getCheckedVersion(self):
         """return the version data of the checked radio button"""
