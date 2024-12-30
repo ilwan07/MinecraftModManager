@@ -135,22 +135,11 @@ class Methods():
             self.mods.append({"name": mod["name"], "author": authors, "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png", "rawData": mod})
         return self.mods
     
-    def downloadIcon(self, modData:dict, platform:str, id:str, modWidget:Qt.QWidget=None):
+    def downloadIcon(self, platform:str, id:str, iconUrl:str, modWidget=None):
         """download the icon of a mod in cache, eventually updating the widget when downloaded"""
         iconCacheDir = cacheDir/"modIcons"/platform.lower()
         iconCacheDir.mkdir(parents=True, exist_ok=True)
         if not (iconCacheDir/f"{id}.png").exists():
-            if platform.lower() == "modrinth":
-                iconUrl = modData["icon_url"]
-            elif platform.lower() == "curseforge":
-                if "logo" in modData:
-                    iconUrl = modData["logo"]["thumbnailUrl"]
-                else:
-                    iconUrl = None
-            else:
-                log.error(f"platform {platform} is not supported")
-                iconUrl = None
-                return
             if iconUrl:  # if the mod has an icon
                 with open(iconCacheDir/f"{id}.png", "wb") as f:
                     f.write(requests.get(iconUrl).content)
@@ -220,7 +209,8 @@ class Methods():
                                                                        "downloadUrl": versionData["files"][0]["url"],
                                                                        "fileName": versionData["files"][0]["filename"],
                                                                        "versionName": versionData["version_number"],
-                                                                       "modName": modData["title"]}
+                                                                       "modName": modData["title"],
+                                                                       "iconUrl": modData["icon_url"]}
         elif platform.lower() == "curseforge":
             # either request and save or load the mod data
             if (modsDataCache/f"{modId}.json").exists():
@@ -254,7 +244,8 @@ class Methods():
                                                                 "downloadUrl": versionData["data"]["downloadUrl"],
                                                                 "fileName": versionData["data"]["fileName"],
                                                                 "versionName": versionData["data"]["displayName"],
-                                                                "modName": modData["data"]["name"]}
+                                                                "modName": modData["data"]["name"],
+                                                                "iconUrl": modData["logo"]["thumbnailUrl"]}
         else:
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
@@ -305,7 +296,7 @@ class Methods():
 
     def installCurrentMod(self, profile:str, modId:str, platform:str, modVersionData:str):
         """install the currently selected mod"""
-        #TODO: warn the user before updating the mod and add success message
+        #TODO: warn the user before updating the mod, add success message and use thread
         if modVersionData is None:
             log.warning("No mod version data provided, cannot install the mod")
             return
@@ -325,7 +316,22 @@ class Methods():
         with open(currentModPath/modVersionData["fileName"], "wb") as f:
             f.write(requests.get(modVersionData["downloadUrl"]).content)
         log.info(f"Installed mod '{modVersionData['modName']}' version '{modVersionData['versionName']}' in profile {profile}")
-
+    
+    def getInstalledMods(self, profile:str) -> list:
+        """get a list of the data of all the installed mods in a profile, sorted by name"""
+        currentProfileDir = profilesDir/profile
+        installedMods = []
+        if currentProfileDir.exists():
+            for platform in ["modrinth", "curseforge"]:
+                if (currentProfileDir/platform).exists():
+                    for mod in glob.glob(str(currentProfileDir/"modrinth"/"*")):
+                        if os.path.isdir(mod):
+                            with open(Path(mod)/"properties.json", "r", encoding="utf-8") as f:
+                                installedMods.append(json.load(f))
+        else:
+            log.error(f"Profile {profile} not found")
+        installedMods.sort(key=lambda mod: mod["modName"])
+        return installedMods
 
 class addProfilePopup(Qt.QDialog):
     """popup to create a new profile"""

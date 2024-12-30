@@ -87,36 +87,43 @@ class ProfileSelect(Qt.QFrame):
             self.isSelected = False
 
 class ModSelect(Qt.QFrame):
-    wasSelected = QtCore.pyqtSignal()
-    def __init__(self, name:str, fileName:str, modId:str=None, version:str=None, iconPath:Path=None):
+    wasSelected = QtCore.pyqtSignal(dict)
+    def __init__(self, modData:dict):
         """a button to select the mod to view or modify"""
         super().__init__()
         self.mainLayout = Qt.QHBoxLayout()
         self.mainLayout.setAlignment(QtCore.Qt.AlignCenter)
         self.setLayout(self.mainLayout)
 
-        self.name = name
-        self.fileName = fileName
-        self.version = version
-        self.iconPath = iconPath
-        self.modId = modId
+        self.modData = modData
+        self.name = modData["modName"]
+        self.modId = modData["modId"]
+        self.fileName = modData["fileName"]
+        self.version = modData["versionName"]
+        self.iconPath = cacheDir/"modIcons"/modData["platform"].lower()/f"{self.modId}.png"
+        self.versionId = modData["versionId"]
         self.isSelected = False
 
-        #TODO: mod icon
+        # mod icon
+        self.iconLabel = Qt.QLabel()
+        self.updateIcon()
+        self.mainLayout.addWidget(self.iconLabel)
 
         self.textWidget = Qt.QWidget()
         self.textLayout = Qt.QVBoxLayout()
         self.textWidget.setLayout(self.textLayout)
-        self.mainLayout.addWidget(self.textWidget)
+        self.mainLayout.addWidget(self.textWidget, 1)
 
         self.nameLabel = Qt.QLabel(self.name)
         self.nameLabel.setFont(Fonts.smallTitleFont)
+        self.nameLabel.setWordWrap(True)
         self.textLayout.addWidget(self.nameLabel)
 
         self.versionLabel = Qt.QLabel()
         if self.version:
             self.versionLabel.setText(self.version)
             self.versionLabel.setFont(Fonts.textFont)
+            self.versionLabel.setWordWrap(True)
             self.textLayout.addWidget(self.versionLabel)
 
         # mouse tracking
@@ -125,6 +132,13 @@ class ModSelect(Qt.QFrame):
         self.leaveEvent = self.onLeave
 
         self.mousePressEvent = self.onMousePress
+    
+    def updateIcon(self):
+        """update the icon from the iconPath if it exists"""
+        if os.path.exists(self.iconPath):
+            self.iconLabel.setPixmap(QtGui.QPixmap(str(self.iconPath)).scaled(64, 64))
+        else:
+            self.iconLabel.setPixmap(QtGui.QPixmap(str(iconsAssetsDir/"noMedia.png")).scaled(64, 64))
 
     def onMousePress(self, event):
         if not self.isSelected:
@@ -143,7 +157,7 @@ class ModSelect(Qt.QFrame):
         """gray out the frame on hover"""
         if hovered:
             self.setStyleSheet("background-color: rgba(0, 0, 0, 64);")
-            for widget in (self.textWidget, self.nameLabel, self.versionLabel):  # avoid applying shadow to inner widgets
+            for widget in (self.textWidget, self.nameLabel, self.versionLabel, self.iconLabel):  # avoid applying shadow to inner widgets
                 widget.setStyleSheet("background-color: rgba(0, 0, 0, 0)")
         else:
             self.setStyleSheet("")
@@ -153,7 +167,7 @@ class ModSelect(Qt.QFrame):
         if selected:
             self.setFrameShape(Qt.QFrame.Box)
             self.isSelected = True
-            self.wasSelected.emit()
+            self.wasSelected.emit(self.modData)
         else:
             self.setFrameShape(Qt.QFrame.NoFrame)
             self.isSelected = False

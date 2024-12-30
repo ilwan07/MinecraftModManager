@@ -304,6 +304,7 @@ class Window(Qt.QMainWindow):
     
     def buildModDescription(self):
         """builds the UI for the mod description part"""
+        #TODO: add the mod author, and a button to open the mod page in the browser
         # display mod name
         self.modNameWidget = Qt.QWidget()
         self.modNameLayout = Qt.QHBoxLayout()
@@ -372,14 +373,14 @@ class Window(Qt.QMainWindow):
         self.removeModButton.setText(lang("remove"))
         self.removeModButton.setFont(Fonts.titleFont)
         self.removeModButton.setFixedHeight(50)
-        self.removeModButton.clicked.connect(lambda: Methods.removeCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"]))
+        self.removeModButton.clicked.connect(self.removeMod)
         self.installButtonsLayout.addWidget(self.removeModButton)
 
         self.installModButton = Qt.QPushButton()
         self.installModButton.setText(lang("install"))
         self.installModButton.setFont(Fonts.titleFont)
         self.installModButton.setFixedHeight(50)
-        self.installModButton.clicked.connect(lambda: Methods.installCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"], self.versionsRadio.getSelectionData()))
+        self.installModButton.clicked.connect(self.addMod)
         self.installButtonsLayout.addWidget(self.installModButton)
 
         self.modInstallWidget.setVisible(False)
@@ -388,6 +389,7 @@ class Window(Qt.QMainWindow):
         """setup the interface after its creation"""
         self.startedSearching = False
         self.refreshProfiles()
+        self.refreshInstalledMods()
     
     def addProfile(self):
         """add a new modded profile"""
@@ -395,6 +397,7 @@ class Window(Qt.QMainWindow):
         log.info(f"opening profile creation screen")
         self.addProfilePopup.exec_()
         self.refreshProfiles()
+        self.refreshInstalledMods()
     
     def refreshProfiles(self):
         """refresh the profiles list"""
@@ -428,6 +431,7 @@ class Window(Qt.QMainWindow):
         # put the profile infos in the mods list
         self.profileLabel.setText(self.currentProfileProperties["name"])
         self.profileVersionLabel.setText(self.currentProfileProperties["version"])
+        self.refreshInstalledMods()
     
     def searchMod(self):
         """search for a mod on the selected platform"""
@@ -450,7 +454,18 @@ class Window(Qt.QMainWindow):
         self.modWidgets = []  # list of all mod widgets objects
         for mod in mods:
             self.modWidgets.append(customWidgets.SearchModSelect(mod))
-            threading.Thread(target=Methods.downloadIcon, args=(mod["rawData"], platform, mod["id"], self.modWidgets[-1])).start()
+            # download the mod icon
+            if platform == "modrinth":
+                iconUrl = mod["rawData"]["icon_url"]
+            elif platform == "curseforge":
+                if "thumbnailUrl" in mod["rawData"]["logo"]:
+                    iconUrl = mod["rawData"]["logo"]["thumbnailUrl"]
+                else:
+                    iconUrl = None
+            else:
+                iconUrl = None
+                log.error(f"unknown platform: {platform}")
+            threading.Thread(target=Methods.downloadIcon, args=( platform, mod["id"], iconUrl, self.modWidgets[-1])).start()
             self.resultsScrollLayout.addWidget(self.modWidgets[-1])
             self.modWidgets[-1].wasSelected.connect(self.selectMod)
     
@@ -471,7 +486,18 @@ class Window(Qt.QMainWindow):
         # put the mod infos in the mod description
         self.modNameLabel.setText(modData["name"])
         iconCacheDir = cacheDir/"modIcons"/platform
-        Methods.downloadIcon(modRequestData, platform, modId)
+        # download the mod icon
+        if platform == "modrinth":
+            iconUrl = modRequestData["icon_url"]
+        elif platform == "curseforge":
+            if "thumbnailUrl" in modRequestData["logo"]:
+                iconUrl = modRequestData["logo"]["thumbnailUrl"]
+            else:
+                iconUrl = None
+        else:
+            iconUrl = None
+            log.error(f"unknown platform: {platform}")
+        Methods.downloadIcon(platform, modId, iconUrl)
         if os.path.exists(iconCacheDir/f"{modId}.png"):
             self.modDescriptionIcon.setPixmap(QtGui.QPixmap(str(iconCacheDir/f"{modId}.png")).scaled(50, 50))
         else:
@@ -483,6 +509,54 @@ class Window(Qt.QMainWindow):
         
         # get and display the mod versions
         self.updateVersions()
+    
+    def refreshInstalledMods(self):
+        """refresh the list of installed mods"""
+        # remove all mods from the list
+        for i in reversed(range(self.modsScrollLayout.count())):
+            self.modsScrollLayout.itemAt(i).widget().deleteLater()
+        
+        # get a list of the data of all installed mods
+        mods = Methods.getInstalledMods(self.currentProfile)
+
+        # add all mods to the list
+        self.installedModsWidgets = []  # list of all mod widgets objects
+        for mod in mods:
+            self.installedModsWidgets.append(customWidgets.ModSelect(mod))
+            threading.Thread(target=Methods.downloadIcon, args=(mod["platform"], mod["modId"], mod["iconUrl"], self.installedModsWidgets[-1])).start()
+            self.modsScrollLayout.addWidget(self.installedModsWidgets[-1])
+            self.installedModsWidgets[-1].wasSelected.connect(self.selectInstalledMod)
+    
+    def selectInstalledMod(self, modData:dict):
+        """select an installed mod and deselect the others"""
+        self.currentModData = modData
+        modId = modData["modId"]
+        platform = modData["platform"].lower()
+        for mod in self.installedModsWidgets:
+            if mod.modId == modId:
+                self.currentMod = modId
+                self.modInstallWidget.setVisible(True)
+            else:
+                mod.setSelected(False)
+        
+        modRequestData = Methods.getModInfos(modId, modData["platform"])
+        
+        # put the mod infos in the mod description
+        self.modNameLabel.setText(modData["modName"])
+        iconCacheDir = cacheDir/"modIcons"/platform
+        Methods.downloadIcon(platform, modId, modData["iconUrl"])
+        if os.path.exists(iconCacheDir/f"{modId}.png"):
+            self.modDescriptionIcon.setPixmap(QtGui.QPixmap(str(iconCacheDir/f"{modId}.png")).scaled(50, 50))
+        else:
+            self.modDescriptionIcon.setPixmap(QtGui.QPixmap(str(iconsAssetsDir/"noMedia.png")).scaled(50, 50))
+        if platform == "modrinth":
+            self.modDescriptionText.setHtml(Methods.cleanHtml(markdown.markdown(modRequestData["body"])))
+        elif platform == "curseforge":
+            self.modDescriptionText.setHtml(f"<h2>{modRequestData["data"]["summary"]}<\\h2>")
+        
+        # get and display the mod versions
+        self.updateVersions()
+
     
     def updateVersions(self):
         """update the list of versions for the selected mod"""
@@ -496,6 +570,16 @@ class Window(Qt.QMainWindow):
         for i in reversed(range(self.resultsScrollLayout.count())):
             self.resultsScrollLayout.itemAt(i).widget().deleteLater()
         self.modInstallWidget.setVisible(False)
+    
+    def removeMod(self):
+        """remove the selected mod"""
+        Methods.removeCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"])
+        self.refreshInstalledMods()
+    
+    def addMod(self):
+        """add a mod"""
+        Methods.installCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"], self.versionsRadio.getSelectionData())
+        self.refreshInstalledMods()
 
 
 def setDarkMode(App:Qt.QApplication):
