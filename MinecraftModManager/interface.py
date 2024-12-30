@@ -389,7 +389,6 @@ class Window(Qt.QMainWindow):
         """setup the interface after its creation"""
         self.startedSearching = False
         self.refreshProfiles()
-        self.refreshInstalledMods()
     
     def addProfile(self):
         """add a new modded profile"""
@@ -490,7 +489,7 @@ class Window(Qt.QMainWindow):
         if platform == "modrinth":
             iconUrl = modRequestData["icon_url"]
         elif platform == "curseforge":
-            if "thumbnailUrl" in modRequestData["logo"]:
+            if "logo" in modRequestData:
                 iconUrl = modRequestData["logo"]["thumbnailUrl"]
             else:
                 iconUrl = None
@@ -505,7 +504,7 @@ class Window(Qt.QMainWindow):
         if platform == "modrinth":
             self.modDescriptionText.setHtml(Methods.cleanHtml(markdown.markdown(modRequestData["body"])))
         elif platform == "curseforge":
-            self.modDescriptionText.setHtml(f"<h2>{modRequestData["data"]["summary"]}<\\h2>")
+            self.modDescriptionText.setHtml(Methods.cleanHtml(Methods.curseforgeRequest(f"mods/{modId}/description")["data"]))
         
         # get and display the mod versions
         self.updateVersions()
@@ -552,7 +551,7 @@ class Window(Qt.QMainWindow):
         if platform == "modrinth":
             self.modDescriptionText.setHtml(Methods.cleanHtml(markdown.markdown(modRequestData["body"])))
         elif platform == "curseforge":
-            self.modDescriptionText.setHtml(f"<h2>{modRequestData["data"]["summary"]}<\\h2>")
+            self.modDescriptionText.setHtml(Methods.cleanHtml(Methods.curseforgeRequest(f"mods/{modId}/description")["data"]))
         
         # get and display the mod versions
         self.updateVersions()

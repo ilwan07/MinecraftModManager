@@ -64,9 +64,10 @@ class Methods():
     def curseforgeSearchMod(self, query:str, modloader:str, onlyCompatible:bool=False, version:str=None, nbResults:int=50) -> dict:
         """search for a mod on curseforge"""
         if onlyCompatible:
-            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=self.curseforgeModloaders[modloader.lower()], gameVersion=version, pageSize=nbResults, classId=6)
+            result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=self.curseforgeModloaders[modloader.lower()], pageSize=nbResults, classId=6, gameVersion=version)
         else:
             result = self.curseforgeRequest(endpoint="mods/search", gameId=432, searchFilter=query, modLoaderType=self.curseforgeModloaders[modloader.lower()], pageSize=nbResults, classId=6)
+        result = {"data": [mod for mod in result["data"] if mod["allowModDistribution"]]}  # filter out mods that don't allow distribution
         log.info(f"searched for mod on curseforge: {query}")
         return result
 
@@ -218,6 +219,7 @@ class Methods():
                     modData = json.load(f)
             else:
                 modData = self.getModInfos(modId, platform.lower())
+                #TODO: batch requests, see: https://docs.curseforge.com/rest-api/?python#get-mod-files
                 with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
 
@@ -245,7 +247,7 @@ class Methods():
                                                                 "fileName": versionData["data"]["fileName"],
                                                                 "versionName": versionData["data"]["displayName"],
                                                                 "modName": modData["data"]["name"],
-                                                                "iconUrl": modData["logo"]["thumbnailUrl"]}
+                                                                "iconUrl": modData["data"]["logo"]["thumbnailUrl"] if "logo" in modData["data"] else None}
         else:
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
@@ -319,12 +321,15 @@ class Methods():
     
     def getInstalledMods(self, profile:str) -> list:
         """get a list of the data of all the installed mods in a profile, sorted by name"""
+        if profile is None:
+            log.warning("No profile provided, cannot get installed mods")
+            return []
         currentProfileDir = profilesDir/profile
         installedMods = []
         if currentProfileDir.exists():
             for platform in ["modrinth", "curseforge"]:
                 if (currentProfileDir/platform).exists():
-                    for mod in glob.glob(str(currentProfileDir/"modrinth"/"*")):
+                    for mod in glob.glob(str(currentProfileDir/platform/"*")):
                         if os.path.isdir(mod):
                             with open(Path(mod)/"properties.json", "r", encoding="utf-8") as f:
                                 installedMods.append(json.load(f))
