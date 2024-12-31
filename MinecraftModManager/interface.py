@@ -204,6 +204,7 @@ class Window(Qt.QMainWindow):
         self.applyProfileButton.setFont(Fonts.subtitleFont)
         self.applyProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.applyProfileButton.setFixedHeight(40)
+        self.applyProfileButton.clicked.connect(self.applyProfile)
         self.profileButtonsLayout.addWidget(self.applyProfileButton, 0, 0)
 
         # add custom mod button
@@ -220,12 +221,13 @@ class Window(Qt.QMainWindow):
         self.exportButton.setFixedHeight(40)
         self.profileButtonsLayout.addWidget(self.exportButton, 1, 0)
 
-        # configure profile button
-        self.configureButton = Qt.QPushButton(lang("configure"))
-        self.configureButton.setFont(Fonts.subtitleFont)
-        self.configureButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
-        self.configureButton.setFixedHeight(40)
-        self.profileButtonsLayout.addWidget(self.configureButton, 1, 1)
+        # remove profile button
+        self.removeProfileButton = Qt.QPushButton(lang("removeProfile"))
+        self.removeProfileButton.setFont(Fonts.subtitleFont)
+        self.removeProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.removeProfileButton.setFixedHeight(40)
+        self.removeProfileButton.clicked.connect(self.removeProfile)
+        self.profileButtonsLayout.addWidget(self.removeProfileButton, 1, 1)
 
         # separation line
         self.separationLine = customWidgets.SeparationLine()
@@ -595,6 +597,21 @@ class Window(Qt.QMainWindow):
         result = Methods.installCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"], self.versionsRadio.getSelectionData())
         if result is None:
             self.refreshInstalledMods()
+    
+    def removeProfile(self):
+        """remove the selected profile"""
+        result = Methods.removeProfile(self.currentProfile)
+        if result is None:
+            self.currentProfile = None
+            self.modsListWidget.setVisible(False)
+            self.modSearchWidget.setVisible(False)
+            self.modInstallWidget.setVisible(False)
+            self.refreshProfiles()
+            self.refreshInstalledMods()
+    
+    def applyProfile(self):
+        """apply the selected profile by changing the minecraft mod files, will delete previous mods"""
+        pass
 
 
 def setDarkMode(App:Qt.QApplication):

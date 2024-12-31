@@ -287,7 +287,7 @@ class Methods():
                 self.removeCurrentMod(profile, modId, platform, auto=True)
             else:
                 return # the mod is already installed with the same version
-            QMessageBox.information(None, lang("success"), lang("modInstalled"))
+        QMessageBox.information(None, lang("success"), lang("modInstalled"))
         # install the mod
         currentModPath.mkdir(parents=True, exist_ok=True)
         with open(currentModPath/"properties.json", "w", encoding="utf-8") as f:
@@ -314,6 +314,22 @@ class Methods():
             log.error(f"Profile {profile} not found")
         installedMods.sort(key=lambda mod: mod["modName"])
         return installedMods
+
+    def removeProfile(self, profile:str):
+        """remove a profile with all its mods"""
+        if profile is None:
+            log.warning("No profile provided, cannot remove profile")
+            return
+        profilePath = profilesDir/profile
+        if profilePath.exists():
+            confirm = QMessageBox.question(None, lang("removeProfileTitle"), lang("removeProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
+            if confirm == QMessageBox.No:
+                return -1
+            shutil.rmtree(profilePath)
+            log.info(f"Removed profile {profile}")
+            QMessageBox.information(None, lang("success"), lang("profileRemoved"))
+        else:
+            log.error(f"Profile {profile} not found")
 
 class addProfilePopup(Qt.QDialog):
     """popup to create a new profile"""
