@@ -304,7 +304,7 @@ class Window(Qt.QMainWindow):
     
     def buildModDescription(self):
         """builds the UI for the mod description part"""
-        #TODO: add the mod author, and a button to open the mod page in the browser
+        #TODO: add a button to open the mod page in the browser
         # display mod name
         self.modNameWidget = Qt.QWidget()
         self.modNameLayout = Qt.QHBoxLayout()
@@ -317,10 +317,24 @@ class Window(Qt.QMainWindow):
         self.modDescriptionIcon.setFixedSize(50, 50)
         self.modNameLayout.addWidget(self.modDescriptionIcon, 1)
 
+        # name and author
+        self.modNameAuthorWidget = Qt.QWidget()
+        self.modNameAuthorLayout = Qt.QVBoxLayout()
+        self.modNameAuthorLayout.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignTop)
+        self.modNameAuthorWidget.setLayout(self.modNameAuthorLayout)
+        self.modNameLayout.addWidget(self.modNameAuthorWidget, 1)
+
+        # mod name
         self.modNameLabel = Qt.QLabel()
         self.modNameLabel.setFont(Fonts.bigTitleFont)
         self.modNameLabel.setWordWrap(True)
-        self.modNameLayout.addWidget(self.modNameLabel, 1)
+        self.modNameAuthorLayout.addWidget(self.modNameLabel, 1)
+
+        # mod author
+        """self.modAuthorLabel = Qt.QLabel()  #TODO: add the author
+        self.modAuthorLabel.setFont(Fonts.subtitleFont)
+        self.modAuthorLabel.setWordWrap(True)
+        self.modNameAuthorLayout.addWidget(self.modAuthorLabel)"""
 
         self.separationLine = customWidgets.SeparationLine()
         self.modDescriptionLayout.addWidget(self.separationLine)
@@ -560,7 +574,7 @@ class Window(Qt.QMainWindow):
     def updateVersions(self):
         """update the list of versions for the selected mod"""
         #TODO: optimize by dynamically loading the versions in the UI
-        self.versionsInfos = asyncio.run(Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"].lower(), self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"]))
+        self.versionsInfos = Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"].lower(), self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"])
         self.versionsRadio.setVersions(self.versionsInfos, self.currentProfileProperties["version"])
     
     def clearSearch(self):

@@ -165,7 +165,7 @@ class Methods():
             img.decompose()
         return str(soup)
     
-    async def getVersionsInfos(self, modId:str, platform:str, modloader:str, onlyCompatible:bool=False, mcVersion:str=None) -> dict:
+    def getVersionsInfos(self, modId:str, platform:str, modloader:str, onlyCompatible:bool=False, mcVersion:str=None) -> dict:
         """get a dictionary of all the versions of a mod with version as key,
         then the minecraft versions, version id, the mod id, the platform, the modloader, the release type, the download url and the filename"""
         self.modVersions = {}
@@ -183,7 +183,6 @@ class Methods():
                     modData = json.load(f)
             else:
                 modData = self.getModInfos(modId, platform.lower())
-                #TODO: batch requests, see: https://docs.modrinth.com/api/operations/getversions/
                 with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
             
@@ -192,7 +191,7 @@ class Methods():
                 self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r", encoding="utf-8")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
             else:
                 versionsDataCache.mkdir(parents=True, exist_ok=True)
-                self.modVersionsData = await self.fetchAll([f"{modrinthApi}/version/{versionId}" for versionId in versionsIds])
+                self.modVersionsData = self.modrinthRequest("versions", ids=str(versionsIds).replace("'", '"'))
                 for versionData in self.modVersionsData:
                     with open(versionsDataCache/f"{versionData['id']}.json", "w", encoding="utf-8") as f:
                         json.dump(versionData, f, indent=4)
@@ -219,7 +218,6 @@ class Methods():
                     modData = json.load(f)
             else:
                 modData = self.getModInfos(modId, platform.lower())
-                #TODO: batch requests, see: https://docs.curseforge.com/rest-api/?python#get-mod-files
                 with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
 
@@ -228,7 +226,11 @@ class Methods():
                 self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r", encoding="utf-8")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
             else:
                 versionsDataCache.mkdir(parents=True, exist_ok=True)
-                self.modVersionsData = await self.fetchAll([f"{curseForgeApi}/mods/{modId}/files/{versionId}" for versionId in versionsIds])
+                index = 0
+                self.modVersionsData = []
+                while index < len(versionsIds):
+                    self.modVersionsData.extend([{"data": version} for version in self.curseforgeRequest(f"mods/{modId}/files", pageSize=50, index=index)["data"]])
+                    index += 50
                 for versionData in self.modVersionsData:
                     with open(versionsDataCache/f"{versionData['data']['id']}.json", "w", encoding="utf-8") as f:
                         json.dump(versionData, f, indent=4)
@@ -251,40 +253,6 @@ class Methods():
         else:
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
-    
-    async def fetch(self, session, url:str, retryDelay:float=0.2, retries:int=5) -> dict:
-        """fetch a url with aiohttp"""
-        retryAttempts = 0
-        while True:
-            try:
-                async with session.get(url) as response:
-                    if response.status == 429:  # if rate limited
-                        response_json = await response.json()
-                        log.debug(f"Rate limited for {url}, waiting {retryDelay} seconds")
-                        await asyncio.sleep(retryDelay)  # wait before retrying
-                    else:
-                        return await response.json()
-            except Exception as e:
-                retryAttempts += 1
-                log.warning(f"Error while fetching {url}, attempt {retryAttempts} of {retries}: {e}")
-                if retryAttempts >= retries:  # stop after max retries
-                    log.error(f"Failed to fetch {url} after {retries} attempts: {e}")
-                    return None
-                await asyncio.sleep(0.01)  # delay before retrying
-
-    async def fetchAll(self, urls:list):
-        """fetch all the urls with aiohttp in parallel, don't preserve order and delete the failed requests"""
-        async with aiohttp.ClientSession() as session:
-            tasks = [self.fetch(session, url) for url in urls]
-            responses = []
-            for task in asyncio.as_completed(tasks):  # Process tasks as they finish
-                responses.append(await task)
-            len1 = len(responses)
-            responses = [response for response in responses if response is not None]
-            len2 = len(responses)
-            if len1 != len2:
-                log.error(f"deleted {len1-len2} failed versions requests")
-            return responses
     
     def removeCurrentMod(self, profile:str, modId:str, platform:str, auto:bool=False):
         """remove the currently selected mod"""
