@@ -586,13 +586,15 @@ class Window(Qt.QMainWindow):
     
     def removeMod(self):
         """remove the selected mod"""
-        Methods.removeCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"])
-        self.refreshInstalledMods()
+        result = Methods.removeCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"])
+        if result is None:
+            self.refreshInstalledMods()
     
     def addMod(self):
         """add a mod"""
-        Methods.installCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"], self.versionsRadio.getSelectionData())
-        self.refreshInstalledMods()
+        result = Methods.installCurrentMod(self.currentProfile, self.currentMod, self.currentModData["platform"], self.versionsRadio.getSelectionData())
+        if result is None:
+            self.refreshInstalledMods()
 
 
 def setDarkMode(App:Qt.QApplication):

@@ -256,17 +256,22 @@ class Methods():
     
     def removeCurrentMod(self, profile:str, modId:str, platform:str, auto:bool=False):
         """remove the currently selected mod"""
-        #TODO: warn the user before removing the mod and add success message
         currentModPath = profilesDir/profile/platform.lower()/modId
         if os.path.exists(currentModPath):
+            if not auto:
+                confirm = QMessageBox.question(None, lang("removeMod"), lang("removeModConfirm"), QMessageBox.Yes | QMessageBox.No)
+                if confirm == QMessageBox.No:
+                    return -1  # removal cancelled
             shutil.rmtree(currentModPath)
             log.info(f"Removed mod at {currentModPath}")
+            if not auto:
+                QMessageBox.information(None, lang("success"), lang("modRemoved"))
         else:
             log.warning(f"Mod at {currentModPath} not found")
 
     def installCurrentMod(self, profile:str, modId:str, platform:str, modVersionData:str):
         """install the currently selected mod"""
-        #TODO: warn the user before updating the mod, add success message and use thread
+        #TODO: put a window during download
         if modVersionData is None:
             log.warning("No mod version data provided, cannot install the mod")
             return
@@ -274,11 +279,15 @@ class Methods():
         # check if the mod is already installed
         if os.path.exists(currentModPath):
             previousVersionId = json.load(open(currentModPath/"properties.json", "r", encoding="utf-8"))["versionId"]
-            if previousVersionId != modVersionData["versionId"]:
+            if previousVersionId != modVersionData["versionId"]:  # if the mod is already installed but with a different version
+                confirm = QMessageBox.question(None, lang("updateMod"), lang("updateModConfirm"), QMessageBox.Yes | QMessageBox.No)
+                if confirm == QMessageBox.No:
+                    return -1
                 log.warning(f"Mod at {currentModPath} already installed, updating")
                 self.removeCurrentMod(profile, modId, platform, auto=True)
             else:
                 return # the mod is already installed with the same version
+            QMessageBox.information(None, lang("success"), lang("modInstalled"))
         # install the mod
         currentModPath.mkdir(parents=True, exist_ok=True)
         with open(currentModPath/"properties.json", "w", encoding="utf-8") as f:
