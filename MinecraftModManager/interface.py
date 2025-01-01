@@ -212,6 +212,7 @@ class Window(Qt.QMainWindow):
         self.addModButton.setFont(Fonts.subtitleFont)
         self.addModButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.addModButton.setFixedHeight(40)
+        self.addModButton.clicked.connect(self.addJarMod)
         self.profileButtonsLayout.addWidget(self.addModButton, 0, 1)
 
         # export profile button
@@ -222,7 +223,7 @@ class Window(Qt.QMainWindow):
         self.profileButtonsLayout.addWidget(self.exportButton, 1, 0)
 
         # remove profile button
-        self.removeProfileButton = Qt.QPushButton(lang("removeProfile"))
+        self.removeProfileButton = Qt.QPushButton(lang("removeProfile"))  #TODO: change to a configure button, and add in the menu a rename and remove button
         self.removeProfileButton.setFont(Fonts.subtitleFont)
         self.removeProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.removeProfileButton.setFixedHeight(40)
@@ -408,7 +409,7 @@ class Window(Qt.QMainWindow):
     
     def addProfile(self):
         """add a new modded profile"""
-        self.addProfilePopup = backendMethods.addProfilePopup()
+        self.addProfilePopup = customWidgets.addProfilePopup()
         log.info(f"opening profile creation screen")
         self.addProfilePopup.exec_()
         self.refreshProfiles()
@@ -538,21 +539,31 @@ class Window(Qt.QMainWindow):
         self.installedModsWidgets = []  # list of all mod widgets objects
         for mod in mods:
             self.installedModsWidgets.append(customWidgets.ModSelect(mod))
-            threading.Thread(target=Methods.downloadIcon, args=(mod["platform"], mod["modId"], mod["iconUrl"], self.installedModsWidgets[-1])).start()
+            if not isinstance(mod, str):  # if the mod is not custom jar
+                threading.Thread(target=Methods.downloadIcon, args=(mod["platform"], mod["modId"], mod["iconUrl"], self.installedModsWidgets[-1])).start()
             self.modsScrollLayout.addWidget(self.installedModsWidgets[-1])
             self.installedModsWidgets[-1].wasSelected.connect(self.selectInstalledMod)
     
-    def selectInstalledMod(self, modData:dict):
-        """select an installed mod and deselect the others"""
+    def selectInstalledMod(self, modData:object):
+        """select an installed mod and deselect the others, or open popup for custom jar mods"""
+        if isinstance(modData, str):  # if the mod is a custom jar
+            modFileName = modData
+            modFilePath = profilesDir/self.currentProfile/"jar"/modFileName
+            self.customModMenu = customWidgets.CustomModMenu(modFileName, modFilePath)
+            self.customModMenu.show()
+            self.customModMenu.needRefresh.connect(self.refreshInstalledMods)
+            return
+        
         self.currentModData = modData
         modId = modData["modId"]
         platform = modData["platform"].lower()
         for mod in self.installedModsWidgets:
-            if mod.modId == modId:
-                self.currentMod = modId
-                self.modInstallWidget.setVisible(True)
-            else:
-                mod.setSelected(False)
+            if not mod.isCustom:
+                if mod.modId == modId:
+                    self.currentMod = modId
+                    self.modInstallWidget.setVisible(True)
+                else:
+                    mod.setSelected(False)
         
         modRequestData = Methods.getModInfos(modId, modData["platform"])
         
@@ -612,6 +623,16 @@ class Window(Qt.QMainWindow):
     def applyProfile(self):
         """apply the selected profile by changing the minecraft mod files, will delete previous mods"""
         Methods.applyProfile(self.currentProfile)
+    
+    def addJarMod(self):
+        """add a mod from a custom jar file"""
+        newMods, _ = Qt.QFileDialog.getOpenFileNames(self, lang("selectMod"), str(Path.home()/"Downloads"), "JAR Files (*.jar);;All Files (*)")
+        if newMods:
+            for mod in newMods:
+                Methods.installJarMod(self.currentProfile, Path(mod))
+                log.info(f"installed mod from jar file: {mod}")
+            Qt.QMessageBox.information(self, lang("success"), lang("jarModInstalled"))
+            self.refreshInstalledMods()
 
 
 def setDarkMode(App:Qt.QApplication):
