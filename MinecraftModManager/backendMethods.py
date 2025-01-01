@@ -39,6 +39,7 @@ class Start():
         """code to directly execute at the start of the program"""
         profilesDir.mkdir(parents=True, exist_ok=True)
         cacheDir.mkdir(parents=True, exist_ok=True)
+        minecraftModsPath.mkdir(parents=True, exist_ok=True)
 
 
 class Methods():
@@ -304,7 +305,7 @@ class Methods():
         currentProfileDir = profilesDir/profile
         installedMods = []
         if currentProfileDir.exists():
-            for platform in ["modrinth", "curseforge"]:
+            for platform in availablePlatforms:
                 if (currentProfileDir/platform).exists():
                     for mod in glob.glob(str(currentProfileDir/platform/"*")):
                         if os.path.isdir(mod):
@@ -330,6 +331,32 @@ class Methods():
             QMessageBox.information(None, lang("success"), lang("profileRemoved"))
         else:
             log.error(f"Profile {profile} not found")
+    
+    def applyProfile(self, profile:str):
+        """apply a profile to the minecraft game directory"""
+        if not profile:
+            log.warning("No profile provided, cannot apply profile")
+            return
+        profilePath = profilesDir/profile
+        if not profilePath.exists():
+            log.error(f"Profile {profile} not found")
+            return
+        confirm = QMessageBox.question(None, lang("applyProfileTitle"), lang("applyProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.No:
+            return -1
+        for previousMod in glob.glob(str(minecraftModsPath/"*")):
+            if os.path.isfile(previousMod):
+                os.remove(previousMod)
+        for platform in availablePlatforms:
+            if (profilePath/platform).exists():
+                for mod in glob.glob(str(profilePath/platform/"*")):
+                    if os.path.isdir(mod):
+                        with open(Path(mod)/"properties.json", "r", encoding="utf-8") as f:
+                            modData = json.load(f)
+                        shutil.copyfile(Path(mod)/modData["fileName"], minecraftModsPath/modData["fileName"])
+        log.info(f"Applied profile {profile}")
+        QMessageBox.information(None, lang("success"), lang("profileApplied"))
+
 
 class addProfilePopup(Qt.QDialog):
     """popup to create a new profile"""

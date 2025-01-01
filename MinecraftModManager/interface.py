@@ -611,7 +611,7 @@ class Window(Qt.QMainWindow):
     
     def applyProfile(self):
         """apply the selected profile by changing the minecraft mod files, will delete previous mods"""
-        pass
+        Methods.applyProfile(self.currentProfile)
 
 
 def setDarkMode(App:Qt.QApplication):
