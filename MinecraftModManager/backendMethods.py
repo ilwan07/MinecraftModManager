@@ -1,6 +1,7 @@
 import translate
 from usefulVariables import *  # local variables
 import locale
+from packaging.version import Version
 from pathlib import Path
 import PyQt5.QtWidgets as Qt
 from PyQt5.QtWidgets import QMessageBox
@@ -8,14 +9,15 @@ from PyQt5 import QtCore, QtGui
 from bs4 import BeautifulSoup
 from datetime import datetime
 import minecraft_launcher_lib
+import traceback
 import platformdirs
+import subprocess
 import requests
 import logging
-import asyncio
-import aiohttp
 import shutil
 import glob
 import json
+import time
 import os
 
 localPath = Path(__file__).resolve().parent  # path of the software folder
@@ -324,16 +326,13 @@ class Methods():
             return
         profilePath = profilesDir/profile
         if profilePath.exists():
-            confirm = QMessageBox.question(None, lang("removeProfileTitle"), lang("removeProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
-            if confirm == QMessageBox.No:
-                return -1
             shutil.rmtree(profilePath)
             log.info(f"Removed profile {profile}")
             QMessageBox.information(None, lang("success"), lang("profileRemoved"))
         else:
             log.error(f"Profile {profile} not found")
     
-    def applyProfile(self, profile:str):
+    def applyProfile(self, profile:str, auto:bool=False):
         """apply a profile to the minecraft game directory"""
         if not profile:
             log.warning("No profile provided, cannot apply profile")
@@ -342,9 +341,10 @@ class Methods():
         if not profilePath.exists():
             log.error(f"Profile {profile} not found")
             return
-        confirm = QMessageBox.question(None, lang("applyProfileTitle"), lang("applyProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
-        if confirm == QMessageBox.No:
-            return -1
+        if not auto:
+            confirm = QMessageBox.question(None, lang("applyProfileTitle"), lang("applyProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
+            if confirm == QMessageBox.No:
+                return -1
         for previousMod in glob.glob(str(minecraftModsPath/"*")):
             if os.path.isfile(previousMod):
                 os.remove(previousMod)
@@ -359,7 +359,8 @@ class Methods():
             if os.path.isfile(jarMod):
                 shutil.copyfile(jarMod, minecraftModsPath/Path(jarMod).name)
         log.info(f"Applied profile {profile}")
-        QMessageBox.information(None, lang("success"), lang("profileApplied"))
+        if not auto:
+            QMessageBox.information(None, lang("success"), lang("profileApplied"))
     
     def installJarMod(self, profile:str, modPath:Path):
         """install a jar mod to the profile"""
@@ -380,3 +381,136 @@ class Methods():
                 filename = f"{filename}.{ext}"
         shutil.copyfile(modPath, jarFolder/filename)
         log.info(f"Installed jar mod {filename} in profile {profile}")
+    
+    def renameProfile(self, currentName:str, newName:str):
+        """rename a profile"""
+        if not currentName:
+            log.warning("No profile provided, cannot rename profile")
+            return
+        
+        currentProfilePath = profilesDir/currentName
+        newProfilePath = profilesDir/newName
+        oldProperties = json.load(open(currentProfilePath/"properties.json", "r", encoding="utf-8"))
+        oldProperties["name"] = newName
+        with open(currentProfilePath/"properties.json", "w", encoding="utf-8") as f:
+            json.dump(oldProperties, f, indent=4)
+        shutil.move(currentProfilePath, newProfilePath)
+        log.info(f"Renamed profile {currentName} to {newName}")
+        QMessageBox.information(None, lang("success"), lang("profileRenamed"))
+    
+    def launchGame(self, profile:str):
+        """launch the minecraft game"""
+        #TODO: don't freeze the interface while launching, but show a popup to prevent the user from doing anything
+        if not profile:
+            log.warning("No profile provided, cannot launch game")
+            return
+        profilePath = profilesDir/profile
+        if not profilePath.exists():
+            log.error(f"Profile {profile} not found")
+            return
+        with open(profilePath/"properties.json", "r", encoding="utf-8") as f:
+            properties = json.load(f)
+            modloader = properties["modloader"].lower()
+            version = properties["version"]
+
+        bestLoaderVersion = self.getBestLoaderVersion(modloader, version)
+        if not bestLoaderVersion:
+            log.warning(f"Loader {modloader} not found for version {version}, cannot launch game")
+            QMessageBox.warning(None, lang("error"), lang("versionNotFound"))
+            self.openLoaderDownloadWebsite(modloader)
+            return
+
+        options = {
+            "username": "Player",
+            "uuid": "00000000-0000-0000-0000-000000000000",  # Placeholder UUID
+            "token": "token",  # Placeholder token
+            "launcherName": "Minecraft Mod Manager",
+            "launcherVersion": appVersion
+        }  #TODO: implement login
+        
+        log.info("saving previous mods")
+        self.savePreviousMods()
+        self.applyProfile(profile, auto=True)
+        log.info("applied profile successfully")
+        log.info(f"Launching game in offline mode with profile {profile}")
+        try:
+            subprocess.run(minecraft_launcher_lib.command.get_minecraft_command(bestLoaderVersion, minecraftAppdataPath, options))
+        except Exception as e:
+            log.error(f"Error while launching game : {e}")
+            error_message = f"Error while launching game: {e}\n\n{traceback.format_exc()}"
+            QMessageBox.critical(None, lang("error"), error_message)
+        self.restorePreviousMods()
+        log.info("game closed, restored previous mods")
+    
+    def savePreviousMods(self):
+        """save the previous mods to restore them after the game is closed"""
+        modsStorage = cacheDir/"previousMods"
+        modsStorage.mkdir(parents=True, exist_ok=True)
+        for mod in glob.glob(str(minecraftModsPath/"*")):
+            if os.path.isfile(mod):
+                shutil.copyfile(mod, modsStorage/Path(mod).name)
+                os.remove(mod)
+        
+
+    def restorePreviousMods(self):
+        """restore the previous mods after the game is closed"""
+        modsStorage = cacheDir/"previousMods"
+        if modsStorage.exists():
+            # delete the current mods
+            while True:
+                try:
+                    for currentMod in glob.glob(str(minecraftModsPath/"*")):
+                        if os.path.isfile(currentMod):
+                            os.remove(currentMod)
+                    break
+                except PermissionError:
+                    log.warning("Permission error while deleting current mods, retrying")
+                    time.sleep(0.1)
+            # restore the previous mods
+            for mod in glob.glob(str(modsStorage/"*")):
+                if os.path.isfile(mod):
+                    shutil.copyfile(mod, minecraftModsPath/Path(mod).name)
+            shutil.rmtree(modsStorage)
+        else:
+            log.error("No previous mods found to restore")
+
+    def getBestLoaderVersion(self, modloader:str, mcVersion:str) -> str:
+        """get the latest version of a modloader for a minecraft version from the installed versions"""
+        mcVersionIndex = {"fabric": 3, "forge": 0, "neoforge": None, "quilt": 3}  # the index of the minecraft version when split by '-', neoforge will he handled differently
+        candidates = []
+        installedVersions = self.listInstalledVersions()
+        for version in installedVersions:
+            if modloader in version:
+                if modloader == "neoforge":
+                    if mcVersion.split(".")[1:] in version.split("-")[1]:  # adapt to the naming convention of neoforge (for mc 1.21 and neo 167, 'neoforge-21.0.167')
+                        candidates.append(version)
+                else:
+                    if mcVersion == version.split("-")[mcVersionIndex[modloader]]:
+                        candidates.append(version)
+        if candidates:
+            candidates = self.semanticSort(candidates, modloader)
+            return candidates[-1]
+    
+    def semanticSort(self, versions:list, loader:str) -> list:
+        """sort a list of modloader versions semantically"""
+        semanticIndex = {"fabric": 2, "forge": 2, "neoforge": 2, "quilt": 2}  # the index of the "pure" semantic version when split by '-'
+        return sorted(versions, key=lambda version: Version(version.split("-")[semanticIndex[loader]]))
+
+    def listInstalledVersions(self) -> list:
+        """list all the installed versions of the modloaders"""
+        versionsFolder = minecraftAppdataPath/"versions"
+        installedVersions = []
+        for version in os.listdir(versionsFolder):
+            if os.path.isdir(versionsFolder/version):
+                installedVersions.append(version)
+        return installedVersions
+
+    def openLoaderDownloadWebsite(self, modloader:str):
+        """open the download website for a modloader"""
+        modloader = modloader.lower()
+        websites = {"fabric": "https://fabricmc.net/", "forge": "https://files.minecraftforge.net/net/minecraftforge/forge/", "neoforge": "https://projects.neoforged.net/neoforged/neoforge", "quilt": "https://quiltmc.org/"}
+        if modloader in websites:
+            log.info(f"Opening website for modloader {modloader}")
+            QtGui.QDesktopServices.openUrl(QtCore.QUrl(websites[modloader]))
+        else:
+            log.warning(f"Modloader {modloader} not found in the list of websites")

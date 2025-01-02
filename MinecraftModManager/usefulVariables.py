@@ -32,6 +32,8 @@ curseForgeApi = "http://mmm.ilwan.hackclub.app/curseforge"
 
 availablePlatforms = ["modrinth", "curseforge"]
 
+appVersion = "0.1.0"
+
 class Fonts():
     """a class containing useful fonts"""
     bigTitleFont = QtGui.QFont("Arial", 24)

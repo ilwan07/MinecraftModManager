@@ -191,6 +191,7 @@ class Window(Qt.QMainWindow):
         self.launchButton.setIconSize(QtCore.QSize(25, 25))
         self.launchButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.launchButton.setFixedHeight(50)
+        self.launchButton.clicked.connect(lambda: Methods.launchGame(self.currentProfile))
         self.modsListLayout.addWidget(self.launchButton)
 
         # buttons layout
@@ -223,12 +224,12 @@ class Window(Qt.QMainWindow):
         self.profileButtonsLayout.addWidget(self.exportButton, 1, 0)
 
         # remove profile button
-        self.removeProfileButton = Qt.QPushButton(lang("removeProfile"))  #TODO: change to a configure button, and add in the menu a rename and remove button
-        self.removeProfileButton.setFont(Fonts.subtitleFont)
-        self.removeProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
-        self.removeProfileButton.setFixedHeight(40)
-        self.removeProfileButton.clicked.connect(self.removeProfile)
-        self.profileButtonsLayout.addWidget(self.removeProfileButton, 1, 1)
+        self.configureProfileButton = Qt.QPushButton(lang("configureProfile"))
+        self.configureProfileButton.setFont(Fonts.subtitleFont)
+        self.configureProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
+        self.configureProfileButton.setFixedHeight(40)
+        self.configureProfileButton.clicked.connect(self.configureProfile)
+        self.profileButtonsLayout.addWidget(self.configureProfileButton, 1, 1)
 
         # separation line
         self.separationLine = customWidgets.SeparationLine()
@@ -550,6 +551,7 @@ class Window(Qt.QMainWindow):
             modFileName = modData
             modFilePath = profilesDir/self.currentProfile/"jar"/modFileName
             self.customModMenu = customWidgets.CustomModMenu(modFileName, modFilePath)
+            self.customModMenu.setWindowModality(QtCore.Qt.ApplicationModal)
             self.customModMenu.show()
             self.customModMenu.needRefresh.connect(self.refreshInstalledMods)
             return
@@ -609,16 +611,30 @@ class Window(Qt.QMainWindow):
         if result is None:
             self.refreshInstalledMods()
     
+    def configureProfile(self):
+        """open the profile configuration popup"""
+        self.configureProfilePopup = customWidgets.configureProfilePopup(self.currentProfile)
+        self.configureProfilePopup.setWindowModality(QtCore.Qt.ApplicationModal)
+        self.configureProfilePopup.show()
+        self.configureProfilePopup.renameProfile.connect(self.renameProfile)
+        self.configureProfilePopup.removeProfile.connect(self.removeProfile)
+    
+    def renameProfile(self, newName:str):
+        """rename the selected profile"""
+        Methods.renameProfile(self.currentProfile, newName)
+        self.currentProfile = newName
+        self.modInstallWidget.setVisible(False)
+        self.refreshProfiles()
+
     def removeProfile(self):
         """remove the selected profile"""
-        result = Methods.removeProfile(self.currentProfile)
-        if result is None:
-            self.currentProfile = None
-            self.modsListWidget.setVisible(False)
-            self.modSearchWidget.setVisible(False)
-            self.modInstallWidget.setVisible(False)
-            self.refreshProfiles()
-            self.refreshInstalledMods()
+        Methods.removeProfile(self.currentProfile)
+        self.currentProfile = None
+        self.modsListWidget.setVisible(False)
+        self.modSearchWidget.setVisible(False)
+        self.modInstallWidget.setVisible(False)
+        self.refreshProfiles()
+        self.refreshInstalledMods()
     
     def applyProfile(self):
         """apply the selected profile by changing the minecraft mod files, will delete previous mods"""

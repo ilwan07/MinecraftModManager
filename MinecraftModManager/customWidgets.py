@@ -464,6 +464,8 @@ class CustomModMenu(Qt.QWidget):
         # mod name
         self.modNameLabel = Qt.QLabel(self.modFileName)
         self.modNameLabel.setFont(Fonts.titleFont)
+        self.modNameLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.modNameLabel.setWordWrap(True)
         self.mainLayout.addWidget(self.modNameLabel)
 
         # buttons
@@ -517,4 +519,72 @@ class CustomModMenu(Qt.QWidget):
             os.rename(self.modFilePath, newFilePath)
             QMessageBox.information(self, lang("success"), lang("modRenamed"))
             self.needRefresh.emit()
+            self.close()
+
+
+class configureProfilePopup(Qt.QWidget):
+    renameProfile = QtCore.pyqtSignal(str)
+    removeProfile = QtCore.pyqtSignal()
+    def __init__(self, profileName:str):
+        """popup to modify the profile properties"""
+        self.profileName = profileName
+        self.profilePath = profilesDir/self.profileName
+        
+        super().__init__()
+        self.mainLayout = Qt.QVBoxLayout()
+        self.setLayout(self.mainLayout)
+
+        # profile name
+        self.profileNameLabel = Qt.QLabel(self.profileName)
+        self.profileNameLabel.setFont(Fonts.titleFont)
+        self.profileNameLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.profileNameLabel.setWordWrap(True)
+        self.mainLayout.addWidget(self.profileNameLabel)
+
+        # buttons
+        self.buttonsWidget = Qt.QWidget()
+        self.buttonsLayout = Qt.QHBoxLayout()
+        self.buttonsWidget.setLayout(self.buttonsLayout)
+        self.mainLayout.addWidget(self.buttonsWidget)
+        
+        # rename button
+        self.renameButton = Qt.QPushButton(lang("rename"))
+        self.renameButton.setFont(Fonts.titleFont)
+        self.renameButton.setFixedHeight(50)
+        self.renameButton.clicked.connect(self.askRename)
+        self.buttonsLayout.addWidget(self.renameButton)
+
+        # remove button
+        self.removeButton = Qt.QPushButton(lang("removeProfile"))
+        self.removeButton.setFont(Fonts.titleFont)
+        self.removeButton.setFixedHeight(50)
+        self.removeButton.clicked.connect(self.askRemove)
+        self.buttonsLayout.addWidget(self.removeButton)
+
+        # close button
+        self.closeButton = Qt.QPushButton(lang("close"))
+        self.closeButton.setFont(Fonts.titleFont)
+        self.closeButton.setFixedHeight(50)
+        self.closeButton.clicked.connect(self.close)
+        self.buttonsLayout.addWidget(self.closeButton)
+    
+    def askRename(self):
+        """ask the user for the new profile name"""
+        newName, ok = Qt.QInputDialog.getText(self, lang("rename"), lang("newName"))
+        if ok:
+            if not newName:
+                QMessageBox.warning(self, lang("error"), lang("profileNameEmptyError"))
+                return
+            otherNames = [Path(item).name for item in glob.glob(str(profilesDir/"*")) if Path(item).name != self.profileName]
+            if newName in otherNames:
+                QMessageBox.warning(self, lang("error"), lang("profileNameExistsError"))
+                return
+            self.renameProfile.emit(newName)
+            self.close()
+    
+    def askRemove(self):
+        """ask the user to confirm the profile removal"""
+        confirm = QMessageBox.question(self, lang("removeProfile"), lang("removeProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
+        if confirm == QMessageBox.Yes:
+            self.removeProfile.emit()
             self.close()
