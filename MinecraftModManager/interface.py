@@ -313,8 +313,9 @@ class Window(Qt.QMainWindow):
         self.modNameWidget = Qt.QWidget()
         self.modNameLayout = Qt.QHBoxLayout()
         self.modNameLayout.setAlignment(QtCore.Qt.AlignCenter | QtCore.Qt.AlignTop)
+        self.modNameLayout.setSizeConstraint(Qt.QLayout.SetFixedSize)  # Prevent vertical stretching
         self.modNameWidget.setLayout(self.modNameLayout)
-        self.modDescriptionLayout.addWidget(self.modNameWidget, 1)
+        self.modDescriptionLayout.addWidget(self.modNameWidget, 0)
 
         # mod icon
         self.modDescriptionIcon = Qt.QLabel()

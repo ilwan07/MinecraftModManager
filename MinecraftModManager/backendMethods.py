@@ -11,6 +11,7 @@ from datetime import datetime
 import minecraft_launcher_lib
 import traceback
 import platformdirs
+import threading
 import subprocess
 import requests
 import logging
@@ -400,7 +401,6 @@ class Methods():
     
     def launchGame(self, profile:str):
         """launch the minecraft game"""
-        #TODO: don't freeze the interface while launching, but show a popup to prevent the user from doing anything
         if not profile:
             log.warning("No profile provided, cannot launch game")
             return
@@ -430,16 +430,27 @@ class Methods():
         
         log.info("saving previous mods")
         self.savePreviousMods()
+        log.info(f"applying profile {profile}")
         self.applyProfile(profile, auto=True)
-        log.info("applied profile successfully")
         log.info(f"Launching game in offline mode with profile {profile}")
+        self.runningPopup = Qt.QMessageBox(Qt.QMessageBox.Information, lang("launchedGame"), lang("launchedGameMessage"), Qt.QMessageBox.NoButton)
+        self.gameRunning = True  # true until the game is closed
+        gameThread = threading.Thread(target=self.openGame, args=(bestLoaderVersion, options))
+        gameThread.start()
+        self.runningPopup.exec_()
+        while self.gameRunning:
+            self.runningPopup.exec_()
+    
+    def openGame(self, version, options):
+        """open the minecraft game once everything is set up"""
         try:
-            subprocess.run(minecraft_launcher_lib.command.get_minecraft_command(bestLoaderVersion, minecraftAppdataPath, options))
+            subprocess.run(minecraft_launcher_lib.command.get_minecraft_command(version, minecraftAppdataPath, options))
         except Exception as e:
             log.error(f"Error while launching game : {e}")
             error_message = f"Error while launching game: {e}\n\n{traceback.format_exc()}"
             QMessageBox.critical(None, lang("error"), error_message)
         self.restorePreviousMods()
+        self.gameRunning = False
         log.info("game closed, restored previous mods")
     
     def savePreviousMods(self):
