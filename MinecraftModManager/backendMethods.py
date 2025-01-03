@@ -278,6 +278,7 @@ class Methods():
         #TODO: put a window during download
         if modVersionData is None:
             log.warning("No mod version data provided, cannot install the mod")
+            QMessageBox.warning(None, lang("error"), lang("noVersionSelected"))
             return
         currentModPath = profilesDir/profile/platform.lower()/modId
         # check if the mod is already installed
@@ -369,7 +370,7 @@ class Methods():
         jarFolder.mkdir(parents=True, exist_ok=True)
         filename = modPath.name
         if (jarFolder/modPath.name).exists():
-            confirm = QMessageBox.question(None, lang("jarConflictTitle"), f"{lang("jarConflictMessage1")} {filename} {lang("jarConflictMessage2")}", QMessageBox.Yes | QMessageBox.No)
+            confirm = QMessageBox.question(None, lang("jarConflictTitle"), f"{lang("jarConflictMessage1")} {filename} {lang("jarConflictMessage2")}", QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
             if confirm == QMessageBox.Yes:
                 os.remove(jarFolder/modPath.name)
             elif confirm == QMessageBox.No:
@@ -380,6 +381,9 @@ class Methods():
                     num += 1
                     filename = f"{'_'.join(filename.split('_')[:-1])}_{num}"
                 filename = f"{filename}.{ext}"
+            else:
+                log.info(f"Cancelled installation of jar mod {filename} in profile {profile}")
+                return -1
         shutil.copyfile(modPath, jarFolder/filename)
         log.info(f"Installed jar mod {filename} in profile {profile}")
     
@@ -525,3 +529,51 @@ class Methods():
             QtGui.QDesktopServices.openUrl(QtCore.QUrl(websites[modloader]))
         else:
             log.warning(f"Modloader {modloader} not found in the list of websites")
+    
+    def exportProfile(self, profile:str, exportPath:str):
+        """export a profile to a zip file"""
+        exportPath = Path(exportPath).with_suffix("")
+        if not profile:
+            log.warning("No profile provided, cannot export profile")
+            return -1
+        profilePath = profilesDir/profile
+        if not profilePath.exists():
+            log.error(f"Profile {profile} not found")
+            return -1
+        tempProfilePath = cacheDir/"tempProfile"
+        tempProfilePath.mkdir(parents=True, exist_ok=True)
+        shutil.copytree(profilePath, tempProfilePath/profile)
+        shutil.make_archive(str(exportPath), "zip", root_dir=str(tempProfilePath))
+        shutil.rmtree(tempProfilePath)
+    
+    def importProfile(self, importPath:str):
+        """import a profile from a zip file"""
+        if not Path(importPath).exists():
+            log.error(f"Import file {importPath} not found")
+            return -1
+        tempProfilePath = cacheDir/"tempProfile"
+        tempProfilePath.mkdir(parents=True, exist_ok=True)
+        shutil.unpack_archive(importPath, extract_dir=str(tempProfilePath))
+        profileName = Path(importPath).stem
+        if (profilesDir/profileName).exists():
+            confirm = QMessageBox.question(None, lang("profileExists"), lang("profileExistsMessage"), QMessageBox.Yes | QMessageBox.No | QMessageBox.Cancel)
+            if confirm == QMessageBox.Yes:
+                shutil.rmtree(profilesDir/profileName)
+                shutil.move(tempProfilePath/profileName, profilesDir)
+            elif confirm == QMessageBox.No:
+                newName = f"{profileName}_1"
+                num = 1
+                while (profilesDir/newName).exists():
+                    num += 1
+                    filename = f"{'_'.join(filename.split('_')[:-1])}_{num}"
+                shutil.copytree(tempProfilePath/profileName, profilesDir/newName)
+                shutil.rmtree(tempProfilePath)
+                oldData = json.load(open(profilesDir/newName/"properties.json", "r", encoding="utf-8"))
+                oldData["name"] = newName
+                with open(profilesDir/newName/"properties.json", "w", encoding="utf-8") as f:
+                    json.dump(oldData, f, indent=4)
+            else:
+                log.info(f"Cancelled import of profile {profileName}")
+                return -1
+        else:
+            shutil.move(tempProfilePath/profileName, profilesDir)

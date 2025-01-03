@@ -4,7 +4,6 @@ import PyQt5.QtWidgets as Qt
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMessageBox
 from pathlib import Path
-import shutil
 import json
 import glob
 

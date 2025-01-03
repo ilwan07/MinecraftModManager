@@ -3,15 +3,10 @@ from usefulVariables import *  # local variables
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtCore, QtGui
 from pathlib import Path
-import platformdirs
-import darkdetect
 import threading
 import logging
 import markdown
 import ctypes
-import asyncio
-import shutil
-import json
 import os
 
 log = logging.getLogger(__name__)
@@ -154,6 +149,7 @@ class Window(Qt.QMainWindow):
         self.importProfileButton.setFont(Fonts.titleFont)
         self.importProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.importProfileButton.setFixedHeight(50)
+        self.importProfileButton.clicked.connect(self.importProfile)
         self.profilesListLayout.addWidget(self.importProfileButton)
 
         # separation line
@@ -221,9 +217,10 @@ class Window(Qt.QMainWindow):
         self.exportButton.setFont(Fonts.subtitleFont)
         self.exportButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.exportButton.setFixedHeight(40)
+        self.exportButton.clicked.connect(self.exportProfile)
         self.profileButtonsLayout.addWidget(self.exportButton, 1, 0)
 
-        # remove profile button
+        # configure profile button
         self.configureProfileButton = Qt.QPushButton(lang("configureProfile"))
         self.configureProfileButton.setFont(Fonts.subtitleFont)
         self.configureProfileButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
@@ -645,11 +642,32 @@ class Window(Qt.QMainWindow):
         """add a mod from a custom jar file"""
         newMods, _ = Qt.QFileDialog.getOpenFileNames(self, lang("selectMod"), str(Path.home()/"Downloads"), "JAR Files (*.jar);;All Files (*)")
         if newMods:
+            installedOne = False
             for mod in newMods:
-                Methods.installJarMod(self.currentProfile, Path(mod))
-                log.info(f"installed mod from jar file: {mod}")
-            Qt.QMessageBox.information(self, lang("success"), lang("jarModInstalled"))
-            self.refreshInstalledMods()
+                result = Methods.installJarMod(self.currentProfile, Path(mod))
+                if result is None:
+                    installedOne = True
+                    log.info(f"installed mod from jar file: {mod}")
+            if installedOne:
+                Qt.QMessageBox.information(self, lang("success"), lang("jarModInstalled"))
+                self.refreshInstalledMods()
+    
+    def exportProfile(self):
+        """export the selected profile to a zip file"""
+        exportPath, _ = Qt.QFileDialog.getSaveFileName(self, lang("exportProfile"), str(Path.home()/"Downloads"/f"{self.currentProfile}.zip"), "ZIP Files (*.zip)")
+        if exportPath:
+            result = Methods.exportProfile(self.currentProfile, exportPath)
+            if result is None:
+                Qt.QMessageBox.information(self, lang("success"), lang("profileExported"))
+    
+    def importProfile(self):
+        """import a profile from a zip file"""
+        importPath, _ = Qt.QFileDialog.getOpenFileName(self, lang("importProfile"), str(Path.home()/"Downloads"), "ZIP Files (*.zip)")
+        if importPath:
+            result = Methods.importProfile(importPath)
+            if result is None:
+                Qt.QMessageBox.information(self, lang("success"), lang("profileImported"))
+                self.refreshProfiles()
 
 
 def setDarkMode(App:Qt.QApplication):
