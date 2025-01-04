@@ -118,6 +118,7 @@ class ModSelect(Qt.QFrame):
         self.updateIcon()
         self.mainLayout.addWidget(self.iconLabel)
 
+        # widget containing the informations about the mod
         self.textWidget = Qt.QWidget()
         self.textLayout = Qt.QVBoxLayout()
         self.textWidget.setLayout(self.textLayout)

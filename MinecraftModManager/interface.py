@@ -332,10 +332,9 @@ class Window(Qt.QMainWindow):
         self.modNameAuthorLayout.addWidget(self.modNameLabel, 1)
 
         # mod author
-        """self.modAuthorLabel = Qt.QLabel()  #TODO: add the author
+        self.modAuthorLabel = Qt.QLabel()
         self.modAuthorLabel.setFont(Fonts.subtitleFont)
-        self.modAuthorLabel.setWordWrap(True)
-        self.modNameAuthorLayout.addWidget(self.modAuthorLabel)"""
+        self.modNameAuthorLayout.addWidget(self.modAuthorLabel)
 
         self.separationLine = customWidgets.SeparationLine()
         self.modDescriptionLayout.addWidget(self.separationLine)
@@ -499,6 +498,7 @@ class Window(Qt.QMainWindow):
         
         # put the mod infos in the mod description
         self.modNameLabel.setText(modData["name"])
+        self.modAuthorLabel.setText(f"by {modData['author']}")
         iconCacheDir = cacheDir/"modIcons"/platform
         # download the mod icon
         if platform == "modrinth":
@@ -568,6 +568,7 @@ class Window(Qt.QMainWindow):
         
         # put the mod infos in the mod description
         self.modNameLabel.setText(modData["modName"])
+        self.modAuthorLabel.setText(f"by {modData['authors']}")
         iconCacheDir = cacheDir/"modIcons"/platform
         Methods.downloadIcon(platform, modId, modData["iconUrl"])
         if os.path.exists(iconCacheDir/f"{modId}.png"):

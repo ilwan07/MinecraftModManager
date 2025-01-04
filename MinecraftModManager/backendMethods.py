@@ -197,6 +197,13 @@ class Methods():
                 with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
             
+            teamData = self.modrinthRequest(f"project/{modId}/members") if "team" in modData else None
+            if teamData:
+                authors = ", ".join([member["user"]["username"] for member in teamData])
+            else:
+                authors = ""
+            iconUrl = modData["icon_url"]
+            
             versionsIds = modData["versions"]
             if (versionsDataCache).exists():
                 self.modVersionsData = [json.load(open(versionsDataCache/f"{versionId}.json", "r", encoding="utf-8")) for versionId in versionsIds if (versionsDataCache/f"{versionId}.json").exists()]
@@ -221,7 +228,8 @@ class Methods():
                                                                        "fileName": versionData["files"][0]["filename"],
                                                                        "versionName": versionData["version_number"],
                                                                        "modName": modData["title"],
-                                                                       "iconUrl": modData["icon_url"]}
+                                                                       "authors": authors,
+                                                                       "iconUrl": iconUrl}
         elif platform.lower() == "curseforge":
             # either request and save or load the mod data
             if (modsDataCache/f"{modId}.json").exists():
@@ -231,6 +239,9 @@ class Methods():
                 modData = self.getModInfos(modId, platform.lower())
                 with open(modsDataCache/f"{modId}.json", "w", encoding="utf-8") as f:
                     json.dump(modData, f, indent=4)
+
+            authors = ", ".join([author["name"] for author in modData["data"]["authors"]])
+            iconUrl = modData["data"]["logo"]["thumbnailUrl"] if "logo" in modData["data"] else None
 
             versionsIds = [modVersion["fileId"] for modVersion in modData["data"]["latestFilesIndexes"]]
             if (versionsDataCache).exists():
@@ -260,7 +271,8 @@ class Methods():
                                                                 "fileName": versionData["data"]["fileName"],
                                                                 "versionName": versionData["data"]["displayName"],
                                                                 "modName": modData["data"]["name"],
-                                                                "iconUrl": modData["data"]["logo"]["thumbnailUrl"] if "logo" in modData["data"] else None}
+                                                                "authors": authors,
+                                                                "iconUrl": iconUrl}
         else:
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions
