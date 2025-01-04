@@ -135,7 +135,8 @@ class Methods():
         self.mods = []
         for mod in searchResult["hits"]:
             if mod["project_type"] == "mod": # only accept mods, no modpacks
-                self.mods.append({"name": mod["title"], "author": mod["author"], "id": mod["project_id"], "platform": "modrinth", "icon": iconCacheDir/f"{mod['project_id']}.png", "rawData": mod})
+                self.mods.append({"name": mod["title"], "author": mod["author"], "id": mod["project_id"], "platform": "modrinth",
+                                  "icon": iconCacheDir/f"{mod['project_id']}.png", "webpage": f"https://modrinth.com/mod/{mod['slug']}", "rawData": mod})
         return self.mods
 
     def curseforgeSearchToMods(self, searchResult:dict) -> list:
@@ -144,7 +145,8 @@ class Methods():
         self.mods = []
         for mod in searchResult["data"]:
             authors = ", ".join([author["name"] for author in mod["authors"]])
-            self.mods.append({"name": mod["name"], "author": authors, "id": str(mod["id"]), "platform": "curseforge", "icon": iconCacheDir/f"{mod['id']}.png", "rawData": mod})
+            self.mods.append({"name": mod["name"], "author": authors, "id": str(mod["id"]), "platform": "curseforge",
+                              "icon": iconCacheDir/f"{mod['id']}.png", "webpage": mod["links"]["websiteUrl"], "rawData": mod})
         return self.mods
     
     def downloadIcon(self, platform:str, id:str, iconUrl:str, modWidget=None):
@@ -229,7 +231,8 @@ class Methods():
                                                                        "versionName": versionData["version_number"],
                                                                        "modName": modData["title"],
                                                                        "authors": authors,
-                                                                       "iconUrl": iconUrl}
+                                                                       "iconUrl": iconUrl,
+                                                                       "webpage": f"https://modrinth.com/mod/{modData['slug']}"}
         elif platform.lower() == "curseforge":
             # either request and save or load the mod data
             if (modsDataCache/f"{modId}.json").exists():
@@ -272,7 +275,8 @@ class Methods():
                                                                 "versionName": versionData["data"]["displayName"],
                                                                 "modName": modData["data"]["name"],
                                                                 "authors": authors,
-                                                                "iconUrl": iconUrl}
+                                                                "iconUrl": iconUrl,
+                                                                "webpage": modData["data"]["links"]["websiteUrl"]}
         else:
             log.error(f"platform {platform} is not supported, cannot get versions infos")
         return self.modVersions

@@ -95,7 +95,7 @@ class Window(Qt.QMainWindow):
         self.modInstallLayout.addWidget(self.modInstallSplitter)
         self.modInstallSplitter.addWidget(self.modDescriptionWidget)
         self.modInstallSplitter.addWidget(self.modVersionsWidget)
-        self.modInstallSplitter.setSizes([300, 700])
+        self.modInstallSplitter.setSizes([350, 650])
 
         # Add a line to make the splitter visible
         for i in range(self.modInstallSplitter.count()):
@@ -304,7 +304,6 @@ class Window(Qt.QMainWindow):
     
     def buildModDescription(self):
         """builds the UI for the mod description part"""
-        #TODO: add a button to open the mod page in the browser
         # display mod name
         self.modNameWidget = Qt.QWidget()
         self.modNameLayout = Qt.QHBoxLayout()
@@ -335,6 +334,12 @@ class Window(Qt.QMainWindow):
         self.modAuthorLabel = Qt.QLabel()
         self.modAuthorLabel.setFont(Fonts.subtitleFont)
         self.modNameAuthorLayout.addWidget(self.modAuthorLabel)
+
+        self.websiteLink = Qt.QPushButton(lang("openModPage"))
+        self.websiteLink.setFixedHeight(40)
+        self.websiteLink.setFont(Fonts.subtitleFont)
+        self.websiteLink.clicked.connect(self.openModWebsite)
+        self.modDescriptionLayout.addWidget(self.websiteLink)
 
         self.separationLine = customWidgets.SeparationLine()
         self.modDescriptionLayout.addWidget(self.separationLine)
@@ -675,6 +680,12 @@ class Window(Qt.QMainWindow):
         self.settingsPopup.setWindowModality(QtCore.Qt.ApplicationModal)
         self.settingsPopup.show()
         self.settingsPopup.settingsUpdated.connect(Methods.loadSettings)
+    
+    def openModWebsite(self):
+        """open the current mod webpage in the default browser"""
+        website = self.currentModData["webpage"]
+        log.debug(f"opening mod webpage: {website}")
+        QtGui.QDesktopServices.openUrl(QtCore.QUrl(website))
 
 
 def setDarkMode(App:Qt.QApplication):
