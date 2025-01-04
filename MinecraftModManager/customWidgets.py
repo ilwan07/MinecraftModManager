@@ -587,3 +587,105 @@ class configureProfilePopup(Qt.QWidget):
         if confirm == QMessageBox.Yes:
             self.removeProfile.emit()
             self.close()
+
+
+class SettingsPopup(Qt.QWidget):
+    settingsUpdated = QtCore.pyqtSignal()
+    def __init__(self):
+        """popup to modify the settings"""
+        super().__init__()
+        self.mainLayout = Qt.QVBoxLayout()
+        self.setLayout(self.mainLayout)
+
+        # minecraft directory
+        self.mcDirWidget = Qt.QWidget()
+        self.mcDirLayout = Qt.QHBoxLayout()
+        self.mcDirWidget.setLayout(self.mcDirLayout)
+        self.mainLayout.addWidget(self.mcDirWidget)
+
+        self.mcDirLabel = Qt.QLabel(lang("minecraftDir"))
+        self.mcDirLabel.setFont(Fonts.smallTitleFont)
+        self.mcDirLayout.addWidget(self.mcDirLabel)
+
+        self.mcDirInput = Qt.QLineEdit()
+        self.mcDirInput.setPlaceholderText(lang("minecraftDirHere"))
+        self.mcDirInput.setFixedHeight(40)
+        self.mcDirInput.setMinimumWidth(500)        
+        self.mcDirInput.setFont(Fonts.smallTitleFont)
+        self.mcDirLayout.addWidget(self.mcDirInput)
+
+        self.mcDirBrowse = Qt.QPushButton()
+        self.mcDirBrowse.setIcon(QtGui.QIcon(str(iconsAssetsDir/"folder.png")))
+        self.mcDirBrowse.setIconSize(QtCore.QSize(25, 25))
+        self.mcDirBrowse.setFixedSize(40, 40)
+        self.mcDirBrowse.clicked.connect(self.browseMcDir)
+        self.mcDirLayout.addWidget(self.mcDirBrowse)
+
+        self.resetMcDir = Qt.QPushButton()
+        self.resetMcDir.setIcon(QtGui.QIcon(str(iconsAssetsDir/"reset.png")))
+        self.resetMcDir.setIconSize(QtCore.QSize(25, 25))
+        self.resetMcDir.setFixedSize(40, 40)
+        self.resetMcDir.clicked.connect(self.resetMcDirPath)
+        self.mcDirLayout.addWidget(self.resetMcDir)
+
+        # buttons
+        self.buttonsWidget = Qt.QWidget()
+        self.buttonsLayout = Qt.QHBoxLayout()
+        self.buttonsWidget.setLayout(self.buttonsLayout)
+        self.mainLayout.addWidget(self.buttonsWidget)
+
+        # apply button
+        self.applyButton = Qt.QPushButton(lang("apply"))
+        self.applyButton.setFont(Fonts.titleFont)
+        self.applyButton.setFixedHeight(50)
+        self.applyButton.clicked.connect(self.applySettings)
+        self.buttonsLayout.addWidget(self.applyButton)
+
+        # close button
+        self.closeButton = Qt.QPushButton(lang("close"))
+        self.closeButton.setFont(Fonts.titleFont)
+        self.closeButton.setFixedHeight(50)
+        self.closeButton.clicked.connect(self.close)
+        self.buttonsLayout.addWidget(self.closeButton)
+
+        self.setCurrentSettings()
+    
+    def setCurrentSettings(self):
+        """set the current settings to the inputs"""
+        with open(settingsFile, "r", encoding="utf-8") as f:
+            settings = json.load(f)
+        self.mcDirInput.setText(settings["minecraftFolder"])
+    
+    def browseMcDir(self):
+        """open a window to browse to the minecraft directory"""
+        mcDir = Qt.QFileDialog.getExistingDirectory(self, lang("selectMcDir"), str(Path.home()))
+        if mcDir:
+            self.mcDirInput.setText(mcDir)
+    
+    def resetMcDirPath(self):
+        """reset the minecraft directory path to the default"""
+        self.mcDirInput.setText(minecraft_launcher_lib.utils.get_minecraft_directory())
+    
+    def applySettings(self):
+        """apply the settings to the settings file"""
+        # collet the settings
+        mcDir = self.mcDirInput.text()
+
+        # check if the settings are valid
+        if not mcDir:
+            QMessageBox.critical(self, lang("error"), lang("mcDirEmptyError"))
+            return
+        if not os.path.exists(mcDir):
+            QMessageBox.critical(self, lang("error"), lang("mcDirNotExistError"))
+            return
+        
+        # apply the settings
+        with open(settingsFile, "r", encoding="utf-8") as f:
+            settings = json.load(f)
+        settings["minecraftFolder"] = mcDir
+        with open(settingsFile, "w", encoding="utf-8") as f:
+            json.dump(settings, f, indent=4)
+        
+        QMessageBox.information(self, lang("success"), lang("settingsApplied"))
+        
+        self.settingsUpdated.emit()

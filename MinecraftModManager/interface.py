@@ -15,9 +15,7 @@ if os.name == "nt":  # if on Windows
     appId = "ilwan.minecraftmodmanager"
     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(appId)
 
-Methods = backendMethods.Methods()
-StartCode = backendMethods.Start()
-StartCode.start()  # setup the software
+Methods = backendMethods.Methods()  # setup the software
 
 
 class Window(Qt.QMainWindow):
@@ -130,6 +128,7 @@ class Window(Qt.QMainWindow):
         self.settingsButton.setIconSize(QtCore.QSize(25, 25))
         self.settingsButton.setSizePolicy(Qt.QSizePolicy.Expanding, Qt.QSizePolicy.Fixed)
         self.settingsButton.setFixedHeight(60)
+        self.settingsButton.clicked.connect(self.openSettings)
         self.profilesListLayout.addWidget(self.settingsButton)
 
         # separation line
@@ -668,6 +667,13 @@ class Window(Qt.QMainWindow):
             if result is None:
                 Qt.QMessageBox.information(self, lang("success"), lang("profileImported"))
                 self.refreshProfiles()
+    
+    def openSettings(self):
+        """open the settings popup"""
+        self.settingsPopup = customWidgets.SettingsPopup()
+        self.settingsPopup.setWindowModality(QtCore.Qt.ApplicationModal)
+        self.settingsPopup.show()
+        self.settingsPopup.settingsUpdated.connect(Methods.loadSettings)
 
 
 def setDarkMode(App:Qt.QApplication):

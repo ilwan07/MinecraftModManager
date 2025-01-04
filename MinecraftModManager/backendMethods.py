@@ -36,20 +36,27 @@ lang = Language.translate
 log = logging.getLogger(__name__)
 
 
-class Start():
-    """a class that setups the software before launching the interface"""
-    def start(self):
-        """code to directly execute at the start of the program"""
-        profilesDir.mkdir(parents=True, exist_ok=True)
-        cacheDir.mkdir(parents=True, exist_ok=True)
-        minecraftModsPath.mkdir(parents=True, exist_ok=True)
-
-
 class Methods():
     def __init__(self):
         """a class containing usefull methods"""
         self.curseforgeModloaders = {"fabric": 4, "forge": 1, "neoforge": 6, "quilt": 5}
         self.curseforgeReleases = {1: "release", 2: "beta", 3: "alpha"}
+        profilesDir.mkdir(parents=True, exist_ok=True)
+        cacheDir.mkdir(parents=True, exist_ok=True)
+
+        if not settingsFile.exists():
+            with open(settingsFile, "w", encoding="utf-8") as f:
+                json.dump({"minecraftFolder": minecraft_launcher_lib.utils.get_minecraft_directory()}, f, indent=4)
+        self.loadSettings()
+        self.minecraftModsPath.mkdir(parents=True, exist_ok=True)
+
+    def loadSettings(self):
+        """load values from the settings the settings"""
+        if settingsFile.exists():
+            with open(settingsFile, "r") as file:
+                settings = json.load(file)
+            self.minecraftAppdataPath = Path(settings["minecraftFolder"])
+            self.minecraftModsPath = self.minecraftAppdataPath/"mods"
 
     def curseforgeRequest(self, endpoint, **params) -> dict:
         """make a generic request to the curseforge api via the proxy containing the api key"""
@@ -347,7 +354,7 @@ class Methods():
             confirm = QMessageBox.question(None, lang("applyProfileTitle"), lang("applyProfileConfirm"), QMessageBox.Yes | QMessageBox.No)
             if confirm == QMessageBox.No:
                 return -1
-        for previousMod in glob.glob(str(minecraftModsPath/"*")):
+        for previousMod in glob.glob(str(self.minecraftModsPath/"*")):
             if os.path.isfile(previousMod):
                 os.remove(previousMod)
         for platform in availablePlatforms:
@@ -356,10 +363,10 @@ class Methods():
                     if os.path.isdir(mod):
                         with open(Path(mod)/"properties.json", "r", encoding="utf-8") as f:
                             modData = json.load(f)
-                        shutil.copyfile(Path(mod)/modData["fileName"], minecraftModsPath/modData["fileName"])
+                        shutil.copyfile(Path(mod)/modData["fileName"], self.minecraftModsPath/modData["fileName"])
         for jarMod in glob.glob(str(profilePath/"jar"/"*")):
             if os.path.isfile(jarMod):
-                shutil.copyfile(jarMod, minecraftModsPath/Path(jarMod).name)
+                shutil.copyfile(jarMod, self.minecraftModsPath/Path(jarMod).name)
         log.info(f"Applied profile {profile}")
         if not auto:
             QMessageBox.information(None, lang("success"), lang("profileApplied"))
@@ -418,6 +425,10 @@ class Methods():
             version = properties["version"]
 
         bestLoaderVersion = self.getBestLoaderVersion(modloader, version)
+        if bestLoaderVersion == -1:
+            log.error(f"Error while getting best loader version for profile {profile}, cannot launch game")
+            QMessageBox.critical(None, lang("error"), lang("invalidGameFolder"))
+            return
         if not bestLoaderVersion:
             log.warning(f"Loader {modloader} not found for version {version}, cannot launch game")
             QMessageBox.warning(None, lang("error"), lang("versionNotFound"))
@@ -448,7 +459,7 @@ class Methods():
     def openGame(self, version, options):
         """open the minecraft game once everything is set up"""
         try:
-            subprocess.run(minecraft_launcher_lib.command.get_minecraft_command(version, minecraftAppdataPath, options))
+            subprocess.run(minecraft_launcher_lib.command.get_minecraft_command(version, self.minecraftAppdataPath, options))
         except Exception as e:
             log.error(f"Error while launching game : {e}")
             error_message = f"Error while launching game: {e}\n\n{traceback.format_exc()}"
@@ -461,7 +472,7 @@ class Methods():
         """save the previous mods to restore them after the game is closed"""
         modsStorage = cacheDir/"previousMods"
         modsStorage.mkdir(parents=True, exist_ok=True)
-        for mod in glob.glob(str(minecraftModsPath/"*")):
+        for mod in glob.glob(str(self.minecraftModsPath/"*")):
             if os.path.isfile(mod):
                 shutil.copyfile(mod, modsStorage/Path(mod).name)
                 os.remove(mod)
@@ -474,7 +485,7 @@ class Methods():
             # delete the current mods
             while True:
                 try:
-                    for currentMod in glob.glob(str(minecraftModsPath/"*")):
+                    for currentMod in glob.glob(str(self.minecraftModsPath/"*")):
                         if os.path.isfile(currentMod):
                             os.remove(currentMod)
                     break
@@ -484,7 +495,7 @@ class Methods():
             # restore the previous mods
             for mod in glob.glob(str(modsStorage/"*")):
                 if os.path.isfile(mod):
-                    shutil.copyfile(mod, minecraftModsPath/Path(mod).name)
+                    shutil.copyfile(mod, self.minecraftModsPath/Path(mod).name)
             shutil.rmtree(modsStorage)
         else:
             log.error("No previous mods found to restore")
@@ -494,6 +505,8 @@ class Methods():
         mcVersionIndex = {"fabric": 3, "forge": 0, "neoforge": None, "quilt": 3}  # the index of the minecraft version when split by '-', neoforge will he handled differently
         candidates = []
         installedVersions = self.listInstalledVersions()
+        if installedVersions == -1:
+            return -1  # error while listing installed versions
         for version in installedVersions:
             if modloader in version:
                 if modloader == "neoforge":
@@ -513,7 +526,10 @@ class Methods():
 
     def listInstalledVersions(self) -> list:
         """list all the installed versions of the modloaders"""
-        versionsFolder = minecraftAppdataPath/"versions"
+        versionsFolder = self.minecraftAppdataPath/"versions"
+        if not versionsFolder.exists():
+            log.error(f"Versions folder {versionsFolder} not found, the game folder is probably incorrect")
+            return -1
         installedVersions = []
         for version in os.listdir(versionsFolder):
             if os.path.isdir(versionsFolder/version):

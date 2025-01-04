@@ -5,6 +5,7 @@ import minecraft_launcher_lib
 import platformdirs
 import darkdetect
 import locale
+import json
 import os
 
 langLocale, _ = locale.getlocale()
@@ -23,9 +24,7 @@ iconsAssetsDir = localPath/"assets"/"icons"/"dark" if darkdetect.isDark() else l
 profilesDir = appDataDir/"profiles"  # path to the profiles folder
 cacheDir = appDataDir/"cache"  # path to the cache folder
 logDir = appDataDir/"logs"  # path to the logs folder
-
-minecraftAppdataPath = Path(minecraft_launcher_lib.utils.get_minecraft_directory())
-minecraftModsPath = minecraftAppdataPath/"mods"
+settingsFile = appDataDir/"settings.json"  # path to the settings file
 
 modrinthApi = "https://api.modrinth.com/v2"
 curseForgeApi = "http://mmm.ilwan.hackclub.app/curseforge"
