@@ -6,16 +6,17 @@ import darkdetect
 import locale
 import os
 
+localPath = Path(__file__).resolve().parent
+
 langLocale, _ = locale.getlocale()
 if langLocale: userLanguage = langLocale.split("_")[0]
 else:
     langLocale = os.environ.get("LANG")
     if langLocale: userLanguage = langLocale.split("_")[0]
     else: userLanguage = "en"
-Language = translate.Translator(Path(__file__).resolve().parent/"locales", userLanguage)
+Language = translate.Translator(localPath/"locales", userLanguage)
 lang = Language.translate
 
-localPath = Path(__file__).resolve().parent
 appDataDir = Path(platformdirs.user_data_dir("MinecraftModManager", appauthor="Ilwan"))  # path to the save data folder
 
 iconsAssetsDir = localPath/"assets"/"icons"/"dark" if darkdetect.isDark() else localPath/"assets"/"icons"/"light"  # assets path depending on color mode
