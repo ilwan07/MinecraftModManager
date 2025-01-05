@@ -38,7 +38,7 @@ log = logging.getLogger(__name__)
 
 class Methods():
     def __init__(self):
-        """a class containing usefull methods"""
+        """a class containing usefull methods and threads"""
         self.curseforgeModloaders = {"fabric": 4, "forge": 1, "neoforge": 6, "quilt": 5}
         self.curseforgeReleases = {1: "release", 2: "beta", 3: "alpha"}
         profilesDir.mkdir(parents=True, exist_ok=True)
@@ -46,7 +46,8 @@ class Methods():
 
         if not settingsFile.exists():
             with open(settingsFile, "w", encoding="utf-8") as f:
-                json.dump({"minecraftFolder": minecraft_launcher_lib.utils.get_minecraft_directory()}, f, indent=4)
+                json.dump({"minecraftFolder": minecraft_launcher_lib.utils.get_minecraft_directory(),
+                           "offlineUsername": "Player"}, f, indent=4)
         self.loadSettings()
         self.minecraftModsPath.mkdir(parents=True, exist_ok=True)
 
@@ -57,6 +58,7 @@ class Methods():
                 settings = json.load(file)
             self.minecraftAppdataPath = Path(settings["minecraftFolder"])
             self.minecraftModsPath = self.minecraftAppdataPath/"mods"
+            self.offlineUsername = settings["offlineUsername"]
 
     def curseforgeRequest(self, endpoint, **params) -> dict:
         """make a generic request to the curseforge api via the proxy containing the api key"""
@@ -452,7 +454,7 @@ class Methods():
             return
 
         options = {
-            "username": "Player",
+            "username": self.offlineUsername,
             "uuid": "00000000-0000-0000-0000-000000000000",  # Placeholder UUID
             "token": "token",  # Placeholder token
             "launcherName": "Minecraft Mod Manager",
@@ -609,3 +611,12 @@ class Methods():
                 return -1
         else:
             shutil.move(tempProfilePath/profileName, profilesDir)
+    
+    def getInstalledVersion(self, profile:str, modId:str, platform:str):
+        """get the installed version of a mod if installed, else return None"""
+        modPath = profilesDir/profile/platform.lower()/modId
+        if modPath.exists():
+            with open(modPath/"properties.json", "r", encoding="utf-8") as f:
+                return json.load(f)["versionName"]
+        else:
+            return None

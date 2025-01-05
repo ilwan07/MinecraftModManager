@@ -593,7 +593,11 @@ class Window(Qt.QMainWindow):
         """update the list of versions for the selected mod"""
         #TODO: optimize by dynamically loading the versions in the UI
         self.versionsInfos = Methods.getVersionsInfos(self.currentMod, self.currentModData["platform"].lower(), self.currentProfileProperties["modloader"].lower(), self.onlyShowCompatible.isChecked(), self.currentProfileProperties["version"])
-        self.versionsRadio.setVersions(self.versionsInfos, self.currentProfileProperties["version"])
+        installedVersion = Methods.getInstalledVersion(self.currentProfile, self.currentMod, self.currentModData["platform"])
+        if installedVersion is not None:
+            self.versionsRadio.setVersions(self.versionsInfos, self.currentProfileProperties["version"], installedVersion)
+        else:
+            self.versionsRadio.setVersions(self.versionsInfos, self.currentProfileProperties["version"])
     
     def clearSearch(self):
         """clear the search section"""

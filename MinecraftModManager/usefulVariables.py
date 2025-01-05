@@ -1,11 +1,9 @@
 import translate
 from PyQt5 import QtGui
 from pathlib import Path
-import minecraft_launcher_lib
 import platformdirs
 import darkdetect
 import locale
-import json
 import os
 
 langLocale, _ = locale.getlocale()

@@ -3,6 +3,7 @@ from usefulVariables import *  # local variables
 import PyQt5.QtWidgets as Qt
 from PyQt5 import QtGui, QtCore
 from PyQt5.QtWidgets import QMessageBox
+import minecraft_launcher_lib
 from pathlib import Path
 import json
 import glob
@@ -284,7 +285,7 @@ class ModVersionRadio(Qt.QWidget):
         self.setLayout(self.mainLayout)
         self.radioGroup = Qt.QButtonGroup(self)
     
-    def setVersions(self, versions:dict, gameVersion:str):
+    def setVersions(self, versions:dict, gameVersion:str, currentVersion:str=None):
         """update the radio buttons with the new versions"""
         self.versions = versions
         # clear previous radio buttons
@@ -308,6 +309,8 @@ class ModVersionRadio(Qt.QWidget):
             radioButton.setFont(Fonts.subtitleFont)
             self.radioGroup.addButton(radioButton)
             self.radioButtons.append(radioButton)
+            if version == currentVersion:
+                radioButton.setChecked(True)
             self.mainLayout.addWidget(radioButton)
             isFirst = False
         
@@ -629,6 +632,25 @@ class SettingsPopup(Qt.QWidget):
         self.resetMcDir.clicked.connect(self.resetMcDirPath)
         self.mcDirLayout.addWidget(self.resetMcDir)
 
+        # offline username
+        self.offlineUsernameWidget = Qt.QWidget()
+        self.offlineUsernameLayout = Qt.QHBoxLayout()
+        self.offlineUsernameWidget.setLayout(self.offlineUsernameLayout)
+        self.mainLayout.addWidget(self.offlineUsernameWidget)
+
+        self.offlineUsernameLabel = Qt.QLabel(lang("offlineUsername"))
+        self.offlineUsernameLabel.setFont(Fonts.smallTitleFont)
+        self.offlineUsernameLayout.addWidget(self.offlineUsernameLabel)
+
+        self.offlineUsernameInput = Qt.QLineEdit()
+        self.offlineUsernameInput.setPlaceholderText(lang("offlineUsernameHere"))
+        self.offlineUsernameInput.setFixedHeight(40)
+        self.offlineUsernameInput.setMinimumWidth(500)
+        self.offlineUsernameInput.setFont(Fonts.smallTitleFont)
+        self.offlineUsernameInput.setMaxLength(16)
+        self.offlineUsernameInput.setValidator(QtGui.QRegExpValidator(QtCore.QRegExp("[a-zA-Z0-9_]+")))
+        self.offlineUsernameLayout.addWidget(self.offlineUsernameInput)
+
         # buttons
         self.buttonsWidget = Qt.QWidget()
         self.buttonsLayout = Qt.QHBoxLayout()
@@ -656,6 +678,7 @@ class SettingsPopup(Qt.QWidget):
         with open(settingsFile, "r", encoding="utf-8") as f:
             settings = json.load(f)
         self.mcDirInput.setText(settings["minecraftFolder"])
+        self.offlineUsernameInput.setText(settings["offlineUsername"])
     
     def browseMcDir(self):
         """open a window to browse to the minecraft directory"""
@@ -671,6 +694,7 @@ class SettingsPopup(Qt.QWidget):
         """apply the settings to the settings file"""
         # collet the settings
         mcDir = self.mcDirInput.text()
+        offlineUsername = self.offlineUsernameInput.text()
 
         # check if the settings are valid
         if not mcDir:
@@ -679,11 +703,18 @@ class SettingsPopup(Qt.QWidget):
         if not os.path.exists(mcDir):
             QMessageBox.critical(self, lang("error"), lang("mcDirNotExistError"))
             return
+        if not offlineUsername:
+            QMessageBox.critical(self, lang("error"), lang("offlineUsernameEmptyError"))
+            return
+        if len(offlineUsername) < 3:
+            QMessageBox.critical(self, lang("error"), lang("offlineUsernameShortError"))
+            return
         
         # apply the settings
         with open(settingsFile, "r", encoding="utf-8") as f:
             settings = json.load(f)
         settings["minecraftFolder"] = mcDir
+        settings["offlineUsername"] = offlineUsername
         with open(settingsFile, "w", encoding="utf-8") as f:
             json.dump(settings, f, indent=4)
         
