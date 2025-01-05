@@ -4,9 +4,13 @@ from pathlib import Path
 import platformdirs
 import darkdetect
 import locale
+import sys
 import os
 
-localPath = Path(__file__).resolve().parent
+if getattr(sys, "frozen", False):  # if running as a bundled app
+    localPath = Path(sys._MEIPASS)
+else:  # if running as a script
+    localPath = Path(__file__).resolve().parent
 
 langLocale, _ = locale.getlocale()
 if langLocale: userLanguage = langLocale.split("_")[0]

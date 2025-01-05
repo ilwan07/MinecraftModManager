@@ -8,7 +8,7 @@ This app is a modded Minecraft profile manager to organize, update, and share yo
 
 ### Usage
 
-First, download the app. For Windows, you can use either the installer, or the portable zip version.
+First, download the app. For Windows, you can either use the .exe file, or run it from the source code.
 For any system, you can directly execute the Python source code, or compile it yourself, just make sure to install the required dependencies. If you do so, use Python 3.12.6 if you have issues.
 
 Once the app is installed, make sure that you have installed the Minecraft Launcher, as this app is not a replacement of the official launcher, but should be installed with it.
@@ -65,7 +65,7 @@ Cette application est un gestionnaire de profils Minecraft moddés, pour vous ai
 
 ### Utilisation
 
-Tout d'abord, téléchargez l'application. Pour Windows, vous pouvez utiliser soit l'installateur, soit la version portable en zip.
+Tout d'abord, téléchargez l'application. Pour Windows, vous pouvez soit utiliser le fichier .exe, soit l'exécuter depuis le code source.
 Pour tout système, vous pouvez directement exécuter le code source Python, ou le compiler vous-même, assurez-vous simplement d'installer les dépendances requises. Si vous le faites, utilisez Python 3.12.6 en cas de problèmes.
 
 Une fois l'application installée, assurez-vous d'avoir installé le Launcher Minecraft, car cette application ne remplace pas le launcher officiel, mais doit être installée avec celui-ci.
