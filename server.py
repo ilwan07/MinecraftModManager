@@ -6,8 +6,7 @@ import os
 app = Flask(__name__)
 
 # load environnement variables
-ENV_PATH = "/home/ilwan/.env"
-load_dotenv(ENV_PATH)
+load_dotenv()
 
 # configuring curseforge api
 CURSEFORGE_API_BASE_URL = "https://api.curseforge.com/v1"
